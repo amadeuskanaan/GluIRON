@@ -168,8 +168,8 @@ def get_niftis(population, afs_dir, workspace_dir):
             #     os.system('rm -rf %s'%qsmdcm_dir)
 
 
-# get_niftis(['HSPP'], afs_patients_a, workspace_study_a)
-get_niftis(['FA2T'], afs_controls_a, workspace_study_a)
+get_niftis(['BATP'], afs_patients_a, workspace_study_a)
+#get_niftis(['FA2T'], afs_controls_a, workspace_study_a)
 # get_niftis(CONTROLS_QSM_A, afs_controls_a, workspace_study_a)
 # get_niftis(PATIENTS_QSM_A, afs_patients_a, workspace_study_a)
 # get_niftis(CONTROLS_QSM_B, afs_controls_b, workspace_study_b)
