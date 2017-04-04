@@ -142,4 +142,4 @@ def reconstruct_qsm(population, afsdir, workspace):
             os.system('/scr/sambesi1/workspace/Projects/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
 #reconstruct_qsm(['HM1X'], afs_controls_a, workspace)
-reconstruct_qsm(['BATP'], afs_patients_a, workspace)
+reconstruct_qsm(['BATP'], afs_patients_a, workspace_study_a)
