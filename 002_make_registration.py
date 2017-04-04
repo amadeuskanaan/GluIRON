@@ -24,12 +24,10 @@ def preproc_anat(population, workspace_dir, popname):
         gm    = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c1MP2RAGE_UNI.nii')
         wm    = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c2MP2RAGE_UNI.nii')
         cm    = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c3MP2RAGE_UNI.nii')  #define outputdirs
-        seg_dir  = os.path.join(workspace_dir, subject, 'ANATOMICAL/seg')
-        reg_dir = os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH')
-        mni_dir = os.path.join(workspace_dir, subject, 'REGISTRATION/MNI')
-        mkdir_path(seg_dir)
-        mkdir_path(reg_dir)
-        mkdir_path(mni_dir)
+        seg_dir  = mkdir_path(os.path.join(workspace_dir, subject, 'ANATOMICAL/seg'))
+        reg_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH'))
+        mni_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/MNI'))
+
         ################################################################################################################
 
                                                   # Pre-Process MP2RAGE
