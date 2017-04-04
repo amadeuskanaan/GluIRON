@@ -103,6 +103,42 @@ def preproc_anat(population, workspace_dir, popname):
             os.system('flirt -in FLASH_MAGNITUDE_BIAS_CORR.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out FLASH2MP2RAGE.nii.gz'%(unipp))
             os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out QSM2MP2RAGE.nii.gz'%(unipp))
 
+
+        #### Resample QSM to fs-space. (vol2vol and vol2surf----- projection-distance-max... stay in lower cortical levels).
+        #### added 04.04.2017 for iron covariance
+
+
+        #
+        # anat     = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC.nii.gz')
+        # mag      = os.path.join(workspace_dir, subject, 'REGISTRATION', 'FLASH/FLASH_MAGNITUDE_BIAS_CORR_thr.nii')
+        # mag_mask = os.path.join(workspace_dir, subject, 'QSM', 'mask.nii.gz')
+        # anat2mag = os.path.join(workspace_dir, subject, 'REGISTRATION', 'FLASH/MP2RAGE2FLASH.mat')
+        # mgz_seg  = os.path.join(freesuferdir, subject, 'mri', 'aparc.a2009s+aseg.mgz')
+        #
+
+            # # Transform to Freesurfer space
+            # os.system('mri_vol2vol '
+            #           '--mov cortical_thickness_laplacian.nii.gz '
+            #           '--targ %s '
+            #           '--o cortical_thickness_laplacian.mgz '
+            #           '--regheader' %(T1mgz))
+
+
+        # mgz_t1   = os.path.join(freesuferdir, subject, 'mri', 'T1.mgz')
+        # if not os.path.isfile(os.path.join(  ) ):
+        #     os.system('flirt -in ../../QSM/QSM_norm.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out QSM2MP2RAGE_norm.nii.gz'%(unipp))
+        #     os.system('mri_vol2vol '
+        #               '--mov QSM2MP2RAGE_norm.nii.gz '
+        #               '--targ %s '
+        #               '--o QSM2MP2RAGE_norm_fs.mgz '
+        #               '--regheader'
+        #
+        #
+        #               %(mgz_t1))
+
+
+
+
         ################################################################################################################
 
                                                    # FLASH to MNI NON-LINEAR REG
@@ -136,31 +172,11 @@ def preproc_anat(population, workspace_dir, popname):
     # os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
 	# os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
 
-# preproc_anat(['RMJP'], workspace_study_b, 'PATIENTS')
+preproc_anat(['BATP'], workspace_study_b, 'PATIENTS')
 # preproc_anat(CONTROLS_QSM_A, workspace_study_a, 'CONTROLS')
 # preproc_anat(PATIENTS_QSM_A, workspace_study_a, 'PATIENTS')
 # preproc_anat(CONTROLS_QSM_B, workspace_study_b, 'CONTROLS')
 # preproc_anat(PATIENTS_QSM_B, workspace_study_b, 'PATIENTS')
 
-def make_group_average(population, workspace):
 
-    print 'creating group averages images '
-    stat_dir = os.path.join(workspace, 'GROUP_MEAN_IMAGE')
-    mkdir_path(stat_dir)
-    os.chdir(stat_dir)
 
-    qsm_list = [os.path.join(workspace, subject, 'REGISTRATION/QSM_MNI1mm.nii.gz') for subject in population]
-    os.system('fslmerge -t concat_qsm.nii.gz %s' % ' '.join(qsm_list))
-    os.system('fslmaths concat_qsm.nii.gz -Tmean QSM_mean.nii.gz')
-
-    t1_list = [os.path.join(workspace, subject, 'REGISTRATION/T1MAPS_MNI1mm.nii.gz') for subject in population ]
-    os.system('fslmerge -t concat_t1 %s' % ' '.join(t1_list))
-    os.system('fslmaths concat_t1 -Tmean T1MAPS_mean')
-
-    uni_list = [os.path.join(workspace, subject, 'REGISTRATION/MP2RAGE_MNI1mm.nii.gz') for subject in population]
-    os.system('fslmerge -t concat_uni %s' % ' '.join(uni_list))
-    os.system('fslmaths concat_uni -Tmean UNI_mean')
-
-    os.system('rm -rf concat*')
-
-make_group_average(CONTROLS_QSM_A + PATIENTS_QSM_A, workspace_study_a)
