@@ -76,7 +76,7 @@ def get_niftis(population, afs_dir, workspace_dir):
         # Convert MP2RAGE dcm to nifti
 
         print '....Converting Anatomical DICOM to NIFTI'
-        if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI.nii.gz')):
+        if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI.nii')):
 
             for dicom in dicoms:
                 try:
