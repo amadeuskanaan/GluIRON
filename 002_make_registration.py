@@ -7,7 +7,7 @@ import shutil
 import nipype.interfaces.spm as spm
 
 
-def preproc_anat(population, workspace_dir, popname):
+def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
     print '##########################################'
     print ''
     print 'Reconstructing QSM for %s Study-%s' % (popname, workspace_dir[-1])
@@ -122,18 +122,16 @@ def preproc_anat(population, workspace_dir, popname):
             #           '--regheader' %(T1mgz))
 
 
-        # mgz_t1   = os.path.join(freesuferdir, subject, 'mri', 'T1.mgz')
-        # if not os.path.isfile(os.path.join(  ) ):
-        #     os.system('flirt -in ../../QSM/QSM_norm.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out QSM2MP2RAGE_norm.nii.gz'%(unipp))
-        #     os.system('mri_vol2vol '
-        #               '--mov QSM2MP2RAGE_norm.nii.gz '
-        #               '--targ %s '
-        #               '--o QSM2MP2RAGE_norm_fs.mgz '
-        #               '--regheader'
-        #
-        #
-        #               %(mgz_t1))
+        mgz_t1   = os.path.join(freesuferdir, subject, 'mri', 'T1.mgz')
 
+        if not os.path.isfile(os.path.join('QSM2MP2RAGE_norm_fs.mgz')):
+            os.system('flirt -in ../../QSM/QSM_norm.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out QSM2MP2RAGE_norm.nii.gz'%(unipp))
+            os.system('mri_vol2vol '
+                      '--mov QSM2MP2RAGE_norm.nii.gz '
+                      '--targ %s '
+                      '--o QSM2MP2RAGE_norm_fs.mgz '
+                      '--regheader'
+                      %(mgz_t1))
 
 
 
@@ -170,7 +168,7 @@ def preproc_anat(population, workspace_dir, popname):
     # os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
 	# os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
 
-preproc_anat(['BATP'], workspace_study_a, 'PATIENTS')
+preproc_anat(['BATP'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
 # preproc_anat(CONTROLS_QSM_A, workspace_study_a, 'CONTROLS')
 # preproc_anat(PATIENTS_QSM_A, workspace_study_a, 'PATIENTS')
 # preproc_anat(CONTROLS_QSM_B, workspace_study_b, 'CONTROLS')
