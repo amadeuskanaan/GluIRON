@@ -170,7 +170,7 @@ def preproc_anat(population, workspace_dir, popname):
     # os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
 	# os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
 
-preproc_anat(['BATP'], workspace_study_b, 'PATIENTS')
+preproc_anat(['BATP'], workspace_study_a, 'PATIENTS')
 # preproc_anat(CONTROLS_QSM_A, workspace_study_a, 'CONTROLS')
 # preproc_anat(PATIENTS_QSM_A, workspace_study_a, 'PATIENTS')
 # preproc_anat(CONTROLS_QSM_B, workspace_study_b, 'CONTROLS')
