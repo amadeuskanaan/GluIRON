@@ -161,7 +161,7 @@ def get_freesurfer_masks(population, workspace_dir, freesuferdir, popname):
             os.system('convert_xfm -omat QSM2FS.mat -concat FS2NATIVE.mat %s' %flash2mp2rage_mat)
 
             # trasnform qsm to mp2rage space
-            os.system('flirt -in %s -ref T1_RPI.nii.gz -applyxfm -init QSM2FS.mat -out QSMnorm2FS.nii.gz '% (qsm_norm))
+            os.system('flirt -in %s -ref T1_RPI.nii.gz -applyxfm -init QSM2FS.mat -out QSMnorm2FS.nii.gz '% (qsm))
 
             # swapdim
             os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp')
