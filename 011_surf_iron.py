@@ -39,7 +39,7 @@ def surf_iron(population, workspace_dir):
 
             # invert xfm
             os.system('convert_xfm -omat NATIVE2FS.mat -inverse %s'
-                      %(os.path.join(surf_dir,'SEGMENTATION/FREESURFER/FS2NATIVE.mat')))
+                      %(os.path.join(subject_dir,'SEGMENTATION/FREESURFER/FS2NATIVE.mat')))
 
             # concat xfms
             os.system('convert_xfm -omat QSM2FS.mat -concat NATIVE2FS.mat %s'
