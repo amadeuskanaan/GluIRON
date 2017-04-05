@@ -66,7 +66,6 @@ def surf_iron(population, workspace_dir):
         #               '--out ${PREFIX}_rh.mgh')
 
 
-
 surf_iron(['RL7P'], workspace_study_a)
 
 
