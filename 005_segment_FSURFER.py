@@ -18,6 +18,7 @@ def get_freesurfer_masks(population, workspace_dir, freesuferdir, popname):
 
         anat     = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC.nii.gz')
         mag      = os.path.join(workspace_dir, subject, 'REGISTRATION', 'FLASH/FLASH_MAGNITUDE_BIAS_CORR_thr.nii')
+        qsm      = os.path.join(workspace_dir, subject, 'QSM', 'QSM_norm.nii.gz')
         mag_mask = os.path.join(workspace_dir, subject, 'QSM', 'mask.nii.gz')
         anat2mag = os.path.join(workspace_dir, subject, 'REGISTRATION', 'FLASH/MP2RAGE2FLASH.mat')
         mgz_t1   = os.path.join(freesuferdir, subject, 'mri', 'T1.mgz')
@@ -145,8 +146,29 @@ def get_freesurfer_masks(population, workspace_dir, freesuferdir, popname):
             os.system('fslmaths R_hippo_subiculum -add L_hippo_subiculum hippo_subiculum')
             os.system('fslmaths R_hippo -add L_hippo hippo')
 
-# get_freesurfer_masks(['HSPP'], workspace_study_a, freesurfer_dir_a,'Patients')
-get_freesurfer_masks(CONTROLS_QSM_A, workspace_study_a, freesurfer_dir_a,'Controls')
-get_freesurfer_masks(CONTROLS_QSM_B, workspace_study_b, freesurfer_dir_b,'Controls')
-get_freesurfer_masks(PATIENTS_QSM_A, workspace_study_a, freesurfer_dir_a,'Patients')
-get_freesurfer_masks(PATIENTS_QSM_B, workspace_study_b, freesurfer_dir_b,'Patients')
+
+        # Map normalized QSM data to surface
+
+
+
+        if not os.path.isfile('QSMnorm2FS.nii.gz'):
+
+            # invert xfm
+            os.system('convert_xfm -omat NATIVE2FS.mat -inverse FS2NATIVE.mat')
+
+            # concat xfms
+            flash2mp2rage_mat = os.path.join(workspace_dir,subject, 'REGISTRATION', 'FLASH', 'FLASH2MP2RAGE.mat')
+            os.system('convert_xfm -omat QSM2FS.mat -concat FS2NATIVE.mat %s' %flash2mp2rage_mat)
+
+            # trasnform qsm to mp2rage space
+            os.system('flirt -in %s -ref T1_RPI.nii.gz -applyxfm -init QSM2FS.mat -out QSMnorm2FS.nii.gz '% (qsm_norm))
+
+            # swapdim
+            os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp')
+
+
+get_freesurfer_masks(['HSPP'], workspace_study_a, freesurfer_dir_a,'Patients')
+# get_freesurfer_masks(CONTROLS_QSM_A, workspace_study_a, freesurfer_dir_a,'Controls')
+# get_freesurfer_masks(CONTROLS_QSM_B, workspace_study_b, freesurfer_dir_b,'Controls')
+# get_freesurfer_masks(PATIENTS_QSM_A, workspace_study_a, freesurfer_dir_a,'Patients')
+# get_freesurfer_masks(PATIENTS_QSM_B, workspace_study_b, freesurfer_dir_b,'Patients')

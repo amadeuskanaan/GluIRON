@@ -106,35 +106,6 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
         #### added 04.04.2017 for iron covariance
 
 
-        #
-        # anat     = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC.nii.gz')
-        # mag      = os.path.join(workspace_dir, subject, 'REGISTRATION', 'FLASH/FLASH_MAGNITUDE_BIAS_CORR_thr.nii')
-        # mag_mask = os.path.join(workspace_dir, subject, 'QSM', 'mask.nii.gz')
-        # anat2mag = os.path.join(workspace_dir, subject, 'REGISTRATION', 'FLASH/MP2RAGE2FLASH.mat')
-        # mgz_seg  = os.path.join(freesuferdir, subject, 'mri', 'aparc.a2009s+aseg.mgz')
-        #
-
-            # # Transform to Freesurfer space
-            # os.system('mri_vol2vol '
-            #           '--mov cortical_thickness_laplacian.nii.gz '
-            #           '--targ %s '
-            #           '--o cortical_thickness_laplacian.mgz '
-            #           '--regheader' %(T1mgz))
-
-
-
-        print 'Mapping QSM data to freesurfer space'
-
-        mgz_t1   = os.path.join(freesurfer_dir, subject, 'mri', 'T1.mgz')
-        if not os.path.isfile(os.path.join('QSM2MP2RAGE_norm_fs.mgz')):
-            os.system('flirt -in ../../QSM/QSM_norm.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out QSM2MP2RAGE_norm.nii.gz'%(unipp))
-            os.system('mri_vol2vol '
-                      '--mov QSM2MP2RAGE_norm.nii.gz '
-                      '--targ %s '
-                      '--o QSM2MP2RAGE_norm_fs.mgz '
-                      '--regheader'
-                      %(mgz_t1))
-
 
         ################################################################################################################
 
