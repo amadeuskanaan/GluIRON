@@ -71,8 +71,7 @@ def surf_iron(population, workspace_dir):
                       '--interp nearest '
                       '--hemi rh '
                       '--out qsm_rh.mgh'
-                      %(tourettom_id,
-                        os.path.join(tourettome_fsdir, 'surf/lh.sphere.reg')))
+                      %(os.path.join(tourettome_fsdir, 'surf/lh.sphere.reg')))
 
 
 surf_iron(['RL7P'], workspace_study_a)
