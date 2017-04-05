@@ -158,7 +158,7 @@ def get_freesurfer_masks(population, workspace_dir, freesuferdir, popname):
 
             # concat xfms
             flash2mp2rage_mat = os.path.join(workspace_dir,subject, 'REGISTRATION', 'FLASH', 'FLASH2MP2RAGE.mat')
-            os.system('convert_xfm -omat QSM2FS.mat -concat FS2NATIVE.mat %s' %flash2mp2rage_mat)
+            os.system('convert_xfm -omat QSM2FS.mat -concat NATIVE2FS.mat %s' %flash2mp2rage_mat)
 
             # trasnform qsm to mp2rage space
             os.system('flirt -in %s -ref T1_RPI.nii.gz -applyxfm -init QSM2FS.mat -out QSMnorm2FS.nii.gz '% (qsm))
