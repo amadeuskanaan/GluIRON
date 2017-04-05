@@ -32,7 +32,7 @@ def surf_iron(population, workspace_dir):
         print ''
 
         # Map normalized QSM data to surface
-        if not os.path.isfile('QSMnorm2FS.nii.gz'):
+        if not os.path.isfile('QSMnorm2FS.nii.mgz'):
 
             # Grab T1 from Tourettome freesurfer dir
 
@@ -54,13 +54,17 @@ def surf_iron(population, workspace_dir):
             # swapdim
             os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp')
 
+            # convert to mgz
+            os.system('mri_convert QSMnorm2FS_rsp.nii.gz QSMnorm2FS_rsp.mgz')
+
+
 
         if not os.path.isfile('qsm_rh.mgh'):
 
             os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
 
             os.system('mri_vol2surf '
-                      '--mov QSMnorm2FS_rsp '
+                      '--mov QSMnorm2FS_rsp.mgz '
                       '--reg  %s '
                       '--projfrac-avg 0.1 0.3 0.1 '
                       '--trgsubject %s '
