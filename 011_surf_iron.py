@@ -24,10 +24,12 @@ def surf_iron(population, workspace_dir):
         tourettome_fsdir  = os.path.join(tourettome_freesurfer, tourettom_id)
 
         #output
-        surf_dir = mkdir_path(os.path.join(subject, 'SURF'))
+        surf_dir = mkdir_path(os.path.join(subject_dir, 'SURF'))
         os.chdir(surf_dir)
 
+        print '#################################################'
         print 'Mapping QSM data to surface for subject %s-%s' %(subject, tourettom_id)
+        print ''
 
         # Map normalized QSM data to surface
         if not os.path.isfile('QSMnorm2FS.nii.gz'):
