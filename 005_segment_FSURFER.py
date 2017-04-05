@@ -147,28 +147,10 @@ def get_freesurfer_masks(population, workspace_dir, freesuferdir, popname):
             os.system('fslmaths R_hippo -add L_hippo hippo')
 
 
-        # Map normalized QSM data to surface
 
 
-
-        if not os.path.isfile('QSMnorm2FS.nii.gz'):
-
-            # invert xfm
-            os.system('convert_xfm -omat NATIVE2FS.mat -inverse FS2NATIVE.mat')
-
-            # concat xfms
-            flash2mp2rage_mat = os.path.join(workspace_dir,subject, 'REGISTRATION', 'FLASH', 'FLASH2MP2RAGE.mat')
-            os.system('convert_xfm -omat QSM2FS.mat -concat NATIVE2FS.mat %s' %flash2mp2rage_mat)
-
-            # trasnform qsm to mp2rage space
-            os.system('flirt -in %s -ref T1_RPI.nii.gz -applyxfm -init QSM2FS.mat -out QSMnorm2FS.nii.gz '% (qsm))
-
-            # swapdim
-            os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp')
-
-
-# get_freesurfer_masks(['RL7P'], workspace_study_a, freesurfer_dir_a,'Patients')
-get_freesurfer_masks(CONTROLS_QSM_A, workspace_study_a, freesurfer_dir_a,'Controls')
-get_freesurfer_masks(PATIENTS_QSM_A, workspace_study_a, freesurfer_dir_a,'Patients')
+get_freesurfer_masks(['RL7P'], workspace_study_a, freesurfer_dir_a,'Patients')
+# get_freesurfer_masks(CONTROLS_QSM_A, workspace_study_a, freesurfer_dir_a,'Controls')
+# get_freesurfer_masks(PATIENTS_QSM_A, workspace_study_a, freesurfer_dir_a,'Patients')
 
 
