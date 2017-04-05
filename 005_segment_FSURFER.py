@@ -167,8 +167,8 @@ def get_freesurfer_masks(population, workspace_dir, freesuferdir, popname):
             os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp')
 
 
-get_freesurfer_masks(['RL7P'], workspace_study_a, freesurfer_dir_a,'Patients')
-# get_freesurfer_masks(CONTROLS_QSM_A, workspace_study_a, freesurfer_dir_a,'Controls')
-# get_freesurfer_masks(CONTROLS_QSM_B, workspace_study_b, freesurfer_dir_b,'Controls')
-# get_freesurfer_masks(PATIENTS_QSM_A, workspace_study_a, freesurfer_dir_a,'Patients')
-# get_freesurfer_masks(PATIENTS_QSM_B, workspace_study_b, freesurfer_dir_b,'Patients')
+# get_freesurfer_masks(['RL7P'], workspace_study_a, freesurfer_dir_a,'Patients')
+get_freesurfer_masks(CONTROLS_QSM_A, workspace_study_a, freesurfer_dir_a,'Controls')
+get_freesurfer_masks(PATIENTS_QSM_A, workspace_study_a, freesurfer_dir_a,'Patients')
+
+
