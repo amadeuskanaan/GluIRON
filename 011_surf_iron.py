@@ -67,7 +67,7 @@ def surf_iron(population, workspace_dir):
                       '--mov QSMnorm2FS_rsp.mgz '
                       '--reg  %s '
                       '--projfrac-avg 0.1 0.3 0.1 '
-                      '--trgsubject %s '
+                      #'--trgsubject '
                       '--interp nearest '
                       '--hemi rh '
                       '--out qsm_rh.mgh'
