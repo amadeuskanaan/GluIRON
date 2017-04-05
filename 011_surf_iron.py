@@ -55,24 +55,20 @@ def surf_iron(population, workspace_dir):
             os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp')
 
 
-        # if not os.path.isfile(''):
-        #
-        #
-        #     os.system('mri_vol2surf '
-        #               '--mov QSMnorm2FS_rsp '
-        #               '--reg  ${REG_FILE}'
-        #               '--projfrac-avg 0.1 0.3 0.1 '
-        #               '--trgsubject '
-        #               '--interp nearest '
-        #               '--hemi rh '
-        #               '--out ${PREFIX}_rh.mgh')
+        if not os.path.isfile('qsm_rh.mgh'):
+
+            os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
+
+            os.system('mri_vol2surf '
+                      '--mov QSMnorm2FS_rsp '
+                      '--reg  %s '
+                      '--projfrac-avg 0.1 0.3 0.1 '
+                      '--trgsubject %s'
+                      '--interp nearest '
+                      '--hemi rh '
+                      '--out qsm_rh.mgh'
+                      %(tourettom_id,
+                        os.path.join(tourettome_fsdir, 'surf/lh.sphere.reg')))
+
 
 surf_iron(['RL7P'], workspace_study_a)
-
-
-
-
-
-
-
-
