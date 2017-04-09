@@ -32,7 +32,7 @@ def surf_iron(population, workspace_dir):
         print ''
 
         # Map normalized QSM data to surface
-        if not os.path.isfile('QSMnorm2FS.nii.mgz'):
+        if not os.path.isfile('QSMnorm2FS.mgz'):
 
             # Grab T1 from Tourettome freesurfer dir
 
@@ -59,20 +59,19 @@ def surf_iron(population, workspace_dir):
 
 
 
-        if not os.path.isfile('qsm_rh.mgh'):
+        #if not os.path.isfile('qsm_rh.mgh'):
+        #    os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
+        #    os.system('mri_vol2surf '
+        #              '--mov QSMnorm2FS_rsp.mgz '
+        #               #'--reg  %s '
+        #              '--projfrac-avg 0.1 0.3 0.1 '
+        #              '--trgsubject fsaverage '
+        #              '--icoorder 5 '
+        #              '--interp nearest '
+        #              '--hemi rh '
+        #              '--out %s_qsm_rh.mgh'
+        #              %(os.path.join(tourettome_fsdir, 'surf', 'rh.sphere.reg'),
+        #                tourettom_id))
 
-            os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
 
-            os.system('mri_vol2surf '
-                      '--mov QSMnorm2FS_rsp.mgz '
-                      '--reg  %s '
-                      '--projfrac-avg 0.1 0.3 0.1 '
-                      #'--trgsubject '
-                      '--interp nearest '
-                      '--hemi rh '
-                      '--out %s_qsm_rh.mgh'
-                      %(os.path.join(tourettome_fsdir, 'surf', 'rh.sphere.reg'),
-                        tourettom_id))
-
-
-surf_iron(['RL7P'], workspace_study_a)
+surf_iron(['SGKP'], workspace_study_a)
