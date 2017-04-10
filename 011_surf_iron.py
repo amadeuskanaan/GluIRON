@@ -33,7 +33,7 @@ def surf_iron(population, workspace_dir):
         print ''
 
         # Map normalized QSM data to surface
-        if not os.path.isfile('QSMnorm2FS.mgz'):
+        if not os.path.isfile('QSMnorm2FS_rsp.mgz'):
 
             # Grab T1 from Tourettome freesurfer dir
 
