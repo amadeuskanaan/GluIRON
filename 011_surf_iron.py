@@ -110,5 +110,5 @@ def surf_iron(population, workspace_dir):
                 #brain.add_data(r, -0.1, .1, hemi='lh')
 
 #surf_iron(['SGKP'], workspace_study_a)
-surf_iron(CONTROLS_QSM_A, workspace_study_a)
+#surf_iron(CONTROLS_QSM_A, workspace_study_a)
 surf_iron(PATIENTS_QSM_A, workspace_study_a)
