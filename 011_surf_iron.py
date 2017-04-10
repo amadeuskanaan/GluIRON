@@ -70,7 +70,7 @@ def surf_iron(population, workspace_dir):
         #--out ${PREFIX}_rh.mgh
 
 
-        if not os.path.isfile('%s_%s_qsm_lh.mgh'%(subject, tourettome_id)):
+        if not os.path.isfile('%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id)):
             os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
 
             for hemi in ['lh', 'rh']:
@@ -99,4 +99,14 @@ def surf_iron(population, workspace_dir):
                             subject, tourettome_id, hemi,
                             hemi))
 
-surf_iron(['SGKP'], workspace_study_a)
+                ####### view qsm data on fsaverage5
+                #from surfer import Brain
+                #import nibabel as nb
+                #x = nb.load('qsm_lh_fs5.mgh').get_data()
+                #r = x.reshape(x.shape[0],1)
+                #brain = Brain("fsaverage5", "lh", "pial")
+                #brain.add_data(r, -0.1, .1, hemi='lh')
+
+#surf_iron(['SGKP'], workspace_study_a)
+surf_iron(CONTROLS_QSM_A, workspace_study_a)
+surf_iron(PATIENTS_QSM_A, workspace_study_a)
