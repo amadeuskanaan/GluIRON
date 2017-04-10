@@ -10,7 +10,7 @@ from variables import *
 #2. Resample QSM to fs-space. (vol2vol and vol2surf----- projection-distance-max... stay in lower cortical levels).
 
 
-tourettome_phenotypic = '/scr/sambesi4/workspace/project_TOURETTOME/phenotypic/phenotypic_leipzig.csv'
+tourettome_phenotypic = '/scr/sambesi3/workspace/project_iron/phenotypic/phenotypic_leipzig.csv'
 tourettome_freesurfer = '/scr/sambesi2/TOURETTOME/FS_SUBJECTS'
 
 
@@ -20,7 +20,7 @@ def surf_iron(population, workspace_dir):
 
         #input
         subject_dir       = os.path.join(workspace_dir, subject)
-        tourettome_id      = pd.read_csv(tourettome_phenotypic, index_col = 0).ix[subject][0]
+        tourettome_id      = pd.read_csv(tourettome_phenotypic, index_col = 1).ix[subject]['ID']
         tourettome_fsdir  = os.path.join(tourettome_freesurfer, tourettom_id)
 
         print toure
