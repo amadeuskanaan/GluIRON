@@ -111,9 +111,8 @@ def surf_iron(population, workspace_dir):
 
         surf_qsm_dir = os.path.join(tourettome_freesurfer, 'QSM')
 
-        if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
-            os.chdir(surf_dir)
-            os.system('cp *fsaverage5_20.mgh %s' %surf_qsm_dir)
+        if not os.path.isfile(os.path.join(surf_qsm_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
+            os.system('cp %s/*fsaverage5_20.mgh %s' %(surf_dir, surf_qsm_dir))
 
 #surf_iron(['SGKP'], workspace_study_a)
 surf_iron(CONTROLS_QSM_A, workspace_study_a)
