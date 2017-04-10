@@ -20,8 +20,10 @@ def surf_iron(population, workspace_dir):
 
         #input
         subject_dir       = os.path.join(workspace_dir, subject)
-        tourettome_id      = pd.read_csv(tourettome_phenotypic, index_col = 1).ix[subject][0]
+        tourettome_id      = pd.read_csv(tourettome_phenotypic, index_col = 0).ix[subject][0]
         tourettome_fsdir  = os.path.join(tourettome_freesurfer, tourettom_id)
+
+        print toure
 
         #output
         surf_dir = mkdir_path(os.path.join(subject_dir, 'SURF'))
