@@ -71,7 +71,7 @@ def surf_iron(population, workspace_dir):
         #--out ${PREFIX}_rh.mgh
 
 
-        if not os.path.isfile('%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id)):
+        if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
             os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
 
             for hemi in ['lh', 'rh']:
@@ -107,6 +107,13 @@ def surf_iron(population, workspace_dir):
                 #r = x.reshape(x.shape[0],1)
                 #brain = Brain("fsaverage5", "lh", "pial")
                 #brain.add_data(r, -0.1, .1, hemi='lh')
+
+
+        surf_qsm_dir = os.path.join(tourettome_freesurfer, 'QSM')
+
+        if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
+            os.chdir(surf_dir)
+            os.system('cp *fsaverage* %s' %surf_qsm_dir)
 
 #surf_iron(['SGKP'], workspace_study_a)
 surf_iron(CONTROLS_QSM_A, workspace_study_a)
