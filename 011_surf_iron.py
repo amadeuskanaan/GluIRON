@@ -29,7 +29,7 @@ def surf_iron(population, workspace_dir):
         os.chdir(surf_dir)
 
         print '#################################################'
-        print 'Mapping QSM data to surface for subject %s-%s' %(subject, tourettom_id)
+        print 'Mapping QSM data to surface for subject %s-%s' %(subject, tourettome_id)
         print ''
 
         # Map normalized QSM data to surface
@@ -84,7 +84,7 @@ def surf_iron(population, workspace_dir):
                           '--interp nearest '
                           '--hemi %s '
                           '--out %s_%s_%s_qsm.mgh'
-                          %(tourettome_id, hemi, subject, tourettom_id, hemi))
+                          %(tourettome_id, hemi, subject, tourettome_id, hemi))
 
                 os.system('mri_surf2surf '
                           '--s %s '
