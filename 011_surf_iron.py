@@ -22,7 +22,7 @@ def surf_iron(population, workspace_dir):
         subject_dir       = os.path.join(workspace_dir, subject)
         tourettome_id      = pd.read_csv(tourettome_phenotypic, index_col = 1).ix[subject]['ID']
         print tourettome_id
-        tourettome_fsdir  = os.path.join(tourettome_freesurfer, tourettom_id)
+        tourettome_fsdir  = os.path.join(tourettome_freesurfer, tourettome_id)
 
         print toure
 
