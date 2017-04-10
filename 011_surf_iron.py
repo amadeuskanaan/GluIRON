@@ -21,6 +21,7 @@ def surf_iron(population, workspace_dir):
         #input
         subject_dir       = os.path.join(workspace_dir, subject)
         tourettome_id      = pd.read_csv(tourettome_phenotypic, index_col = 1).ix[subject]['ID']
+        print tourettome_id
         tourettome_fsdir  = os.path.join(tourettome_freesurfer, tourettom_id)
 
         print toure
@@ -110,5 +111,5 @@ def surf_iron(population, workspace_dir):
                 #brain.add_data(r, -0.1, .1, hemi='lh')
 
 #surf_iron(['SGKP'], workspace_study_a)
-#surf_iron(CONTROLS_QSM_A, workspace_study_a)
+surf_iron(CONTROLS_QSM_A, workspace_study_a)
 surf_iron(PATIENTS_QSM_A, workspace_study_a)
