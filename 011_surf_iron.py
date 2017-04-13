@@ -114,6 +114,8 @@ def surf_iron(population, workspace_dir):
         if not os.path.isfile(os.path.join(surf_qsm_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
             os.system('cp %s/*fsaverage5_20.mgh %s' %(surf_dir, surf_qsm_dir))
 
+
+
 surf_iron(['TT3P'], workspace_study_a)
 #surf_iron(CONTROLS_QSM_A, workspace_study_a)
 #surf_iron(PATIENTS_QSM_A, workspace_study_a)
