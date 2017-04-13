@@ -93,7 +93,7 @@ def surf_iron(population, workspace_dir):
                           '--tval %s_%s_%s_qsm_fsaverage5_20.mgh '
                           '--fwhm 20 '
                           '--hemi %s '
-                          %'--cortex '
+                          #'--cortex '
                           '--noreshape '
                           %(tourettome_id,
                             subject, tourettome_id, hemi,
