@@ -32,7 +32,7 @@ def surf_r1(population, workspace_dir):
         print ''
 
         # Map normalized QSM data to surface
-        if not os.path.isfile('R12FS_rsp.mgz'):
+        if not os.path.isfile('R12T1_rsp.mgz'):
 
             # Grab T1 from Tourettome freesurfer dir
 
