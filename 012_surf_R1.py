@@ -58,7 +58,7 @@ def surf_r1(population, workspace_dir):
             # convert to mgz
             os.system('mri_convert R12T1_rsp.nii.gz R12T1_rsp.mgz')
 
-        if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_R1_fsaverage5_20.mgh'%(subject, tourettome_id))):
+        if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_R1_fsaverage5_20x.mgh'%(subject, tourettome_id))):
             os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
 
             for hemi in ['lh', 'rh']:
