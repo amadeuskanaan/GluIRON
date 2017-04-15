@@ -66,7 +66,7 @@ def surf_r1(population, workspace_dir):
                 os.system('mri_vol2surf '
                           '--mov R12T1_rsp.mgz '
                           '--regheader %s '
-                          #'--projfrac-avg 0.1 0.7 0.1 ' # from 10% thickness to 30% thickness in 10% steps
+                          '--projfrac-avg 0.3 0.7 0.1 ' # from 10% thickness to 30% thickness in 10% steps
                           '--icoorder 5 '
                           '--interp nearest '
                           '--hemi %s '
@@ -80,7 +80,7 @@ def surf_r1(population, workspace_dir):
                           '--tval %s_%s_%s_R1_fsaverage5_20.mgh '
                           '--fwhm 20 '
                           '--hemi %s '
-                          #'--cortex '
+                          '--cortex '
                           '--noreshape '
                           %(tourettome_id,
                             subject, tourettome_id, hemi,
@@ -100,7 +100,6 @@ def surf_r1(population, workspace_dir):
 
         if not os.path.isfile(os.path.join(surf_qsm_dir, '%s_%s_lh_R1_fsaverage5_20.mgh'%(subject, tourettome_id))):
             os.system('cp %s/*R1_fsaverage5_20.mgh %s' %(surf_dir, surf_qsm_dir))
-
 
 #surf_iron(['TT3P'], workspace_study_a)
 surf_r1(CONTROLS_QSM_A, workspace_study_a)
