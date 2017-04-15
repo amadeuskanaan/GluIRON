@@ -103,5 +103,5 @@ def surf_r1(population, workspace_dir):
 
 
 #surf_iron(['TT3P'], workspace_study_a)
-#surf_iron(CONTROLS_QSM_A, workspace_study_a)
-#surf_iron(PATIENTS_QSM_A, workspace_study_a)
+surf_iron(CONTROLS_QSM_A, workspace_study_a)
+surf_iron(PATIENTS_QSM_A, workspace_study_a)
