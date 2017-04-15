@@ -96,7 +96,7 @@ def surf_r1(population, workspace_dir):
                 #brain.add_data(r, hemi='lh')
 
 
-        surf_qsm_dir = os.path.join(tourettome_freesurfer, 'QSM')
+        surf_qsm_dir = os.path.join(tourettome_freesurfer, 'R1')
 
         if not os.path.isfile(os.path.join(surf_qsm_dir, '%s_%s_lh_R1_fsaverage5_20.mgh'%(subject, tourettome_id))):
             os.system('cp %s/*R1_fsaverage5_20.mgh %s' %(surf_dir, surf_qsm_dir))
