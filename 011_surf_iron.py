@@ -95,7 +95,7 @@ def surf_iron(population, workspace_dir):
             fwhm = 6
 
             # vol2surf iterate of five laminar layers
-            if not os.path.isfile(os.path.join(t1_dir, '%s_depth5_rh_R1.mgh' % subject)):
+            if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_QSM.mgh' % subject)):
                 for hemi in ['lh', 'rh']:
                     for depth in proj_fracs.keys():
                         print hemi, proj_fracs
@@ -117,10 +117,6 @@ def surf_iron(population, workspace_dir):
                                      ))
 
         surf_qsm_dir = os.path.join(tourettome_freesurfer, 'QSM')
-
-        if not os.path.isfile(os.path.join(surf_qsm_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
-            os.system('cp %s/*fsaverage5_20.mgh %s' %(surf_dir, surf_qsm_dir))
-
 
 
 surf_iron(['TT3P'], workspace_study_a)
