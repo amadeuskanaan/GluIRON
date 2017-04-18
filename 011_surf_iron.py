@@ -53,60 +53,68 @@ def surf_iron(population, workspace_dir):
                       % (os.path.join(subject_dir, 'QSM', 'QSM_norm.nii.gz')))
 
             # swapdim
-            os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp')
+            os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp_')
+
+            os.system('fslmaths QSMnorm2FS_rsp_ -mul 10000 QSMnorm2FS_rsp')
 
             # convert to mgz
             os.system('mri_convert QSMnorm2FS_rsp.nii.gz QSMnorm2FS_rsp.mgz')
 
 
-        #mri_vol2surf --mov QSMnorm2FS_rsp.mgz --regheader LZ031 --projfrac-avg 0.1 0.3 0.1 --icoorder 5 --interp nearest --hemi lh --out qsm_lh.mgh
+        # if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
+        #     os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
+        #
+        #     for hemi in ['lh', 'rh']:
+        #
+        #         os.system('mri_vol2surf '
+        #                   '--mov QSMnorm2FS_rsp.mgz '
+        #                   '--regheader %s '
+        #                   '--projfrac-avg 0.1 0.3 0.1 ' # from 10% thickness to 30% thickness in 10% steps
+        #                   '--icoorder 5 '
+        #                   '--interp nearest '
+        #                   '--hemi %s '
+        #                   '--out %s_%s_%s_qsm.mgh'
+        #                   %(tourettome_id, hemi, subject, tourettome_id, hemi))
+        #
+        #         os.system('mri_surf2surf '
+        #                   '--s %s '
+        #                   '--sval %s_%s_%s_qsm.mgh '
+        #                   '--trgsubject fsaverage5 '
+        #                   '--tval %s_%s_%s_qsm_fsaverage5_20.mgh '
+        #                   '--fwhm 20 '
+        #                   '--hemi %s '
+        #                   #'--cortex '
+        #                   '--noreshape '
+        #                   %(tourettome_id,
+        #                     subject, tourettome_id, hemi,
+        #                     subject, tourettome_id, hemi,
+        #                     hemi))
 
-        #mri_vol2surf \
-        #--mov ${QSM_FILE} \
-        #--reg ${REG_FILE} \
-        #--projfrac-avg 0.1 0.3 0.1 \
-        #--trgsubject ${FSUB} \
-        #--interp nearest \
-        #--hemi rh \
-        #--out ${PREFIX}_rh.mgh
+            proj_fracs = {'depth1': '0.0 0.2 0.1', 'depth2': '0.2 0.4 0.1', 'depth3': '0.4 0.6 0.1',
+                          'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
+            fwhm = 6
 
+            # vol2surf iterate of five laminar layers
+            if not os.path.isfile(os.path.join(t1_dir, '%s_depth5_rh_R1.mgh' % subject))
+                for hemi in ['lh', 'rh']:
+                    for depth in proj_fracs.keys():
+                        print hemi, proj_fracs
 
-        if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
-            os.system('export SUBJECTS_DIR=%s'%tourettome_freesurfer)
+                        os.system(
+                            'mri_vol2surf --mov QSMnorm2FS_rsp.mgz --regheader %s --projfrac-avg %s --interp nearest --hemi %s '
+                            '--out %s_%s_%s_QSM.mgh '
+                            % (tourettome_id, proj_fracs[depth], hemi,
+                               tourettome_id, depth, hemi,
+                               ))
 
-            for hemi in ['lh', 'rh']:
-
-                os.system('mri_vol2surf '
-                          '--mov QSMnorm2FS_rsp.mgz '
-                          '--regheader %s '
-                          '--projfrac-avg 0.1 0.3 0.1 ' # from 10% thickness to 30% thickness in 10% steps
-                          '--icoorder 5 '
-                          '--interp nearest '
-                          '--hemi %s '
-                          '--out %s_%s_%s_qsm.mgh'
-                          %(tourettome_id, hemi, subject, tourettome_id, hemi))
-
-                os.system('mri_surf2surf '
-                          '--s %s '
-                          '--sval %s_%s_%s_qsm.mgh '
-                          '--trgsubject fsaverage5 '
-                          '--tval %s_%s_%s_qsm_fsaverage5_20.mgh '
-                          '--fwhm 20 '
-                          '--hemi %s '
-                          #'--cortex '
-                          '--noreshape '
-                          %(tourettome_id,
-                            subject, tourettome_id, hemi,
-                            subject, tourettome_id, hemi,
-                            hemi))
-
-                ####### view qsm data on fsaverage5
-                #from surfer import Brain
-                #import nibabel as nb
-                #x = nb.load('qsm_lh_fs5.mgh').get_data()
-                #r = x.reshape(x.shape[0],1)
-                #brain = Brain("fsaverage5", "lh", "pial")
-                #brain.add_data(r, -0.1, .1, hemi='lh')
+                        os.system('mri_surf2surf --s %s --sval  %s_%s_%s_QSM.mgh --trgsubject fsaverage5 '
+                                  '--tval %s_%s_%s_fs5_QSM.mgh --hemi %s --noreshape --cortex --fwhm %s '
+                                  % (tourettome_id,
+                                     tourettome_id, depth, hemi,
+                                     tourettome_id, depth, hemi,
+                                     hemi,
+                                     fwhm,
+                                     ))
 
 
         surf_qsm_dir = os.path.join(tourettome_freesurfer, 'QSM')
@@ -116,6 +124,6 @@ def surf_iron(population, workspace_dir):
 
 
 
-#surf_iron(['TT3P'], workspace_study_a)
-surf_iron(CONTROLS_QSM_A, workspace_study_a)
-surf_iron(PATIENTS_QSM_A, workspace_study_a)
+surf_iron(['TT3P'], workspace_study_a)
+#surf_iron(CONTROLS_QSM_A, workspace_study_a)
+#surf_iron(PATIENTS_QSM_A, workspace_study_a)
