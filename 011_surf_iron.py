@@ -7,11 +7,11 @@ from utils.utils import mkdir_path
 from variables import *
 
 #1. Bin count number of voxel in native mprage space.  (all sites)
-#2. Resample QSM to fs-space. (vol2vol and vol2surf----- projection-distance-max... stay in lower cortical levels).
+#2. Resamfsl    ple QSM to fs-space. (vol2vol and vol2surf----- projection-distance-max... stay in lower cortical levels).
 
 
-tourettome_phenotypic = '/scr/sambesi3/workspace/project_iron/phenotypic/phenotypic_leipzig.csv'
-tourettome_freesurfer = '/scr/sambesi2/TOURETTOME/FS_SUBJECTS'
+tourettome_phenotypic = '/scr/malta3/workspace/project_iron/phenotypic/phenotypic_leipzig.csv'
+tourettome_freesurfer = '/scr/malta2/TOURETTOME/FS_SUBJECTS'
 
 
 def surf_iron(population, workspace_dir):
@@ -33,7 +33,7 @@ def surf_iron(population, workspace_dir):
         print ''
 
         # Map normalized QSM data to surface
-        if not os.path.isfile('QSMnorm2FS_rsp.mgz'):
+        if not os.path.isfile('QSMnorm2FS_rspx.mgz'):
 
             # Grab T1 from Tourettome freesurfer dir
 
@@ -50,7 +50,8 @@ def surf_iron(population, workspace_dir):
 
             # trasnform qsm to mp2rage space
             os.system('flirt -in %s -ref T1_RPI -applyxfm -init QSM2FS.mat -out QSMnorm2FS.nii.gz'
-                      % (os.path.join(subject_dir, 'QSM', 'QSM_norm.nii.gz')))
+                      # % (os.path.join(subject_dir, 'QSM', 'QSM_norm.nii.gz')))
+                      % ('/scr/malta2/tmp/TIKHONOV_QSM/X.nii.gz'))
 
             # swapdim
             os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp_')
@@ -92,7 +93,7 @@ def surf_iron(population, workspace_dir):
 
         proj_fracs = {'depth1': '0.0 0.2 0.1', 'depth2': '0.2 0.4 0.1', 'depth3': '0.4 0.6 0.1',
                       'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
-        fwhm = 6
+        fwhm = 3
 
         # vol2surf iterate of five laminar layers
         if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_QSM.mgh' % subject)):
@@ -117,6 +118,6 @@ def surf_iron(population, workspace_dir):
                                  ))
 
 
-surf_iron(['TT3P'], workspace_study_a)
+surf_iron(['BATP'], workspace_study_a)
 #surf_iron(CONTROLS_QSM_A, workspace_study_a)
 #surf_iron(PATIENTS_QSM_A, workspace_study_a)
