@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from utils.utils import mkdir_path
 
 datadir = '/scr/malta3/workspace/project_iron/'
 
@@ -14,8 +15,9 @@ df_patients['Patients'] = 1
 
 df = pd.concat([df_controls, df_patients], axis =0)
 
+stats_dir = mkdir_path(os.path.join(datadir, 'statistics_subcortical'))
+
 def prep_fsl_glm(df):
-    stats_dir = os.path.join(datadir, 'statistics2')
     os.chdir(stats_dir)
 
     population = df.index
@@ -53,12 +55,11 @@ def prep_fsl_glm(df):
 
 
 def run_randomise():
-    stats_dir = os.path.join(datadir, 'statistics2')
     os.chdir(stats_dir)
 
     population = df.index
     print population
-    qsm_list = [os.path.join(datadir, 'study_a', subject, 'REGISTRATION/QSM_MNI1mm_norm.nii.gz') for subject in population]
+    qsm_list = [os.path.join(datadir, 'study_a', subject, 'REGISTRATION/QSM_MNI1mm_norm_fwhm_subcortical.nii.gz') for subject in population]
     os.system('fslmerge -t concat_qsm.nii.gz %s' % ' '.join(qsm_list))
 
     input_file = os.path.join(stats_dir, 'concat_qsm.nii.gz')
@@ -66,9 +67,8 @@ def run_randomise():
     con_file = os.path.join(stats_dir, 'design.con')
     mat_file = os.path.join(stats_dir, 'design.mat')
 
-    os.system('randomise -i %s -o randomise -D -d %s -t %s -x -R -n 5000'
+    os.system('randomise -i %s -o randomise -D -d %s -t %s -x -R -n 5'
               % (input_file, mat_file, con_file))
-
 
 prep_fsl_glm(df)
 run_randomise()
