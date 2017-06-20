@@ -224,10 +224,15 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
 
 
 
-preproc_anat(['RL7P'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
+datadir = '/scr/malta3/workspace/project_iron/'
+df_controls = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_controls.csv'), index_col = 0)
+df_patients = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_patients.csv'), index_col = 0)
+
+
+# preproc_anat(['RL7P'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
 # preproc_anat(['GHAT'], workspace_study_a, 'CONTROLS', freesurfer_dir_a)
-# preproc_anat(controls_a_mc, workspace_study_a, 'CONTROLS', freesurfer_dir_a)
-# preproc_anat(patients_a_mc, workspace_study_a, 'PATIENTS', freesurfer_dir_a)
+preproc_anat(df_controls.index, workspace_study_a, 'CONTROLS', freesurfer_dir_a)
+preproc_anat(df_patients.index, workspace_study_a, 'PATIENTS', freesurfer_dir_a)
 # preproc_anat(CONTROLS_QSM_B, workspace_study_b, 'CONTROLS')
 # preproc_anat(PATIENTS_QSM_B, workspace_study_b, 'PATIENTS')
 
