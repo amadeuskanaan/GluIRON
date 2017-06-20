@@ -15,7 +15,7 @@ df_patients['Patients'] = 1
 
 df = pd.concat([df_controls, df_patients], axis =0)
 
-stats_dir = mkdir_path(os.path.join(datadir, 'statistics_subcortical'))
+stats_dir = mkdir_path(os.path.join(datadir, 'statistics_subcortical_notfce'))
 os.chdir(stats_dir)
 
 
@@ -68,7 +68,7 @@ def run_randomise():
     con_file = os.path.join(stats_dir, 'design.con')
     mat_file = os.path.join(stats_dir, 'design.mat')
 
-    os.system('randomise -i %s -o randomise -d %s -t %s -T -D -R --uncorrp -n 5000'
+    os.system('randomise -i %s -o randomise -d %s -t %s -D -R --uncorrp -n 5000'
               % (input_file, mat_file, con_file))
 
 prep_fsl_glm(df)
