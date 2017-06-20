@@ -155,7 +155,7 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
             os.system('fslmaths QSM_MNI1mm -sub %s QSM_MNI1mm_norm' % (LVmu))
 
 
-        if not os.path.isfile(os.path.join(workspace_dir, subject, 'SEGMENTATION', 'MNI_GM_bin.nii.gz')):
+        if not os.path.isfile(os.path.join(workspace_dir, subject, 'SEGMENTATION', 'MNI_subcortical_thal_bin.nii.gz')):
             os.chdir(first_dir)
             os.system('fslmaths FIRST_HYBRID-L_Caud_first -add FIRST_HYBRID-L_Puta_first -add FIRST_HYBRID-L_Pall_first -ero ../FLASH_BG_left')
             os.system('fslmaths FIRST_HYBRID-R_Caud_first -add FIRST_HYBRID-R_Puta_first -add FIRST_HYBRID-R_Pall_first -ero ../FLASH_BG_right')
@@ -168,10 +168,36 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
             os.system('fslmaths R_SN -add R_STN -add R_RN ../FLASH_BS_right')
             os.system('fslmaths ../FLASH_BS_left -add ../FLASH_BS_right ../FLASH_BS')
 
-            os.system('fslmaths ../FLASH_BS -add ../FLASH_BG -add ../FLASH_Thal -add %s/FLASH_GM ../FLASH_GM '
+            os.system('fslmaths ../FLASH_BS -add ../FLASH_BG -add ../FLASH_Thal -add %s/FLASH_GM -mul ../../QSM/mask.nii.gz ../FLASH_GM '
                       %(os.path.join(workspace_dir, subject, 'REGISTRATION')))
 
             os.chdir(os.path.join(workspace_dir, subject, 'SEGMENTATION'))
+
+            os.system('flirt -in FLASH_BG_left -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_BG_left' % (unipp, reg_dir_))
+            os.system('flirt -in FLASH_BG_right -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_BG_right' % (unipp, reg_dir_))
+            os.system( 'flirt -in FLASH_BS_left -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_BS_left' % (unipp, reg_dir_))
+            os.system('flirt -in FLASH_BS_right -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_BS_right' % (unipp, reg_dir_))
+
+            os.system('WarpImageMultiTransform 3 MP2RAGE_BG_left.nii.gz MNI_BG_left.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'% (mni_brain_1mm, reg_dir_, reg_dir_))
+            os.system('WarpImageMultiTransform 3 MP2RAGE_BG_right.nii.gz MNI_BG_right.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'% (mni_brain_1mm, reg_dir_, reg_dir_))
+            os.system('WarpImageMultiTransform 3 MP2RAGE_BS_left.nii.gz MNI_BS_left.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'% (mni_brain_1mm, reg_dir_, reg_dir_))
+            os.system('WarpImageMultiTransform 3 MP2RAGE_BS_right.nii.gz MNI_BS_right.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'% (mni_brain_1mm, reg_dir_, reg_dir_))
+            os.system('fslmaths MNI_BG_left -thr 0.5 -bin MNI_BG_left_bin')
+            os.system('fslmaths MNI_BG_right -thr 0.5 -bin MNI_BG_right_bin')
+            os.system('fslmaths MNI_BS_left -thr 0.5 -bin MNI_BS_left_bin')
+            os.system('fslmaths MNI_BS_right -thr 0.5 -bin MNI_BS_right_bin')
+
+            os.system('fslmaths MNI_BS_right_bin -add MNI_BS_left_bin MNI_BS')
+            os.system('fslmaths MNI_BG_right_bin -add MNI_BG_left_bin MNI_BG')
+            os.system('fslmaths MNI_BG -add MNI_BS -bin MNI_subcortical')
+
+            os.system('flirt -in FLASH_Thal -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_Thal' % (unipp, reg_dir_))
+            os.system('WarpImageMultiTransform 3 MP2RAGE_Thal.nii.gz MNI_Thal.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat' % (mni_brain_1mm, reg_dir_, reg_dir_))
+            os.system('fslmaths MNI_Thal -thr 0.5 MNI_Thal_bin')
+            os.system('fslmaths MNI_subcortical -add MNI_Thal_bin -bin MNI_subcortical_thal' )
+
+
+
             os.system('flirt -in FLASH_GM.nii.gz -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_GM.nii.gz' % (unipp,reg_dir_))
             os.system( 'WarpImageMultiTransform 3 MP2RAGE_GM.nii.gz MNI_GM.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
                        % (mni_brain_1mm,reg_dir_, reg_dir_))
