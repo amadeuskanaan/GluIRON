@@ -63,13 +63,13 @@ def run_randomise():
     print qsm_list
     os.system('fslmerge -t concat_qsm.nii.gz %s' % ' '.join(qsm_list))
 
-    # input_file = os.path.join(stats_dir, 'concat_qsm.nii.gz')
-    #
-    # con_file = os.path.join(stats_dir, 'design.con')
-    # mat_file = os.path.join(stats_dir, 'design.mat')
-    #
-    # os.system('randomise -i %s -o randomise -d %s -t %s -R --uncorrp -n 50'
-    #           % (input_file, mat_file, con_file))
+    input_file = os.path.join(stats_dir, 'concat_qsm.nii.gz')
+
+    con_file = os.path.join(stats_dir, 'design.con')
+    mat_file = os.path.join(stats_dir, 'design.mat')
+
+    os.system('randomise -i %s -o randomise -d %s -t %s -R --uncorrp -n 5'
+              % (input_file, mat_file, con_file))
 
 prep_fsl_glm(df)
 run_randomise()
