@@ -60,6 +60,8 @@ def run_randomise():
     population = df.index
     print population
     qsm_list = [os.path.join(datadir, 'study_a', subject, 'REGISTRATION/QSM_MNI1mm_norm_fwhm_subcortical.nii.gz') for subject in population]
+
+    print qsm_list
     os.system('fslmerge -t concat_qsm.nii.gz %s' % ' '.join(qsm_list))
 
     input_file = os.path.join(stats_dir, 'concat_qsm.nii.gz')
