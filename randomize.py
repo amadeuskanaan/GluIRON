@@ -32,8 +32,8 @@ def prep_fsl_glm(df):
     con.write('/NumContrasts\t2\n')
     con.write('\n')
     con.write('/Matrix\n')
-    con.write('1 -1 0 0\n')
-    con.write('-1 1 0 0\n')
+    con.write('1 -1 0 0 0 0\n')
+    con.write('-1 1 0 0 0 0\n')
     con.close()
 
     # Create a Design Matrix  ... same as Glm_gui
