@@ -219,6 +219,8 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
             os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical_thal QSM_MNI1mm_norm_fwhm_subcortical_thal '%segment_dir)
             os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_GM_bin QSM_MNI1mm_norm_fwhm_gm '%segment_dir)
 
+        os.system('fslmaths QSM_MNI1mm_norm_fwhm_subcortical_left -add QSM_MNI1mm_norm_fwhm_subcortical_right QSM_MNI1mm_norm_fwhm_subcortical')
+
 
 
 # preproc_anat(['BATP'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
