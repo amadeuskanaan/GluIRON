@@ -5,7 +5,7 @@ from utils.utils import *
 from variables import *
 import shutil
 import nipype.interfaces.spm as spm
-
+import commands
 
 def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
     print '##########################################'
@@ -27,6 +27,8 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
         seg_dir  = mkdir_path(os.path.join(workspace_dir, subject, 'ANATOMICAL/seg'))
         reg_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH'))
         mni_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/MNI'))
+        first_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION/FIRST'))
+        atag_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION/ATAK'))
 
         ################################################################################################################
 
@@ -137,12 +139,49 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
                 os.system('WarpImageMultiTransform 3 ../FLASH/QSM2MP2RAGE.nii.gz ../QSM_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
                 os.system('WarpImageMultiTransform 3 ../FLASH/FLASH2MP2RAGE.nii.gz ../FLASH_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat'% (mni_brain_1mm))
 
-    # os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
-	# os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
+        # os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
+        # os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
 
-preproc_anat(['BATP'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
-# preproc_anat(CONTROLS_QSM_A, workspace_study_a, 'CONTROLS')
-# preproc_anat(PATIENTS_QSM_A, workspace_study_a, 'PATIENTS')
+
+        reg_dir_ = os.path.join(workspace_dir, subject, 'REGISTRATION')
+        os.chdir(reg_dir_)
+
+        if not os.path.isfile('QSM_MNI1mm_norm.nii.gz'):
+            os.system('flirt -in FLASH_LV_constricted -ref %s -applyxfm -init FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_LV_constricted.nii.gz' % (unipp))
+            os.system( 'WarpImageMultiTransform 3 MP2RAGE_LV_constricted.nii.gz MNI1mm_LV_constricted.nii.gz -R %s MNI/MP2RAGE2MNI_warp.nii.gz MNI/MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
+            os.system('fslmaths MNI1mm_LV_constricted.nii.gz -thr 0.2 -bin MNI1mm_LV_constricted_bin.nii.gz')
+
+            LVmu = float(commands.getoutput('fslstats QSM_MNI1mm.nii.gz -k MNI1mm_LV_constricted_bin.nii.gz -M'))
+            os.system('fslmaths QSM_MNI1mm -sub %s QSM_MNI1mm_norm' % (LVmu))
+
+
+        if not os.path.isfile(os.path.join(workspace_dir, subject, 'SEGMENTATION', 'MNI_GM_bin.nii.gz')):
+            os.chdir(first_dir)
+            os.system('fslmaths FIRST_HYBRID-L_Caud_first -add FIRST_HYBRID-L_Puta_first -add FIRST_HYBRID-L_Pall_first -ero ../FLASH_BG_left')
+            os.system('fslmaths FIRST_HYBRID-R_Caud_first -add FIRST_HYBRID-R_Puta_first -add FIRST_HYBRID-R_Pall_first -ero ../FLASH_BG_right')
+            os.system('fslmaths ../FLASH_BG_left -add ../FLASH_BG_right ../FLASH_BG')
+
+            os.system('fslmaths FIRST_HYBRID-L_Thal_first -add FIRST_HYBRID-R_Thal_first -ero ../FLASH_Thal')
+
+            os.chdir(atag_dir)
+            os.system('fslmaths L_SN -add L_STN -add L_RN ../FLASH_BS_left')
+            os.system('fslmaths R_SN -add R_STN -add R_RN ../FLASH_BS_right')
+            os.system('fslmaths ../FLASH_BS_left -add ../FLASH_BS_right ../FLASH_BS')
+
+            os.system('fslmaths ../FLASH_BS -add ../FLASH_BG -add ../FLASH_Thal -add %s/FLASH_GM ../FLASH_GM '
+                      %(os.path.join(workspace_dir, subject, 'REGISTRATION')))
+
+            os.chdir(os.path.join(workspace_dir, subject, 'SEGMENTATION'))
+            os.system('flirt -in FLASH_GM.nii.gz -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_GM.nii.gz' % (unipp,reg_dir_))
+            os.system( 'WarpImageMultiTransform 3 MP2RAGE_GM.nii.gz MNI_GM.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
+                       % (mni_brain_1mm,reg_dir_, reg_dir_))
+            os.system('fslmaths MNI_GM.nii.gz -thr 0.8 -bin MNI_GM_bin.nii.gz')
+
+
+# preproc_anat(['BATP'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
+# preproc_anat(['GHAT'], workspace_study_a, 'CONTROLS', freesurfer_dir_a)
+preproc_anat(controls_a_mc, workspace_study_a, 'CONTROLS', freesurfer_dir_a)
+preproc_anat(patients_a_mc, workspace_study_a, 'PATIENTS', freesurfer_dir_a)
 # preproc_anat(CONTROLS_QSM_B, workspace_study_b, 'CONTROLS')
 # preproc_anat(PATIENTS_QSM_B, workspace_study_b, 'PATIENTS')
 
