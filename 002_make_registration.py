@@ -223,7 +223,7 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
         os.system('fslmaths QSM_MNI1mm_norm_fwhm_subcortical_left -add QSM_MNI1mm_norm_fwhm_subcortical_right QSM_MNI1mm_norm_fwhm_subcortical')
 
 
-
+import pandas as pd
 datadir = '/scr/malta3/workspace/project_iron/'
 df_controls = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_controls.csv'), index_col = 0)
 df_patients = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_patients.csv'), index_col = 0)
