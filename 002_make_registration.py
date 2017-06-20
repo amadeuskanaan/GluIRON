@@ -155,7 +155,7 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
             os.system('fslmaths QSM_MNI1mm -sub %s QSM_MNI1mm_norm' % (LVmu))
 
 
-        if not os.path.isfile(os.path.join(workspace_dir, subject, 'SEGMENTATION', 'MNI_subcortical_thal_bin.nii.gz')):
+        if not os.path.isfile(os.path.join(workspace_dir, subject, 'SEGMENTATION', 'MNI_subcortical_left.nii.gz')):
             os.chdir(first_dir)
             os.system('fslmaths FIRST_HYBRID-L_Caud_first -add FIRST_HYBRID-L_Puta_first -add FIRST_HYBRID-L_Pall_first -ero ../FLASH_BG_left')
             os.system('fslmaths FIRST_HYBRID-R_Caud_first -add FIRST_HYBRID-R_Puta_first -add FIRST_HYBRID-R_Pall_first -ero ../FLASH_BG_right')
@@ -187,21 +187,38 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
             os.system('fslmaths MNI_BS_left -thr 0.5 -bin MNI_BS_left_bin')
             os.system('fslmaths MNI_BS_right -thr 0.5 -bin MNI_BS_right_bin')
 
+            os.system('fslmaths MNI_BG -add MNI_BS -bin MNI_subcortical')
+
             os.system('fslmaths MNI_BS_right_bin -add MNI_BS_left_bin MNI_BS')
             os.system('fslmaths MNI_BG_right_bin -add MNI_BG_left_bin MNI_BG')
-            os.system('fslmaths MNI_BG -add MNI_BS -bin MNI_subcortical')
+            os.system('fslmaths MNI_BG_right_bin -add MNI_BS_right_bin -bin MNI_subcortical_right')
+            os.system('fslmaths MNI_BG_left_bin -add MNI_BS_left_bin -bin MNI_subcortical_left')
+
 
             os.system('flirt -in FLASH_Thal -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_Thal' % (unipp, reg_dir_))
             os.system('WarpImageMultiTransform 3 MP2RAGE_Thal.nii.gz MNI_Thal.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat' % (mni_brain_1mm, reg_dir_, reg_dir_))
             os.system('fslmaths MNI_Thal -thr 0.5 MNI_Thal_bin')
             os.system('fslmaths MNI_subcortical -add MNI_Thal_bin -bin MNI_subcortical_thal' )
 
-
-
             os.system('flirt -in FLASH_GM.nii.gz -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_GM.nii.gz' % (unipp,reg_dir_))
             os.system( 'WarpImageMultiTransform 3 MP2RAGE_GM.nii.gz MNI_GM.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
                        % (mni_brain_1mm,reg_dir_, reg_dir_))
             os.system('fslmaths MNI_GM.nii.gz -thr 0.8 -bin MNI_GM_bin.nii.gz')
+
+        segment_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION'))
+        os.chdir(reg_dir_)
+
+        if not os.path.isfile('QSM_MNI1mm_norm_fwhm_gm.nii.gz'):
+            FWHM = 3
+            sigma = FWHM / 2.35482004503
+            os.system('fslmaths QSM_MNI1mm_norm -s %s QSM_MNI1mm_norm_fwhm.nii.gz' % (sigma))
+            os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical QSM_MNI1mm_norm_fwhm_subcortical '%segment_dir)
+            os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical_left QSM_MNI1mm_norm_fwhm_subcortical_left '%segment_dir)
+            os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical_right QSM_MNI1mm_norm_fwhm_subcortical_right '%segment_dir)
+
+            os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical_thal QSM_MNI1mm_norm_fwhm_subcortical_thal '%segment_dir)
+            os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_GM_bin QSM_MNI1mm_norm_fwhm_gm '%segment_dir)
+
 
 
 # preproc_anat(['BATP'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
