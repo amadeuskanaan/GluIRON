@@ -15,7 +15,7 @@ df_patients['Patients'] = 1
 
 df = pd.concat([df_controls, df_patients], axis =0)
 
-stats_dir = mkdir_path(os.path.join(datadir, 'statistics_norm_subcortical'))
+stats_dir = mkdir_path(os.path.join(datadir, 'statistics_norm_subcortical_fwhm'))
 os.chdir(stats_dir)
 
 
@@ -59,7 +59,7 @@ def run_randomise():
     population = df.index
     print population
 
-    qsm_list = [os.path.join(datadir, 'study_a', subject, 'REGISTRATION/QSM_MNI1mm_norm_subcortical.nii.gz')
+    qsm_list = [os.path.join(datadir, 'study_a', subject, 'REGISTRATION/QSM_MNI1mm_norm_fwhm_subcortical.nii.gz')
                 for subject in population]
 
     print qsm_list
