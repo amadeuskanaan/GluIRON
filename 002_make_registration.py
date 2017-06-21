@@ -212,7 +212,7 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
             FWHM = 3
             sigma = FWHM / 2.35482004503
             os.system('fslmaths QSM_MNI1mm_norm -s %s QSM_MNI1mm_norm_fwhm.nii.gz' % (sigma))
-            os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical QSM_MNI1mm_norm_fwhm_subcortical '%segment_dir)
+            # os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical QSM_MNI1mm_norm_fwhm_subcortical '%segment_dir)
             os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical_left QSM_MNI1mm_norm_fwhm_subcortical_left '%segment_dir)
             os.system('fslmaths QSM_MNI1mm_norm_fwhm -mul %s/MNI_subcortical_right QSM_MNI1mm_norm_fwhm_subcortical_right '%segment_dir)
 
@@ -223,14 +223,28 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
         os.system('fslmaths QSM_MNI1mm_norm_fwhm_subcortical_left -add QSM_MNI1mm_norm_fwhm_subcortical_right QSM_MNI1mm_norm_fwhm_subcortical')
 
 
+        if not os.path.isfile('QSM_MNI1mm_norm_gm.nii.gz'):
+            # os.system('fslmaths QSM_MNI1mm_norm -mul %s/MNI_subcortical QSM_MNI1mm_norm_subcortical '%segment_dir)
+            os.system('fslmaths QSM_MNI1mm_norm -mul %s/MNI_subcortical_left QSM_MNI1mm_norm_subcortical_left '%segment_dir)
+            os.system('fslmaths QSM_MNI1mm_norm -mul %s/MNI_subcortical_right QSM_MNI1mm_norm_subcortical_right '%segment_dir)
+
+            os.system('fslmaths QSM_MNI1mm_norm -mul %s/MNI_subcortical_thal QSM_MNI1mm_norm_subcortical_thal '%segment_dir)
+            os.system('fslmaths QSM_MNI1mm_norm -mul %s/MNI_GM_bin QSM_MNI1mm_norm_gm '%segment_dir)
+
+        print 'xxxxxxxxx'
+        os.system('fslmaths QSM_MNI1mm_norm_subcortical_left -add QSM_MNI1mm_norm_subcortical_right QSM_MNI1mm_norm_subcortical')
+
+
+
+
 import pandas as pd
 datadir = '/scr/malta3/workspace/project_iron/'
 df_controls = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_controls.csv'), index_col = 0)
 df_patients = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_patients.csv'), index_col = 0)
 
 
-# preproc_anat(['RL7P'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
-# preproc_anat(['GHAT'], workspace_study_a, 'CONTROLS', freesurfer_dir_a)
+preproc_anat(['RL7P'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
+# preproc_anat(['BH5T'], workspace_study_a, 'CONTROLS', freesurfer_dir_a)
 preproc_anat(df_controls.index, workspace_study_a, 'CONTROLS', freesurfer_dir_a)
 preproc_anat(df_patients.index, workspace_study_a, 'PATIENTS', freesurfer_dir_a)
 # preproc_anat(CONTROLS_QSM_B, workspace_study_b, 'CONTROLS')
