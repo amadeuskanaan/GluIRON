@@ -15,7 +15,7 @@ df_patients['Patients'] = 1
 
 df = pd.concat([df_controls, df_patients], axis =0)
 
-stats_dir = mkdir_path(os.path.join(datadir, 'statistics_norm_subcortical_log_abs'))
+stats_dir = mkdir_path(os.path.join(datadir, 'statistics_norm_subcortical'))
 os.chdir(stats_dir)
 
 
@@ -59,7 +59,7 @@ def run_randomise():
     population = df.index
     print population
 
-    qsm_list = [os.path.join(datadir, 'study_a', subject, 'REGISTRATION/abs/QSM_MNI1mm_norm_subcortical_log_abs.nii.gz')
+    qsm_list = [os.path.join(datadir, 'study_a', subject, 'REGISTRATION/abs/QSM_MNI1mm_norm_subcortical.nii.gz')
                 for subject in population]
 
     print qsm_list
@@ -70,7 +70,7 @@ def run_randomise():
     con_file = os.path.join(stats_dir, 'design.con')
     mat_file = os.path.join(stats_dir, 'design.mat')
 
-    os.system('randomise -i %s -o randomise -d %s -t %s -D -R -x --uncorrp -v -n 50'
+    os.system('randomise -i %s -o randomise -d %s -t %s -D -R'
               % (input_file, mat_file, con_file))
 
 prep_fsl_glm(df)
