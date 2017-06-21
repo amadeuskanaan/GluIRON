@@ -70,7 +70,7 @@ def run_randomise():
     con_file = os.path.join(stats_dir, 'design.con')
     mat_file = os.path.join(stats_dir, 'design.mat')
 
-    os.system('randomise -i %s -o randomise -d %s -t %s -D -R --uncorrp -v -n 50'
+    os.system('randomise -i %s -o randomise -d %s -t %s -D -R -x --uncorrp -v -n 50'
               % (input_file, mat_file, con_file))
 
 prep_fsl_glm(df)
