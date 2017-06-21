@@ -59,7 +59,7 @@ def run_randomise():
     population = df.index
     print population
 
-    qsm_list = [os.path.join(datadir, 'study_a', subject, 'abs/REGISTRATION/QSM_MNI1mm_norm_subcortical_log_abs.nii.gz')
+    qsm_list = [os.path.join(datadir, 'study_a', subject, 'REGISTRATION/abs/QSM_MNI1mm_norm_subcortical_log_abs.nii.gz')
                 for subject in population]
 
     print qsm_list
