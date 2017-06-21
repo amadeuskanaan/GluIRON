@@ -246,7 +246,7 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
         os.chdir(reg_dir_)
         mkdir_path(os.path.join(reg_dir_,'abs'))
         for i in imgs:
-            os.system('fslmaths %s -abs -log -abs /abs/%s_log_abs'%(i,i))
+            os.system('fslmaths %s -abs -log -abs abs/%s_log_abs'%(i,i))
 
 
 
