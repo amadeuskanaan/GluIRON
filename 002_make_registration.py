@@ -236,6 +236,22 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
 
 
 
+        imgs = [ "QSM_MNI1mm_norm",                     "QSM_MNI1mm_norm_fwhm",
+                 "QSM_MNI1mm_norm_gm",                  "QSM_MNI1mm_norm_fwhm_gm",
+                 "QSM_MNI1mm_norm_subcortical",         "QSM_MNI1mm_norm_fwhm_subcortical",
+                 "QSM_MNI1mm_norm_subcortical_left",    "QSM_MNI1mm_norm_fwhm_subcortical_left",
+                 "QSM_MNI1mm_norm_subcortical_right",   "QSM_MNI1mm_norm_fwhm_subcortical_right",
+               ]
+
+        os.chdir(reg_dir_)
+        mkdir_path(os.path.join(reg_dir_,'abs'))
+        for i in imgs:
+            os.system('fslmaths %s -abs -log -abs /abs/%s_log_abs'%(i,i))
+
+
+
+
+
 
 import pandas as pd
 datadir = '/scr/malta3/workspace/project_iron/'
