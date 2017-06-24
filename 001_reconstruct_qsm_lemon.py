@@ -121,4 +121,4 @@ def reconstruct_qsm(population, afsdir, workspace):
         if not os.path.isfile('QSM.nii'):
             os.system('/scr/sambesi1/workspace/Projects/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
-reconstruct_qsm(LEMON909/LEMON222, afs_lemon, workspace_study_a)
+reconstruct_qsm('LEMON909/LEMON222', afs_lemon, workspace_study_a)
