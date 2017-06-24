@@ -30,7 +30,7 @@ def get_niftis(population, afs_dir, workspace_dir):
 
         # input
         dicom_dir      = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni/')
-        qsm_data_dir   = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))
+        qsm_data_dir   = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))[0]
         print qsm_data_dir
 
         # output
