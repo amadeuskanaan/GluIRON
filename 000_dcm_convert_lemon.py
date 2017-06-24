@@ -53,34 +53,35 @@ def get_niftis(population, afs_dir, workspace_dir):
             os.system('isisconv -in %s -out %s/%s_S{sequenceNumber}_{sequenceDescription}_{echoTime}.nii -rf dcm -wdialect fsl'
                       %(anat_dir, anat_dir, subject))
 
-            os.rename(str(os.path.join(anat_dir, file)), str(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_.nii')))
+            os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
+            os.system('mv DICOM/*mp2rage* ./MP2RAGE_UNI_.nii')
+
             os.system('rm -rf %s DICOM' % anat_dir)
 
             orientation = 'RL PA IS'
-            os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
             reorient('MP2RAGE_UNI_.nii'   , orientation, 'MP2RAGE_UNI.nii.gz')
 
-        ###############################################################################################################
-        #Convert 'QSM_NIFTI'
-        print '....Creating FLASH 4D Multichannel image'
-        os.chdir(qsm_dir)
-        orientation = '-y -x z'
-        mags = sorted([i for i in glob.glob('%s/all_channels_partition_*_magnitude.nii' % qsm_data_dir)])
-        phas = sorted([i for i in glob.glob('%s/all_channels_partition_*_phase.nii' % qsm_data_dir)])
-
-        if not os.path.isfile('all_partitions_magnitude.nii.gz'):
-            arrays = [nb.load(i).get_data() for i in mags ]
-            m_  = np.stack(arrays, -1)
-
-            m = np.transpose(m_, (0, 2, 3, 1))
-            nb.Nifti1Image(m, nb.load(mags[0]).get_affine()).to_filename('all_partitions_magnitude_.nii.gz')
-            reorient('all_partitions_magnitude_.nii.gz', orientation, 'all_partitions_magnitude.nii.gz' )
-
-        if not os.path.isfile('all_partitions_phase.nii.gz'):
-            arrays = [nb.load(i).get_data() for i in phas]
-            p_ = np.stack(arrays, -1)
-            p = np.transpose(p_, (0, 2, 3, 1))
-            nb.Nifti1Image(p, nb.load(phas[0]).get_affine()).to_filename('all_partitions_phase_.nii.gz')
-            reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
+        # ###############################################################################################################
+        # #Convert 'QSM_NIFTI'
+        # print '....Creating FLASH 4D Multichannel image'
+        # os.chdir(qsm_dir)
+        # orientation = '-y -x z'
+        # mags = sorted([i for i in glob.glob('%s/all_channels_partition_*_magnitude.nii' % qsm_data_dir)])
+        # phas = sorted([i for i in glob.glob('%s/all_channels_partition_*_phase.nii' % qsm_data_dir)])
+        #
+        # if not os.path.isfile('all_partitions_magnitude.nii.gz'):
+        #     arrays = [nb.load(i).get_data() for i in mags ]
+        #     m_  = np.stack(arrays, -1)
+        #
+        #     m = np.transpose(m_, (0, 2, 3, 1))
+        #     nb.Nifti1Image(m, nb.load(mags[0]).get_affine()).to_filename('all_partitions_magnitude_.nii.gz')
+        #     reorient('all_partitions_magnitude_.nii.gz', orientation, 'all_partitions_magnitude.nii.gz' )
+        #
+        # if not os.path.isfile('all_partitions_phase.nii.gz'):
+        #     arrays = [nb.load(i).get_data() for i in phas]
+        #     p_ = np.stack(arrays, -1)
+        #     p = np.transpose(p_, (0, 2, 3, 1))
+        #     nb.Nifti1Image(p, nb.load(phas[0]).get_affine()).to_filename('all_partitions_phase_.nii.gz')
+        #     reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
 
 get_niftis(['LEMON909/LEMON222'], afs_lemon, workspace_study_a)
