@@ -57,10 +57,12 @@ def get_niftis(population, afs_dir, workspace_dir):
             os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
             os.system('mv DICOM/*mp2rage* ./MP2RAGE_UNI_.nii')
 
-            os.system('rm -rf %s DICOM' % anat_dir)
+
 
             orientation = 'RL PA IS'
             reorient('MP2RAGE_UNI_.nii'   , orientation, 'MP2RAGE_UNI.nii.gz')
+
+        os.system('rm -rf %s DICOM' % anat_dir)
 
         ###############################################################################################################
         #Convert 'QSM_NIFTI'
@@ -85,4 +87,4 @@ def get_niftis(population, afs_dir, workspace_dir):
             nb.Nifti1Image(p, nb.load(phas[0]).get_affine()).to_filename('all_partitions_phase_.nii.gz')
             reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
 
-get_niftis(['LEMON909/LEMON222'], afs_lemon, workspace_study_a)
+get_niftis(lemon_population, afs_lemon, workspace_study_a)
