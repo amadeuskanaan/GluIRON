@@ -1,4 +1,4 @@
-__author__ = 'kanaan. 03.16.2016'
+__author__ = 'kanaan. 24.06.2017'
 
 import dicom as pydicom
 import glob
