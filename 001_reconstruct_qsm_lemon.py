@@ -86,6 +86,18 @@ def combine_coils_svd(pha_img, mag_img, num_svd=16, num_acs=16):
         os.system('rm -rf *.cfl *.hdr ')
 
 
+def get_nodding_angle(dicomdir):
+    import dicom as pydicom
+
+    for dicom in os.listdir(dicomdir):
+        dcm = os.path.join(dicomdir, dicom)
+        series = pydicom.read_file(dcm).SeriesDescription
+        if 'as_gre_TE17ms' in series:
+            line = pydicom.read_file(dcm)[0x0051, 0x100e].value
+            nodding_angle =  line[line.index('(')+1:line.index(')', line.index('('))]
+            print 'Nodding Angle=', nodding_angle
+            return nodding_angle
+
 def reconstruct_qsm(population, afsdir, workspace):
 
     for subject_id in population:
@@ -93,11 +105,13 @@ def reconstruct_qsm(population, afsdir, workspace):
 
         dicom_dir = os.path.join(afsdir, subject_id, 'MRI/DICOMS')
 
-        series =  pydicom.read_file([i for i in glob.glob(os.path.join(dicom_dir, '*/*'))
-                                     if 'swi' in i or 'qsm' in i][0]).SeriesDescription
-        line = pydicom.read_file(dcm)[0x0051, 0x100e].value
-        nodding_angle = line[line.index('(') + 1:line.index(')', line.index('('))]
-        print 'Nodding Angle=', nodding_angle
+        dcm =  [i for i in glob.glob(os.path.join(dicom_dir, '*/*'))if 'swi' in i or 'qsm' in i][0]
+        series = pydicom.read_file(dcm).SeriesDescription
+        if 'as_gre_TE17ms' in series:
+            line = pydicom.read_file(dcm)[0x0051, 0x100e].value
+            nodding_angle = line[line.index('(') + 1:line.index(')', line.index('('))]
+            print 'Nodding Angle=', nodding_angle
+
 
         recon_dir          = mkdir_path(os.path.join(workspace, subject, 'QSM'))
 
