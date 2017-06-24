@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-source /etc/fsl/4.1/fsl.sh
+#source /etc/fsl/4.1/fsl.sh
 gamma=773 ## (2*PI*f[MHz]=2*pi*123)
 TE=0.0173  ## sec
 
@@ -10,17 +10,17 @@ ORGMASK=brain_mask.nii.gz
 TEMP_FOLDER=$1
 OUTPUT=QSM.nii
 WINKEL=$2
-QSM_RECON_DIR=$3 #modified to pass this in so that we can use our directory
+QSM_RECON_DIR=$3
 maskeverschieben=yes ### yes/no
 
 bet $BILD_MAG brain -m -f 0.1
-${QSM_RECON_DIR}/siemens_phase $BILD_PHASE $TEMP_FOLDER/rad_$BILD_PHASE 
+${QSM_RECON_DIR}/qsm_recon/siemens_phase $BILD_PHASE $TEMP_FOLDER/rad_$BILD_PHASE
 
 ### place everything in cubic matrix
 ### original matrix: (x y z) 208 256 160
-${QSM_RECON_DIR}/place_in_new_matrix $ORGMASK 350 350 350 $TEMP_FOLDER/newmat_$ORGMASK
-${QSM_RECON_DIR}/place_in_new_matrix $BILD_MAG 350 350 350 $TEMP_FOLDER/newmat_$BILD_MAG
-${QSM_RECON_DIR}/place_in_new_matrix $TEMP_FOLDER/rad_$BILD_PHASE 350 350 350 $TEMP_FOLDER/newmat_$BILD_PHASE
+${QSM_RECON_DIR}/qsm_recon/place_in_new_matrix $ORGMASK 350 350 350 $TEMP_FOLDER/newmat_$ORGMASK
+${QSM_RECON_DIR}/qsm_recon/place_in_new_matrix $BILD_MAG 350 350 350 $TEMP_FOLDER/newmat_$BILD_MAG
+${QSM_RECON_DIR}/qsm_recon/place_in_new_matrix $TEMP_FOLDER/rad_$BILD_PHASE 350 350 350 $TEMP_FOLDER/newmat_$BILD_PHASE
 
 ############ BEGIN modify mask#################
 mask=$TEMP_FOLDER/newmat_$ORGMASK
@@ -95,24 +95,24 @@ rm -rf $TEMP_FOLDER/*verschoben* $TEMP_FOLDER/*differenz* $TEMP_FOLDER/result.ni
 
 ############ END modify mask#################
 
-${QSM_RECON_DIR}/place_in_new_matrix $outfile 350 350 350 $TEMP_FOLDER/newmat_$outfile
+${QSM_RECON_DIR}/qsm_recon/place_in_new_matrix $outfile 350 350 350 $TEMP_FOLDER/newmat_$outfile
 
-${QSM_RECON_DIR}/SDI $TEMP_FOLDER/newmat_$BILD_PHASE 2 0.00005 $TEMP_FOLDER/newmat_$outfile $TEMP_FOLDER/newmat
+${QSM_RECON_DIR}/qsm_recon/SDI $TEMP_FOLDER/newmat_$BILD_PHASE 2 0.00005 $TEMP_FOLDER/newmat_$outfile $TEMP_FOLDER/newmat
 
 micalc -noscale -if1 $TEMP_FOLDER/newmat_sharp.nii -op '/' -in2 $gamma -of /tmp/mask1.nii
 micalc -noscale -if1 /tmp/mask1.nii -op '/' -in2 $TE -of /tmp/mask2.nii
 miconv -noscale /tmp/mask2.nii $TEMP_FOLDER/newmat_sharp.nii
 
-${QSM_RECON_DIR}/fit_sph_harm 2 $TEMP_FOLDER/newmat_sharp.nii $TEMP_FOLDER/newmat_$outfile $TEMP_FOLDER/newmat_sharp_plus_pol
+${QSM_RECON_DIR}/qsm_recon/fit_sph_harm 2 $TEMP_FOLDER/newmat_sharp.nii $TEMP_FOLDER/newmat_$outfile $TEMP_FOLDER/newmat_sharp_plus_pol
 
-${QSM_RECON_DIR}/from_phase_to_susc_1angle2 $WINKEL $TEMP_FOLDER/newmat_sharp_plus_pol_filtered.nii 1.99 $OUTPUT
+${QSM_RECON_DIR}/qsm_recon/from_phase_to_susc_1angle2 $WINKEL $TEMP_FOLDER/newmat_sharp_plus_pol_filtered.nii 1.99 $OUTPUT
 
 ### back to right geometry 
-${QSM_RECON_DIR}/place_in_new_matrix $OUTPUT 208 256 160 $OUTPUT
+${QSM_RECON_DIR}/qsm_recon/place_in_new_matrix $OUTPUT 208 256 160 $OUTPUT
 micalc -noscale -if1 $OUTPUT -op '*' -if2 $outfile -of $OUTPUT
 fslcpgeom $BILD_MAG $OUTPUT
 
-${QSM_RECON_DIR}/place_in_new_matrix $TEMP_FOLDER/newmat_sharp_plus_pol_filtered.nii 208 256 160 sharp_plus_pol_filtered.nii
+${QSM_RECON_DIR}/qsm_recon/place_in_new_matrix $TEMP_FOLDER/newmat_sharp_plus_pol_filtered.nii 208 256 160 sharp_plus_pol_filtered.nii
 micalc -noscale -if1 sharp_plus_pol_filtered.nii -op '*' -if2 $outfile -of sharp_plus_pol_filtered.nii
 fslcpgeom $BILD_MAG sharp_plus_pol_filtered.nii
 
