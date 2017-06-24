@@ -29,7 +29,7 @@ def get_niftis(population, afs_dir, workspace_dir):
         print '%s. Converting Subject %s'%(count, subject)
 
         # input
-        dicom_dir      = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni/*'))
+        dicom_dir      = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni/')
         qsm_data_dir   = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))
 
         # output
@@ -48,7 +48,7 @@ def get_niftis(population, afs_dir, workspace_dir):
         print '....Converting Anatomical DICOM to NIFTI'
         if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI.nii')):
 
-            shutil.copy(dicom_dir, anat_dir)
+            os.system('cp -r %s %s' %(dicom_dir, anat_dir))
 
             os.system('isisconv -in %s -out %s/%s_S{sequenceNumber}_{sequenceDescription}_{echoTime}.nii -rf dcm -wdialect fsl'
                       %(anat_dir, anat_dir, subject))
