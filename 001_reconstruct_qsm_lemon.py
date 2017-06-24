@@ -5,8 +5,7 @@ from variables import *
 from variables_lemon import *
 import glob
 from utils.utils import *
-
-
+import dicom as pydicom
 
 
 def readcfl(name):
