@@ -103,10 +103,11 @@ def reconstruct_qsm(population, afsdir, workspace):
     for subject_id in population:
         subject = subject_id[9:]
 
-        dicom_dir = os.path.join(afsdir, subject_id, 'MRI/DICOM/swi')
-        print dicom_dir
+        series =  pydicom.read_file([i for i in glob.glob(os.path.join(afsdir, '*/*')) if 'swi' in i or 'qsm' in i][0]).SeriesDescription
+        line = pydicom.read_file(dcm)[0x0051, 0x100e].value
+        nodding_angle = line[line.index('(') + 1:line.index(')', line.index('('))]
+        print 'Nodding Angle=', nodding_angle
 
-        nodding_angle  = get_nodding_angle(dicom_dir)
         recon_dir          = mkdir_path(os.path.join(workspace, subject, 'QSM'))
 
         print recon_dir
