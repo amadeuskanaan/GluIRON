@@ -101,7 +101,7 @@ def get_nodding_angle(dicomdir):
 def reconstruct_qsm(population, afsdir, workspace):
 
     for subject in population:
-        get_nodding_angle  = get_nodding_angle(os.path.join(afsdir, subject, 'MRI/DICOM/swi'))
+        nodding_angle  = get_nodding_angle(os.path.join(afsdir, subject, 'MRI/DICOM/swi'))
         recon_dir          = mkdir_path(os.path.join(workspace, subject, 'QSM'))
 
         print recon_dir
