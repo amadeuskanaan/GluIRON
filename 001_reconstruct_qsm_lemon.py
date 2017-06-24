@@ -130,6 +130,6 @@ def reconstruct_qsm(population, afsdir, workspace):
         print 'Calculating Quantitative Susceptibility map'
 
         if not os.path.isfile('QSM.nii'):
-            os.system('/scr/malta1/workspace/Projects/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
+            os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
 reconstruct_qsm(['LEMON891/LEMON113'], afs_lemon, workspace_study_a)
