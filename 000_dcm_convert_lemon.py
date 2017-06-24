@@ -29,7 +29,7 @@ def get_niftis(population, afs_dir, workspace_dir):
         print '%s. Converting Subject %s'%(count, subject)
 
         # input
-        dicom_dir      = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni')
+        dicom_dir      = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni/*'))
         qsm_data_dir   = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))
 
         # output
