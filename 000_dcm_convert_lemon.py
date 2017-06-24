@@ -7,6 +7,7 @@ import numpy as np
 import os
 import shutil
 from variables import *
+from variables_lemon import *
 
 from utils.utils import mkdir_path
 
@@ -82,4 +83,4 @@ def get_niftis(population, afs_dir, workspace_dir):
             nb.Nifti1Image(p, nb.load(phas[0]).get_affine()).to_filename('all_partitions_phase_.nii.gz')
             reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
 
-get_niftis(['LEMON909/LEMON222'], afs_patients_a, workspace_study_a)
+get_niftis(['LEMON909/LEMON222'], afs_lemon, workspace_study_a)
