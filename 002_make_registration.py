@@ -7,7 +7,7 @@ import shutil
 import nipype.interfaces.spm as spm
 import commands
 
-def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
+def preproc_anat(population, workspace_dir, popname):
     print '##########################################'
     print ''
     print 'Reconstructing QSM for %s Study-%s' % (popname, workspace_dir[-1])
@@ -253,18 +253,22 @@ def preproc_anat(population, workspace_dir, popname, freesurfer_dir):
 
 
 
-import pandas as pd
-datadir = '/scr/malta3/workspace/project_iron/'
-df_controls = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_controls.csv'), index_col = 0)
-df_patients = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_patients.csv'), index_col = 0)
+# import pandas as pd
+# datadir = '/scr/malta3/workspace/project_iron/'
+# df_controls = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_controls.csv'), index_col = 0)
+# df_patients = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_patients.csv'), index_col = 0)
 
 
-preproc_anat(['RL7P'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
+# preproc_anat(['RL7P'], workspace_study_a, 'PATIENTS', freesurfer_dir_a)
 # preproc_anat(['BH5T'], workspace_study_a, 'CONTROLS', freesurfer_dir_a)
-preproc_anat(df_controls.index, workspace_study_a, 'CONTROLS', freesurfer_dir_a)
-preproc_anat(df_patients.index, workspace_study_a, 'PATIENTS', freesurfer_dir_a)
+# preproc_anat(df_controls.index, workspace_study_a, 'CONTROLS', freesurfer_dir_a)
+# preproc_anat(df_patients.index, workspace_study_a, 'PATIENTS', freesurfer_dir_a)
 # preproc_anat(CONTROLS_QSM_B, workspace_study_b, 'CONTROLS')
 # preproc_anat(PATIENTS_QSM_B, workspace_study_b, 'PATIENTS')
+
+
+
+preproc_anat(['LEMON113'], workspace_study_a, 'CONTROLS')
 
 
 
