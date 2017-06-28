@@ -44,7 +44,7 @@ def get_niftis(population, afs_dir, workspace_dir):
             os.system('rm -rf %s' % img)
 
         ################################################################################################################
-        # Convert MP2RAGE dcm to nifti
+        # Convert MP2RAGE UNI dcm to nifti
 
         print '....Converting Anatomical DICOM to NIFTI'
         if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI.nii.gz')):
@@ -57,22 +57,39 @@ def get_niftis(population, afs_dir, workspace_dir):
             os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
             os.system('mv DICOM/*mp2rage* ./MP2RAGE_UNI_.nii')
 
-
-
             orientation = 'RL PA IS'
             reorient('MP2RAGE_UNI_.nii'   , orientation, 'MP2RAGE_UNI.nii.gz')
 
-        os.system('rm -rf %s DICOM' % anat_dir)
+            os.system('rm -rf %s DICOM' % anat_dir)
+
+        ################################################################################################################
+        # Convert MP2RAGE T1 dcm to nifti
+
+        print '....Converting Anatomical DICOM to NIFTI'
+        if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI.nii.gz')):
+            dicom_dir = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/t1/')
+            anat_dir = os.path.join(workspace_dir, subject, 'ANATOMICAL/DICOM_T1')
+            os.system('cp -r %s/* %s' %(dicom_dir, anat_dir))
+            os.system('isisconv -in %s -out %s/%s_S{sequenceNumber}_{sequenceDescription}_{echoTime}.nii -rf dcm -wdialect fsl'
+                      %(anat_dir, anat_dir, subject))
+
+            os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
+            os.system('mv DICOM/*mp2rage* ./MP2RAGE_T1MAPS_.nii')
+
+            orientation = 'RL PA IS'
+            reorient('MP2RAGE_T1MAPS_.nii'   , orientation, 'MP2RAGE_T1MAPS.nii.gz')
+
+            os.system('rm -rf %s DICOM' % anat_dir)
+
 
         ###############################################################################################################
         #Convert 'QSM_NIFTI'
         print '....Creating FLASH 4D Multichannel image'
         os.chdir(qsm_dir)
         orientation = '-y -x z'
-        mags = sorted([i for i in glob.glob('%s/all_channels_partition_*_magnitude.nii' % qsm_data_dir)])
-        phas = sorted([i for i in glob.glob('%s/all_channels_partition_*_phase.nii' % qsm_data_dir)])
 
         if not os.path.isfile('all_partitions_magnitude.nii.gz'):
+            mags = sorted([i for i in glob.glob('%s/all_channels_partition_*_magnitude.nii' % qsm_data_dir)])
             arrays = [nb.load(i).get_data() for i in mags ]
             m_  = np.stack(arrays, -1)
 
@@ -81,6 +98,7 @@ def get_niftis(population, afs_dir, workspace_dir):
             reorient('all_partitions_magnitude_.nii.gz', orientation, 'all_partitions_magnitude.nii.gz' )
 
         if not os.path.isfile('all_partitions_phase.nii.gz'):
+            phas = sorted([i for i in glob.glob('%s/all_channels_partition_*_phase.nii' % qsm_data_dir)])
             arrays = [nb.load(i).get_data() for i in phas]
             p_ = np.stack(arrays, -1)
             p = np.transpose(p_, (0, 2, 3, 1))
