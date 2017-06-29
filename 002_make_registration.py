@@ -16,7 +16,13 @@ def preproc_anat(population, workspace_dir, popname):
     print ''
     print '##########################################'
     count = 0
-    for subject in population:
+    for subject_id in population:
+
+        if popname == 'LEMON':
+            subject = subject_id[9:]
+        else:
+            subject = subject_id
+
         count += 1
         print '%s. Registering MP2RAGE to QSM for Subject: %s' %(count,subject)
 
@@ -270,7 +276,7 @@ def preproc_anat(population, workspace_dir, popname):
 
 
 
-preproc_anat(lemon_population, workspace_study_a, 'CONTROLS')
+preproc_anat(lemon_population, workspace_study_a, 'LEMON')
 
 
 
