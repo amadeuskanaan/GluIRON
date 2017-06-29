@@ -6,6 +6,8 @@ from variables import *
 import shutil
 import nipype.interfaces.spm as spm
 import commands
+from variables_lemon import *
+
 
 def preproc_anat(population, workspace_dir, popname):
     print '##########################################'
@@ -268,7 +270,7 @@ def preproc_anat(population, workspace_dir, popname):
 
 
 
-preproc_anat(['LEMON113'], workspace_study_a, 'CONTROLS')
+preproc_anat(lemon_population, workspace_study_a, 'CONTROLS')
 
 
 
