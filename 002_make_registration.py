@@ -38,8 +38,7 @@ def preproc_anat(population, workspace_dir, popname):
         # Segmenting
         if not os.path.isfile(os.path.join(seg_dir, 'c1MP2RAGE_UNI.nii')):
 
-            os.system('cp ../MP2RAGE_UNI.nii* ./')
-            os.system('gunzip -f *')
+            os.system('fslchfiletype NIFTI ../MP2RAGE_UNI.nii.gz MP2RAGE_UNI.nii')
 
             if not os.path.isfile('./c1MP2RAGE_UNI.nii'):
                 seg                      = spm.NewSegment()
