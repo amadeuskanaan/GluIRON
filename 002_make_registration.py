@@ -12,7 +12,7 @@ from variables_lemon import *
 def preproc_anat(population, workspace_dir, popname):
     print '##########################################'
     print ''
-    print 'Reconstructing QSM for %s Study-%s' % (popname, workspace_dir[-1])
+    print 'Preprocessing anatomical for %s Study-%s' % (popname, workspace_dir[-1])
     print ''
     print '##########################################'
     count = 0
@@ -26,17 +26,7 @@ def preproc_anat(population, workspace_dir, popname):
         count += 1
         print '%s. Registering MP2RAGE to QSM for Subject: %s' %(count,subject)
 
-        mag   = os.path.join(workspace_dir, subject, 'QSM', 'FLASH_MAGNITUDE.nii')
-        unipp = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC.nii.gz')
-        t1map = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_T1MAPS_PPROC.nii.gz')
-        gm    = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c1MP2RAGE_UNI.nii')
-        wm    = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c2MP2RAGE_UNI.nii')
-        cm    = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c3MP2RAGE_UNI.nii')  #define outputdirs
         seg_dir  = mkdir_path(os.path.join(workspace_dir, subject, 'ANATOMICAL/seg'))
-        reg_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH'))
-        mni_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/MNI'))
-        first_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION/FIRST'))
-        atag_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION/ATAK'))
 
         ################################################################################################################
 
@@ -65,6 +55,38 @@ def preproc_anat(population, workspace_dir, popname):
             os.system('fslmaths BRAIN_MASK -mul MP2RAGE_UNI.nii MP2RAGE_UNI_PPROC')
             os.system('fslmaths BRAIN_MASK -mul MP2RAGE_INV2.nii MP2RAGE_INV2_PPROC')
             os.system('fslmaths BRAIN_MASK -mul MP2RAGE_T1MAPS.nii MP2RAGE_T1MAPS_PPROC')
+
+
+
+def make_reg(population, workspace_dir, popname):
+
+    print '##########################################'
+    print ''
+    print 'Registration for %s Study-%s' % (popname, workspace_dir[-1])
+    print ''
+    print '##########################################'
+    count = 0
+    for subject_id in population:
+
+        if popname == 'LEMON':
+            subject = subject_id[9:]
+        else:
+            subject = subject_id
+
+        count += 1
+        print '%s. Registering MP2RAGE to QSM for Subject: %s' % (count, subject)
+
+        mag = os.path.join(workspace_dir, subject, 'QSM', 'FLASH_MAGNITUDE.nii')
+        unipp = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC.nii.gz')
+        t1map = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_T1MAPS_PPROC.nii.gz')
+        gm = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c1MP2RAGE_UNI.nii')
+        wm = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c2MP2RAGE_UNI.nii')
+        cm = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c3MP2RAGE_UNI.nii')  # define outputdirs
+        seg_dir = mkdir_path(os.path.join(workspace_dir, subject, 'ANATOMICAL/seg'))
+        reg_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH'))
+        mni_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/MNI'))
+        first_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION/FIRST'))
+        atag_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION/ATAK'))
 
 
         ################################################################################################################
@@ -112,55 +134,51 @@ def preproc_anat(population, workspace_dir, popname):
             os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out QSM2MP2RAGE.nii.gz'%(unipp))
 
 
-        #### Resample QSM to fs-space. (vol2vol and vol2surf----- projection-distance-max... stay in lower cortical levels).
-        #### added 04.04.2017 for iron covariance
 
-
-
-        ################################################################################################################
-
-                                                   # FLASH to MNI NON-LINEAR REG
-
-        ################################################################################################################
-        print '.....QSM to MNI'
-
-        os.chdir(mni_dir)
-
-        if not os.path.isfile('../QSM_MNI1mm.nii.gz'):
-            rsdir = '/scr/sambesi4/workspace/project_REST/study_%s' %workspace_dir[-1]
-            if os.path.isfile('%s/%s/ANATOMICAL/transform0Affine.mat'%(rsdir,subject)):
-                print 'using already run ants warps'
-                os.system('cp  %s/%s/ANATOMICAL/transform0Affine.mat ./MP2RAGE2MNI_affine.mat'%(rsdir,subject))
-                os.system('cp  %s/%s/ANATOMICAL/transform1Warp.nii.gz ./MP2RAGE2MNI_warp.nii.gz'%(rsdir,subject))
-                os.system('cp  %s/%s/ANATOMICAL/transform1InverseWarp.nii.gz ./MNI2MP2RAGE_warp.nii.gz'%(rsdir,subject))
-                os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init ../FLASH/FLASH2MP2RAGE.mat -out ../FLASH/QSM2MP2RAGE.nii.gz'%(unipp))
-                os.system('WarpImageMultiTransform 3 ../FLASH/QSM2MP2RAGE.nii.gz ../QSM_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
-                os.system('WarpImageMultiTransform 3 ../FLASH/FLASH2MP2RAGE.nii.gz ../FLASH_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
-            else:
-                print '..........Running ANTS'
-                run_ants(moving_img= unipp, ref_img= mni_brain_1mm, outpath= os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC_MNI1mm.nii.gz'))
-                os.system('mv  transform0Affine.mat MP2RAGE2MNI_affine.mat')
-                os.system('mv  transform1Warp.nii.gz MP2RAGE2MNI_warp.nii.gz')
-                os.system('mv  transform1InverseWarp.nii.gz MNI2MP2RAGE_warp.nii.gz')
-                os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
-                os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
-                os.system('WarpImageMultiTransform 3 ../FLASH/QSM2MP2RAGE.nii.gz ../QSM_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
-                os.system('WarpImageMultiTransform 3 ../FLASH/FLASH2MP2RAGE.nii.gz ../FLASH_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat'% (mni_brain_1mm))
-
-        # os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
-        # os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
-
-
-        reg_dir_ = os.path.join(workspace_dir, subject, 'REGISTRATION')
-        os.chdir(reg_dir_)
-
-        if not os.path.isfile('QSM_MNI1mm_norm.nii.gz'):
-            os.system('flirt -in FLASH_LV_constricted -ref %s -applyxfm -init FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_LV_constricted.nii.gz' % (unipp))
-            os.system( 'WarpImageMultiTransform 3 MP2RAGE_LV_constricted.nii.gz MNI1mm_LV_constricted.nii.gz -R %s MNI/MP2RAGE2MNI_warp.nii.gz MNI/MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
-            os.system('fslmaths MNI1mm_LV_constricted.nii.gz -thr 0.2 -bin MNI1mm_LV_constricted_bin.nii.gz')
-
-            LVmu = float(commands.getoutput('fslstats QSM_MNI1mm.nii.gz -k MNI1mm_LV_constricted_bin.nii.gz -M'))
-            os.system('fslmaths QSM_MNI1mm -sub %s QSM_MNI1mm_norm' % (LVmu))
+        # ################################################################################################################
+        #
+        #                                            # FLASH to MNI NON-LINEAR REG
+        #
+        # ################################################################################################################
+        # print '.....QSM to MNI'
+        #
+        # os.chdir(mni_dir)
+        #
+        # if not os.path.isfile('../QSM_MNI1mm.nii.gz'):
+        #     rsdir = '/scr/sambesi4/workspace/project_REST/study_%s' %workspace_dir[-1]
+        #     if os.path.isfile('%s/%s/ANATOMICAL/transform0Affine.mat'%(rsdir,subject)):
+        #         print 'using already run ants warps'
+        #         os.system('cp  %s/%s/ANATOMICAL/transform0Affine.mat ./MP2RAGE2MNI_affine.mat'%(rsdir,subject))
+        #         os.system('cp  %s/%s/ANATOMICAL/transform1Warp.nii.gz ./MP2RAGE2MNI_warp.nii.gz'%(rsdir,subject))
+        #         os.system('cp  %s/%s/ANATOMICAL/transform1InverseWarp.nii.gz ./MNI2MP2RAGE_warp.nii.gz'%(rsdir,subject))
+        #         os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init ../FLASH/FLASH2MP2RAGE.mat -out ../FLASH/QSM2MP2RAGE.nii.gz'%(unipp))
+        #         os.system('WarpImageMultiTransform 3 ../FLASH/QSM2MP2RAGE.nii.gz ../QSM_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
+        #         os.system('WarpImageMultiTransform 3 ../FLASH/FLASH2MP2RAGE.nii.gz ../FLASH_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
+        #     else:
+        #         print '..........Running ANTS'
+        #         run_ants(moving_img= unipp, ref_img= mni_brain_1mm, outpath= os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC_MNI1mm.nii.gz'))
+        #         os.system('mv  transform0Affine.mat MP2RAGE2MNI_affine.mat')
+        #         os.system('mv  transform1Warp.nii.gz MP2RAGE2MNI_warp.nii.gz')
+        #         os.system('mv  transform1InverseWarp.nii.gz MNI2MP2RAGE_warp.nii.gz')
+        #         os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
+        #         os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
+        #         os.system('WarpImageMultiTransform 3 ../FLASH/QSM2MP2RAGE.nii.gz ../QSM_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
+        #         os.system('WarpImageMultiTransform 3 ../FLASH/FLASH2MP2RAGE.nii.gz ../FLASH_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat'% (mni_brain_1mm))
+        #
+        # # os.system('WarpImageMultiTransform 3 %s ../T1MAPS_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (t1map, mni_brain_1mm))
+        # # os.system('WarpImageMultiTransform 3 %s ../MP2RAGE_MNI1mm.nii.gz -R %s MP2RAGE2MNI_warp.nii.gz MP2RAGE2MNI_affine.mat' % (unipp, mni_brain_1mm))
+        #
+        #
+        # reg_dir_ = os.path.join(workspace_dir, subject, 'REGISTRATION')
+        # os.chdir(reg_dir_)
+        #
+        # if not os.path.isfile('QSM_MNI1mm_norm.nii.gz'):
+        #     os.system('flirt -in FLASH_LV_constricted -ref %s -applyxfm -init FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_LV_constricted.nii.gz' % (unipp))
+        #     os.system( 'WarpImageMultiTransform 3 MP2RAGE_LV_constricted.nii.gz MNI1mm_LV_constricted.nii.gz -R %s MNI/MP2RAGE2MNI_warp.nii.gz MNI/MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
+        #     os.system('fslmaths MNI1mm_LV_constricted.nii.gz -thr 0.2 -bin MNI1mm_LV_constricted_bin.nii.gz')
+        #
+        #     LVmu = float(commands.getoutput('fslstats QSM_MNI1mm.nii.gz -k MNI1mm_LV_constricted_bin.nii.gz -M'))
+        #     os.system('fslmaths QSM_MNI1mm -sub %s QSM_MNI1mm_norm' % (LVmu))
 
 
         # if not os.path.isfile(os.path.join(workspace_dir, subject, 'SEGMENTATION', 'MNI_subcortical_left.nii.gz')):
@@ -256,7 +274,8 @@ def preproc_anat(population, workspace_dir, popname):
         # for i in imgs:
         #     os.system('fslmaths %s -abs -log -abs abs/%s_log_abs'%(i,i))
         #
-        #
+
+
 
 
 
@@ -276,7 +295,8 @@ def preproc_anat(population, workspace_dir, popname):
 
 
 
-preproc_anat(lemon_population, workspace_study_a, 'LEMON')
+preproc_anat(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
+make_reg(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
 
 
 
