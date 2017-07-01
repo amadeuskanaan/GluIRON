@@ -1,5 +1,23 @@
 afs_lemon = '/a/projects/nro109_lemon/probands/'
 
+import os
+import numpy as np
+from utils.utils import mkdir_path
+
+
+
+def map_lemon_subjects():
+
+    GRE_subjects = []
+    for folder in ['LEMON%s' % i for i in range(880, 909)]:
+        for subject in os.listdir(os.path.join(afs, folder)):
+            if os.path.isdir(os.path.join(afs, folder, subject)):
+                gre_dirs = glob.glob(os.path.join(afs, folder, subject, 'MRI/*as_gre*'))
+                for gre_dir in gre_dirs:
+                    if os.path.isdir(gre_dir):
+                        GRE_subjects.append(gre_dir)
+                        print gre_dir[34:51]
+
 lemon_population =[
 'LEMON891/LEMON113', 'LEMON891/LEMON116', 'LEMON891/LEMON117', 'LEMON891/LEMON118', 'LEMON892/LEMON119', 'LEMON892/LEMON120',
 'LEMON892/LEMON121', 'LEMON892/LEMON122', 'LEMON892/LEMON123', 'LEMON892/LEMON124', 'LEMON893/LEMON125', 'LEMON893/LEMON126',
@@ -22,5 +40,5 @@ lemon_population =[
 'LEMON909/LEMON227', 'LEMON909/LEMON228',
  ]
 
-#'LEMON909/LEMON225', no as_gre folder
+#'LEMON909/LEMON225', no gre folder
 
