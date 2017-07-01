@@ -289,13 +289,8 @@ def make_reg(population, workspace_dir, popname):
 
 
 
-# import pandas as pd
-# datadir = '/scr/malta3/workspace/project_iron/'
-# df_controls = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_controls.csv'), index_col = 0)
-# df_patients = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_patients.csv'), index_col = 0)
-
-
-preproc_anat(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
+# preproc_anat(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
+make_reg(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
 # preproc_anat(lemon_population, workspace_study_a, 'LEMON')
 
 
