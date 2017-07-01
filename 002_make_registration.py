@@ -183,7 +183,6 @@ def make_reg(population, workspace_dir, popname):
 # preproc_anat(PATIENTS_QSM_B, workspace_study_b, 'PATIENTS')
 
 
-
 # preproc_anat(lemon_population, workspace_study_a, 'LEMON')
 make_reg(lemon_population, workspace_study_a, 'LEMON')
 
