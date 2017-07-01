@@ -170,11 +170,6 @@ def make_reg(population, workspace_dir, popname):
 
 
 
-
-
-
-
-
 # import pandas as pd
 # datadir = '/scr/malta3/workspace/project_iron/'
 # df_controls = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_controls.csv'), index_col = 0)
