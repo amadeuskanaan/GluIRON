@@ -52,7 +52,7 @@ def preproc_anat(population, workspace_dir, popname):
             os.system('fslmaths c1MP2RAGE_UNI.nii -add c2MP2RAGE_UNI.nii -add c3MP2RAGE_UNI.nii -thr 0.9 -bin  -fillh ../BRAIN_MASK')
             os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
             os.system('fslmaths BRAIN_MASK -mul MP2RAGE_UNI.nii MP2RAGE_UNI_PPROC')
-            os.system('fslmaths BRAIN_MASK -mul MP2RAGE_INV2.nii MP2RAGE_INV2_PPROC')
+            # os.system('fslmaths BRAIN_MASK -mul MP2RAGE_INV2.nii MP2RAGE_INV2_PPROC')
             os.system('fslmaths BRAIN_MASK -mul MP2RAGE_T1MAPS.nii MP2RAGE_T1MAPS_PPROC')
 
 
@@ -179,13 +179,13 @@ def make_reg(population, workspace_dir, popname):
 # preproc_anat(['BH5T'], workspace_study_a, 'CONTROLS', freesurfer_dir_a)
 # preproc_anat(df_controls.index, workspace_study_a, 'CONTROLS', freesurfer_dir_a)
 # preproc_anat(df_patients.index, workspace_study_a, 'PATIENTS', freesurfer_dir_a)
-# preproc_anat(CONTROLS_QSM_B, workspace_study_b, 'CONTROLS')
+# preproc_anat(CONTROLS_QSM_B, workspacinve_study_b, 'CONTROLS')
 # preproc_anat(PATIENTS_QSM_B, workspace_study_b, 'PATIENTS')
 
 
 
-preproc_anat(lemon_population, workspace_study_a, 'LEMON')
-# make_reg(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
+# preproc_anat(lemon_population, workspace_study_a, 'LEMON')
+make_reg(lemon_population, workspace_study_a, 'LEMON')
 
 
 
