@@ -21,6 +21,13 @@ def run_subcortical_segmentation(population, workspace, popname):
     count = 0
     for subject in population:
         count += 1
+
+        if popname == 'LEMON':
+            subject = subject_id[9:]
+        else:
+            subject = subject_id
+
+
         print '%s. Running Subcortical Segmentation for subject:%s' % (count, subject)
 
         seg_dir = os.path.join(workspace, subject, 'SEGMENTATION')
@@ -73,5 +80,5 @@ def run_subcortical_segmentation(population, workspace, popname):
 # run_subcortical_segmentation(CONTROLS_QSM_B, workspace_study_b, 'Controls')
 # run_subcortical_segmentation(PATIENTS_QSM_A, workspace_study_a, 'Patients')
 # run_subcortical_segmentation(PATIENTS_QSM_B, workspace_study_b, 'Patients')
-run_subcortical_segmentation(lemon_population, workspace_study_b, 'Patients')
+run_subcortical_segmentation(lemon_population, workspace_study_b, 'LEMON')
 
