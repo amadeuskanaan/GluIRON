@@ -19,7 +19,7 @@ def run_subcortical_segmentation(population, workspace, popname):
     print ''
     print '##########################################'
     count = 0
-    for subject in population:
+    for subject_id in population:
         count += 1
 
         if popname == 'LEMON':
