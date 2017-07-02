@@ -290,8 +290,8 @@ def make_reg(population, workspace_dir, popname):
 
 
 # preproc_anat(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
-make_reg(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
-# preproc_anat(lemon_population, workspace_study_a, 'LEMON')
+# make_reg(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
+preproc_anat(lemon_population[60:], workspace_study_a, 'LEMON')
 
 
 
