@@ -80,5 +80,5 @@ def run_subcortical_segmentation(population, workspace, popname):
 # run_subcortical_segmentation(CONTROLS_QSM_B, workspace_study_b, 'Controls')
 # run_subcortical_segmentation(PATIENTS_QSM_A, workspace_study_a, 'Patients')
 # run_subcortical_segmentation(PATIENTS_QSM_B, workspace_study_b, 'Patients')
-run_subcortical_segmentation(lemon_population, workspace_study_b, 'LEMON')
+run_subcortical_segmentation(lemon_population, workspace_study_a, 'LEMON')
 
