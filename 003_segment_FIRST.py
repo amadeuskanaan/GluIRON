@@ -65,9 +65,11 @@ def run_subcortical_segmentation(population, workspace, popname):
                 os.system('fslmaths %s -kernel sphere 1 -ero %s' % (first, outname))
 
 
+
 # run_subcortical_segmentation(['HSPP'], workspace_study_a)
-run_subcortical_segmentation(CONTROLS_QSM_A, workspace_study_a, 'Controls')
-run_subcortical_segmentation(CONTROLS_QSM_B, workspace_study_b, 'Controls')
-run_subcortical_segmentation(PATIENTS_QSM_A, workspace_study_a, 'Patients')
-run_subcortical_segmentation(PATIENTS_QSM_B, workspace_study_b, 'Patients')
+# run_subcortical_segmentation(CONTROLS_QSM_A, workspace_study_a, 'Controls')
+# run_subcortical_segmentation(CONTROLS_QSM_B, workspace_study_b, 'Controls')
+# run_subcortical_segmentation(PATIENTS_QSM_A, workspace_study_a, 'Patients')
+# run_subcortical_segmentation(PATIENTS_QSM_B, workspace_study_b, 'Patients')
+run_subcortical_segmentation(lemon_population, workspace_study_b, 'Patients')
 
