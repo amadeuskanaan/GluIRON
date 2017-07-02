@@ -184,7 +184,7 @@ def make_reg(population, workspace_dir, popname):
 
 
 # preproc_anat(lemon_population, workspace_study_a, 'LEMON')
-make_reg(lemon_population, workspace_study_a, 'LEMON')
+make_reg(lemon_population[60:], workspace_study_a, 'LEMON')
 
 
 
