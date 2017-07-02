@@ -5,6 +5,8 @@ from utils.utils import *
 import numpy as np
 import nibabel as nb
 import commands
+from variables_lemon import *
+
 rois = ['Caud','Puta','Pall', 'Amyg', 'Hipp', 'Accu','Thal']
 rois_L = ['L_' + roi for roi in rois]
 rois_R = ['R_' + roi for roi in rois]
