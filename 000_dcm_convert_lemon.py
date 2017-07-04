@@ -102,3 +102,4 @@ def get_niftis(population, afs_dir, workspace_dir):
 
 # get_niftis(['LEMON891/LEMON113'], afs_lemon, workspace_study_a)
 get_niftis(lemon_population, afs_lemon, workspace_study_a)
+
