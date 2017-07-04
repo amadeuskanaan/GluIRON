@@ -31,6 +31,8 @@ def get_atak_nuclei(population, workspace_dir, popname):
 
         print '%s. Extracting ATAK nuclei for Subject %s' % (count, subject)
 
+
+
         anat        = os.path.join(workspace_dir, subject, 'ANATOMICAL',   'MP2RAGE_UNI_PPROC.nii.gz')
         mag         = os.path.join(workspace_dir, subject, 'REGISTRATION', 'FLASH/FLASH_MAGNITUDE_BIAS_CORR.nii')
         anat2mag    = os.path.join(workspace_dir, subject, 'REGISTRATION', 'FLASH/MP2RAGE2FLASH.mat')
@@ -38,7 +40,6 @@ def get_atak_nuclei(population, workspace_dir, popname):
         mni_invwarp = os.path.join(workspace_dir, subject, 'REGISTRATION', 'MNI/MNI2MP2RAGE_warp.nii.gz')
         atak_dir    = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION', 'ATAK'))
         os.chdir(atak_dir)
-        os.system('cp %s ./transform1InverseWarp.nii.gz' % mni_invwarp)
 
         def transform_ATAK_2_NATIVE(mni_image, label_name, thr = 0.7):
             if not os.path.isfile('%s.nii.gz'%label_name):
@@ -47,22 +48,23 @@ def get_atak_nuclei(population, workspace_dir, popname):
                 # print mni_image
                 # print label_name
                 # print mni_affine
+                os.system('cp %s ./transform1InverseWarp.nii.gz' % mni_invwarp)
                 os.system('WarpImageMultiTransform 3 %s %s/%s_wimt.nii.gz -R %s -i %s transform1InverseWarp.nii.gz'%(mni_image, atak_dir, label_name, anat, mni_affine))
                 os.system('flirt -in %s_wimt.nii.gz -ref %s -applyxfm -init %s -dof 6 -out %s_qsm_prob.nii.gz' %(label_name, mag, anat2mag, label_name))
                 os.system('fslmaths %s_qsm_prob.nii.gz -thr %s -kernel sphere 0.5 -ero -bin %s' %(label_name, thr, label_name))
 
-        # transform_ATAK_2_NATIVE(ATAK_L_GPe, 'L_GPe', 0.7)
-        # transform_ATAK_2_NATIVE(ATAK_R_GPe, 'R_GPe', 0.7)
-        # transform_ATAK_2_NATIVE(ATAK_L_GPi, 'L_GPi', 0.7)
-        # transform_ATAK_2_NATIVE(ATAK_R_GPi, 'R_GPi', 0.7)
+        transform_ATAK_2_NATIVE(ATAK_L_GPe, 'L_GPe', 0.7)
+        transform_ATAK_2_NATIVE(ATAK_R_GPe, 'R_GPe', 0.7)
+        transform_ATAK_2_NATIVE(ATAK_L_GPi, 'L_GPi', 0.7)
+        transform_ATAK_2_NATIVE(ATAK_R_GPi, 'R_GPi', 0.7)
         transform_ATAK_2_NATIVE(ATAK_L_RN, 'L_RN', 0.7)
         transform_ATAK_2_NATIVE(ATAK_R_RN, 'R_RN', 0.7)
         transform_ATAK_2_NATIVE(ATAK_L_SN , 'L_SN', 0.6)
         transform_ATAK_2_NATIVE(ATAK_R_SN , 'R_SN', 0.6)
         transform_ATAK_2_NATIVE(ATAK_L_STN, 'L_STN', 0.55)
         transform_ATAK_2_NATIVE(ATAK_R_STN, 'R_STN', 0.55)
-        # transform_ATAK_2_NATIVE(ATAK_L_DN, 'L_DN', 0.7)
-        # transform_ATAK_2_NATIVE(ATAK_R_DN, 'R_DN', 0.7)
+        transform_ATAK_2_NATIVE(ATAK_L_DN, 'L_DN', 0.7)
+        transform_ATAK_2_NATIVE(ATAK_R_DN, 'R_DN', 0.7)
 
         # transform_ATAK_2_NATIVE(STR_3_EXE, 'STR_EXE', 0.7)
         # transform_ATAK_2_NATIVE(STR_3_MOT, 'STR_MOT', 0.7)

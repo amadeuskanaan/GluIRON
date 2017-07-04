@@ -22,17 +22,17 @@ def get_nucleus_stats(population, workspace_dir, input_img = 'QSM', stat_type = 
             #stats_df = pd.DataFrame(columns = first_rois + fs_rois + atag_rois + suit_rois + ['MRS_ACC', 'MRS_THA', 'MRS_STR'] + ['GM', 'WM', 'CSF'], index = ['%s'%subject])
             stats_df = pd.DataFrame(columns = first_rois + fs_rois + atak_rois + ['MRS_ACC', 'MRS_THA', 'MRS_STR'] + ['GM', 'WM', 'CSF'], index = ['%s'%subject])
 
-            if input_img  == 'QSM':
-                img = os.path.join(workspace_dir, subject, 'QSM', 'QSM_norm.nii')
-                qsm_    = os.path.join(workspace_dir, subject, 'QSM', 'QSM.nii')
-                LVpath = os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH_LV_constricted.nii.gz.nii.gz')
-                LVmu = float(commands.getoutput('fslstats %s -k %s %s' % (qsm_, LVpath, stat_type)))
-                print LVmu
-                # normalized QSM to Lateratal ventricles
-                os.system('fslmaths %s -sub %s %s ' %(qsm_, LVmu, img))
-                XVAL = 1
+            # if input_img  == 'QSM':
+            #     img = os.path.join(workspace_dir, subject, 'QSM', 'QSM_norm.nii')
+            #     qsm_    = os.path.join(workspace_dir, subject, 'QSM', 'QSM.nii')
+            #     LVpath = os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH_LV_constricted.nii.gz.nii.gz')
+            #     LVmu = float(commands.getoutput('fslstats %s -k %s %s' % (qsm_, LVpath, stat_type)))
+            #     print LVmu
+            #     # normalized QSM to Lateratal ventricles
+            #     os.system('fslmaths %s -sub %s %s ' %(qsm_, LVmu, img))
+            #     XVAL = 1
 
-            elif input_img == 'T1MAPS':
+            if input_img == 'T1MAPS':
                 ximg = os.path.join(workspace_dir, subject, 'REGISTRATION/T1MAPS2FLASH.nii.gz')
                 img  = os.path.join(workspace_dir, subject, 'REGISTRATION/T1MAPS2FLASH_inv.nii.gz')
                 os.system('fslmaths %s -recip %s'%(ximg, img) )
@@ -112,24 +112,24 @@ def get_nucleus_stats(population, workspace_dir, input_img = 'QSM', stat_type = 
             stats_df.ix[subject, 'Accu']  = np.mean((stats_df.loc['%s'%subject]['R_Accu'], stats_df.loc['%s'%subject]['L_Accu']))
             stats_df.ix[subject, 'Thal'] = np.mean((stats_df.loc['%s' % subject]['L_Thal'], stats_df.loc['%s' % subject]['R_Thal']))
 
-            stats_df.ix[subject, 'ant_Insula'] = np.mean((stats_df.loc['%s' % subject]['R_ant_Insula'], stats_df.loc['%s' % subject]['L_ant_Insula']))
-            stats_df.ix[subject, 'sup_Insula'] = np.mean((stats_df.loc['%s' % subject]['R_sup_Insula'], stats_df.loc['%s' % subject]['L_sup_Insula']))
-            stats_df.ix[subject, 'inf_Insula'] = np.mean((stats_df.loc['%s' % subject]['R_inf_Insula'], stats_df.loc['%s' % subject]['L_inf_Insula']))
-            stats_df.ix[subject, 'Insula'] = np.mean((stats_df.loc['%s' % subject]['R_Insula'], stats_df.loc['%s' % subject]['L_Insula']))
+            # stats_df.ix[subject, 'ant_Insula'] = np.mean((stats_df.loc['%s' % subject]['R_ant_Insula'], stats_df.loc['%s' % subject]['L_ant_Insula']))
+            # stats_df.ix[subject, 'sup_Insula'] = np.mean((stats_df.loc['%s' % subject]['R_sup_Insula'], stats_df.loc['%s' % subject]['L_sup_Insula']))
+            # stats_df.ix[subject, 'inf_Insula'] = np.mean((stats_df.loc['%s' % subject]['R_inf_Insula'], stats_df.loc['%s' % subject]['L_inf_Insula']))
+            # stats_df.ix[subject, 'Insula'] = np.mean((stats_df.loc['%s' % subject]['R_Insula'], stats_df.loc['%s' % subject]['L_Insula']))
 
-            stats_df.ix[subject, 'ant_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_ant_Cingulum'], stats_df.loc['%s' % subject]['L_ant_Cingulum']))
-            stats_df.ix[subject, 'ant_mid_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_ant_mid_Cingulum'], stats_df.loc['%s' % subject]['L_ant_mid_Cingulum']))
-            stats_df.ix[subject, 'post_mid_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_post_mid_Cingulum'], stats_df.loc['%s' % subject]['L_post_mid_Cingulum']))
-            stats_df.ix[subject, 'post_dors_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_post_dors_Cingulum'], stats_df.loc['%s' % subject]['L_post_dors_Cingulum']))
-            stats_df.ix[subject, 'post_vent_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_post_vent_Cingulum'], stats_df.loc['%s' % subject]['L_post_vent_Cingulum']))
-            stats_df.ix[subject, 'Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_Cingulum'], stats_df.loc['%s' % subject]['L_Cingulum']))
-            stats_df.ix[subject, 'hippo_subiculum'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_subiculum'], stats_df.loc['%s' % subject]['L_hippo_subiculum']))
-            stats_df.ix[subject, 'hippo_presubiculum'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_presubiculum'], stats_df.loc['%s' % subject]['L_hippo_presubiculum']))
-            stats_df.ix[subject, 'hippo_fissure'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_fissure'], stats_df.loc['%s' % subject]['L_hippo_fissure']))
-            stats_df.ix[subject, 'hippo_fimbria'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_fimbria'], stats_df.loc['%s' % subject]['L_hippo_fimbria']))
-            stats_df.ix[subject, 'hippo_CA1'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_CA1'], stats_df.loc['%s' % subject]['L_hippo_CA1']))
-            stats_df.ix[subject, 'hippo_CA_23'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_CA_23'], stats_df.loc['%s' % subject]['L_hippo_CA_23']))
-            stats_df.ix[subject, 'hippo_CA4_DG'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_CA4_DG'], stats_df.loc['%s' % subject]['L_hippo_CA4_DG']))
+            # stats_df.ix[subject, 'ant_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_ant_Cingulum'], stats_df.loc['%s' % subject]['L_ant_Cingulum']))
+            # stats_df.ix[subject, 'ant_mid_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_ant_mid_Cingulum'], stats_df.loc['%s' % subject]['L_ant_mid_Cingulum']))
+            # stats_df.ix[subject, 'post_mid_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_post_mid_Cingulum'], stats_df.loc['%s' % subject]['L_post_mid_Cingulum']))
+            # stats_df.ix[subject, 'post_dors_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_post_dors_Cingulum'], stats_df.loc['%s' % subject]['L_post_dors_Cingulum']))
+            # stats_df.ix[subject, 'post_vent_Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_post_vent_Cingulum'], stats_df.loc['%s' % subject]['L_post_vent_Cingulum']))
+            # stats_df.ix[subject, 'Cingulum'] = np.mean((stats_df.loc['%s' % subject]['R_Cingulum'], stats_df.loc['%s' % subject]['L_Cingulum']))
+            # stats_df.ix[subject, 'hippo_subiculum'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_subiculum'], stats_df.loc['%s' % subject]['L_hippo_subiculum']))
+            # stats_df.ix[subject, 'hippo_presubiculum'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_presubiculum'], stats_df.loc['%s' % subject]['L_hippo_presubiculum']))
+            # stats_df.ix[subject, 'hippo_fissure'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_fissure'], stats_df.loc['%s' % subject]['L_hippo_fissure']))
+            # stats_df.ix[subject, 'hippo_fimbria'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_fimbria'], stats_df.loc['%s' % subject]['L_hippo_fimbria']))
+            # stats_df.ix[subject, 'hippo_CA1'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_CA1'], stats_df.loc['%s' % subject]['L_hippo_CA1']))
+            # stats_df.ix[subject, 'hippo_CA_23'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_CA_23'], stats_df.loc['%s' % subject]['L_hippo_CA_23']))
+            # stats_df.ix[subject, 'hippo_CA4_DG'] = np.mean((stats_df.loc['%s' % subject]['R_hippo_CA4_DG'], stats_df.loc['%s' % subject]['L_hippo_CA4_DG']))
 
             stats_df.ix[subject, 'GPe'] = np.mean((stats_df.loc['%s' % subject]['R_GPe'], stats_df.loc['%s' % subject]['L_GPe']))
             stats_df.ix[subject, 'GPi'] = np.mean((stats_df.loc['%s' % subject]['R_GPi'], stats_df.loc['%s' % subject]['L_GPi']))
@@ -144,22 +144,23 @@ def get_nucleus_stats(population, workspace_dir, input_img = 'QSM', stat_type = 
                                                             stats_df.loc['%s' % subject]['Accu']))
             stats_df.to_csv(os.path.join(stats_dir, 'nucleus_stats_%s.csv' %outname ))
 
-get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
-get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
-get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
-get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')#
-
-get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
-get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
-get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
-get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
-# #
-get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-P 50', outname = 'R1_median')
-get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-P 50', outname = 'R1_median')
-get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-P 50', outname = 'R1_median')
-get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-P 50', outname = 'R1_median')
-
-get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
-get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
-get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
-get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
+# get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
+# get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
+# get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
+# get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')#
+#
+# get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
+# get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
+# get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
+# get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
+#
+# get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-P 50', outname = 'R1_median')
+# get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-P 50', outname = 'R1_median')
+# get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-P 50', outname = 'R1_median')
+# get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-P 50', outname = 'R1_median')
+#
+# get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
+# get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
+# get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
+# get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
+#

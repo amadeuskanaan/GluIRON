@@ -155,24 +155,24 @@ def make_spatial_qc(population, workspace_dir, verio_dir ):
             df.loc[subject]['QI1_PHS'] = qi1_phs
             df.to_csv(os.path.join(qcdir, 'QC.csv'))
 
-        ########## FD
-        os.chdir(qcdir)
-        func = os.path.join(verio_dir, subject, 'NIFTI/REST.nii')
-        if not os.path.isfile('mcflirt.nii.gz'):
-            print 'Running mcflirt'
-            if os.path.isfile(func):
-                os.system('cp %s ./' % func)
-                os.system('mcflirt -in REST.nii -refvol 1 -mats -plots -out mcflirt ')
-
-
-        if os.path.isfile('mcflirt.par'):
-            print '........calculating FD'
-            fd = calculate_framewise_displacement_fsl('mcflirt.par')
-            dfx = pd.read_csv('QC.csv', index_col = 0)
-            dfx.loc[subject]['FD'] = np.mean(fd)
-            dfx.to_csv(os.path.join(qcdir, 'QC.csv'))
-        # else:
-        #     df.loc[subject]['FD'] = np.nan
+        # ########## FD
+        # os.chdir(qcdir)
+        # func = os.path.join(verio_dir, subject, 'NIFTI/REST.nii')
+        # if not os.path.isfile('mcflirt.nii.gz'):
+        #     print 'Running mcflirt'
+        #     if os.path.isfile(func):
+        #         os.system('cp %s ./' % func)
+        #         os.system('mcflirt -in REST.nii -refvol 1 -mats -plots -out mcflirt ')
+        #
+        #
+        # if os.path.isfile('mcflirt.par'):
+        #     print '........calculating FD'
+        #     fd = calculate_framewise_displacement_fsl('mcflirt.par')
+        #     dfx = pd.read_csv('QC.csv', index_col = 0)
+        #     dfx.loc[subject]['FD'] = np.mean(fd)
+        #     dfx.to_csv(os.path.join(qcdir, 'QC.csv'))
+        # # else:
+        # #     df.loc[subject]['FD'] = np.nan
 
         ######### MAKE PLOTS
 
@@ -211,11 +211,13 @@ def make_spatial_qc(population, workspace_dir, verio_dir ):
             print 'making qc report'
             report = canvas.Canvas(os.path.join(qcdir, 'QC_REPORT_%s.pdf' % subject), pagesize=(1200 *2, 1600*2 ))
             report.setFont("Helvetica", 80)
-            if os.path.isfile('mcflirt.par'):
-                fd_mu = np.round(np.mean(calculate_framewise_displacement_fsl('mcflirt.par')), 2)
-                report.drawString(inch * 12 , inch * 42, '%s_%s, FD = %s '% (subject, workspace_dir[-1], fd_mu))
-            else:
-                report.drawString(inch * 12, inch * 42, '%s_%s, FD = NAN ' % (subject, workspace_dir[-1]))
+            # if os.path.isfile('mcflirt.par'):
+            #     fd_mu = np.round(np.mean(calculate_framewise_displacement_fsl('mcflirt.par')), 2)
+            #     report.drawString(inch * 12 , inch * 42, '%s_%s, FD = %s '% (subject, workspace_dir[-1], fd_mu))
+            # else:
+            #     report.drawString(inch * 12, inch * 42, '%s_%s, FD = NAN ' % (subject, workspace_dir[-1]))
+
+
             if os.path.isfile('plot_nucleus_DN.png'):
                 report.drawImage('plot_nucleus_DN.png',   inch * 1 , inch * 32)
 
@@ -240,11 +242,11 @@ def make_spatial_qc(population, workspace_dir, verio_dir ):
 
             report.save()
 
-        os.system('rm -rf %s/REST.nii'%qcdir)
+        # os.system('rm -rf %s/REST.nii'%qcdir)
 
 #make_spatial_qc(['GSNT'], workspace_study_a, verio_patients_a)
-make_spatial_qc(CONTROLS_QSM_A, workspace_study_a, verio_controls_a)
-make_spatial_qc(CONTROLS_QSM_B, workspace_study_b, verio_controls_b)
-make_spatial_qc(PATIENTS_QSM_A, workspace_study_a, verio_patients_a)
-make_spatial_qc(PATIENTS_QSM_B, workspace_study_b, verio_patients_b)
+# make_spatial_qc(CONTROLS_QSM_A, workspace_study_a, verio_controls_a)
+# make_spatial_qc(CONTROLS_QSM_B, workspace_study_b, verio_controls_b)
+# make_spatial_qc(PATIENTS_QSM_A, workspace_study_a, verio_patients_a)
+# make_spatial_qc(PATIENTS_QSM_B, workspace_study_b, verio_patients_b)
 
