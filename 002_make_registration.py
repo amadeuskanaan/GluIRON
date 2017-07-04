@@ -84,8 +84,7 @@ def make_reg(population, workspace_dir, popname):
         seg_dir = mkdir_path(os.path.join(workspace_dir, subject, 'ANATOMICAL/seg'))
         reg_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH'))
         mni_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/MNI'))
-        first_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION/FIRST'))
-        atag_dir = mkdir_path(os.path.join(workspace_dir, subject, 'SEGMENTATION/ATAK'))
+
 
 
         ################################################################################################################
@@ -183,8 +182,8 @@ def make_reg(population, workspace_dir, popname):
 # preproc_anat(PATIENTS_QSM_B, workspace_study_b, 'PATIENTS')
 
 
-# preproc_anat(lemon_population, workspace_study_a, 'LEMON')
-make_reg(lemon_population[60:], workspace_study_a, 'LEMON')
+preproc_anat(lemon_population, workspace_study_a, 'LEMON')
+make_reg(lemon_population, workspace_study_a, 'LEMON')
 
 
 
