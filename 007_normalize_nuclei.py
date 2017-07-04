@@ -25,7 +25,7 @@ def make_normalize(population, workspace_dir, popname ):
         seg_dir = os.path.join(workspace_dir, subject, 'SEGMENTATION')
         qsm_dir = os.path.join(workspace_dir, subject, 'QSM')
         unipp   = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC.nii.gz')
-        roi_dir = mkdir_path(os.path.join(seg_dir, 'MNI' ))
+        roi_dir = mkdir_path(os.path.join(seg_dir, 'MNI'))
 
         # normalize QSM to Lateratal ventricles
         if not os.path.isfile(os.path.join(qsm_dir, 'QSM_norm.nii.gz')):
@@ -56,8 +56,8 @@ def make_normalize(population, workspace_dir, popname ):
                 nucleus = os.path.join(reg_dir, 'ATAK', roi)
 
             os.system( 'flirt -in %s -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out %s2MP2RAGE.nii.gz' % (nucleus, unipp, reg_dir, roi))
-            os.system( 'WarpImageMultiTransform 3 %s_2MP2RAGE.nii.gz roi_MNI1mm.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
-                       % (qsm_dir, mni_brain_1mm, reg_dir, reg_dir))
+            os.system( 'WarpImageMultiTransform 3 %s_2MP2RAGE.nii.gz %s_MNI1mm.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
+                       % (roi,roi, mni_brain_1mm, reg_dir, reg_dir))
 
         normalize_roi('L_Caud', 'FIRST')
 
@@ -69,7 +69,7 @@ def make_normalize(population, workspace_dir, popname ):
 # make_normalize(lemon_population, workspace_study_a, 'LEMON')
 # make_normalize(CONTROLS_QSM_A, workspace_study_a, 'Controls')
 # make_normalize(PATIENTS_QSM_A, workspace_study_a, 'Patients')
-make_normalize(['LEMON891/LEMON113'], workspace_study_a, 'Patients')
+make_normalize(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
 
 
 
