@@ -47,6 +47,7 @@ def preproc_anat(population, workspace_dir, popname):
                 seg.out_dir              = seg_dir
                 seg.run()
 
+
         # Deskulling
         if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL/MP2RAGE_UNI_PPROC.nii.gz')):
             os.system('fslmaths c1MP2RAGE_UNI.nii -add c2MP2RAGE_UNI.nii -add c3MP2RAGE_UNI.nii -thr 0.9 -bin  -fillh ../BRAIN_MASK')
