@@ -42,11 +42,6 @@ def make_normalize(population, workspace_dir, popname ):
             os.system('flirt -in %s/QSM_norm -ref %s -applyxfm -init FLASH/FLASH2MP2RAGE.mat -out FLASH/QSMnorm2MP2RAGE.nii.gz' % (qsm_dir, unipp))
             os.system('WarpImageMultiTransform 3 FLASH/QSMnorm2MP2RAGE.nii.gz %s/QSM_norm_MNI1mm.nii.gz -R %s MNI/MP2RAGE2MNI_warp.nii.gz MNI/MP2RAGE2MNI_affine.mat' % (qsm_dir, mni_brain_1mm))
 
-        rois = ['Caud', 'Puta', 'Pall', 'Amyg', 'Hipp', 'Accu', 'Thal']
-        rois_L = ['L_' + roi for roi in rois]
-        rois_R = ['R_' + roi for roi in rois]
-        first_rois = rois_L + rois_R
-
         def normalize_roi(roi, roi_class):
 
             os.chdir(roi_dir)
@@ -59,7 +54,21 @@ def make_normalize(population, workspace_dir, popname ):
             os.system( 'WarpImageMultiTransform 3 %s_2MP2RAGE.nii.gz %s_MNI1mm.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
                        % (roi,roi, mni_brain_1mm, reg_dir, reg_dir))
 
-        normalize_roi('L_Caud', 'FIRST')
+        rois = ['Caud', 'Puta', 'Pall', 'Amyg', 'Hipp', 'Accu', 'Thal']
+        rois_L = ['L_' + roi for roi in rois]
+        rois_R = ['R_' + roi for roi in rois]
+        first_rois = rois_L + rois_R
+
+        for roi in first_rois:
+            normalize_roi(roi, 'FIRST')
+
+        rois = ['SN', 'STN', 'DN']
+        rois_L = ['L_' + roi for roi in rois]
+        rois_R = ['R_' + roi for roi in rois]
+        atak_rois = rois_L + rois_R
+
+        for roi in atak_rois:
+            normalize_roi(roi, 'ATAK')
 
         print '##################################################'
 
