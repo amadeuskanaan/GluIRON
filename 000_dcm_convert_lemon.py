@@ -100,6 +100,7 @@ def get_niftis(population, afs_dir, workspace_dir):
             nb.Nifti1Image(p, nb.load(phas[0]).get_affine()).to_filename('all_partitions_phase_.nii.gz')
             reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
 
+
 # get_niftis(['LEMON891/LEMON113'], afs_lemon, workspace_study_a)
 get_niftis(lemon_population, afs_lemon, workspace_study_a)
 

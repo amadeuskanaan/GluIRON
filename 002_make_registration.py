@@ -86,8 +86,6 @@ def make_reg(population, workspace_dir, popname):
         reg_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH'))
         mni_dir = mkdir_path(os.path.join(workspace_dir, subject, 'REGISTRATION/MNI'))
 
-
-
         ################################################################################################################
 
                                                    # MP2RAGE to FLASH LINEAR REG
