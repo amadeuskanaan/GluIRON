@@ -58,7 +58,7 @@ def make_normalize(population, workspace_dir, popname ):
                 if roi_class == 'FIRST':
                     os.system('fslmaths %s_MNI1mm.nii.gz -thr 10 -ero -bin MNI1mm_%s.nii.gz' %(roi,roi))
                 elif roi_class == 'ATAK':
-                    os.system('fslmaths %s_MNI1mm.nii.gz -thr 0.2 -bin MNI1mm_%s.nii.gz' %(roi, roi))
+                    os.system('fslmaths %s_MNI1mm.nii.gz -thr 0.5 -bin MNI1mm_%s.nii.gz' %(roi, roi))
 
                 os.system('rm -rf *MP2RAGE* *_MNI*')
 
