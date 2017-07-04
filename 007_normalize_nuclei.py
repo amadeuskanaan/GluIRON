@@ -95,7 +95,7 @@ def make_normalize(population, workspace_dir, popname ):
 # make_normalize(lemon_population, workspace_study_a, 'LEMON')
 # make_normalize(CONTROLS_QSM_A, workspace_study_a, 'Controls')
 # make_normalize(PATIENTS_QSM_A, workspace_study_a, 'Patients')
-make_normalize(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')
+make_normalize(lemon_population, workspace_study_a, 'LEMON')
 
 
 
