@@ -50,30 +50,47 @@ def make_normalize(population, workspace_dir, popname ):
             elif roi_class == 'ATAK':
                 nucleus = os.path.join(seg_dir, 'ATAK', roi)
 
-            os.system( 'flirt -in %s -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out %s_2MP2RAGE.nii.gz' % (nucleus, unipp, reg_dir, roi))
-            os.system( 'WarpImageMultiTransform 3 %s_2MP2RAGE.nii.gz %s_MNI1mm.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
-                       % (roi,roi, mni_brain_1mm, reg_dir, reg_dir))
+            if not os.path.isfile('%s/MNI1mm_%s.nii.gz'%(roi_dir,roi)):
+                os.system( 'flirt -in %s -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out %s_2MP2RAGE.nii.gz' % (nucleus, unipp, reg_dir, roi))
+                os.system( 'WarpImageMultiTransform 3 %s_2MP2RAGE.nii.gz %s_MNI1mm.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
+                           % (roi,roi, mni_brain_1mm, reg_dir, reg_dir))
+
+                if roi_class == 'FIRST':
+                    os.system('fslmaths %s_MNI1mm.nii.gz -thr 10 -ero -bin MNI1mm_%s.nii.gz' (roi,roi))
+                elif roi_class == 'ATAK':
+                    os.system('fslmaths %s_MNI1mm.nii.gz -thr 0.2 -bin MNI1mm_%s.nii.gz'(roi, roi))
+
+                os.system('rm -rf *MP2RAGE* *_MNI*')
 
         rois = ['Caud', 'Puta', 'Pall', 'Amyg', 'Hipp', 'Accu', 'Thal']
         rois_L = ['L_' + roi for roi in rois]
         rois_R = ['R_' + roi for roi in rois]
         first_rois = rois_L + rois_R
 
-        for roi in first_rois:
-            normalize_roi(roi, 'FIRST')
-
-        rois = ['SN', 'STN', 'DN']
+        rois = ['SN', 'STN', 'RN',  'DN']
         rois_L = ['L_' + roi for roi in rois]
         rois_R = ['R_' + roi for roi in rois]
         atak_rois = rois_L + rois_R
 
+        for roi in first_rois:
+            normalize_roi(roi, 'FIRST')
+
         for roi in atak_rois:
             normalize_roi(roi, 'ATAK')
 
-        print '##################################################'
+        if not os.path.isfile(os.path.join(roi_dir,'MNI_BG.nii.gz')):
+            os.chdir(roi_dir)
+            os.system('fslmaths MNI1mm_L_Caud -add MNI1mm_L_Puta MNI1mm_L_STR')
+            os.system('fslmaths MNI1mm_R_Caud -add MNI1mm_R_Puta MNI1mm_R_STR')
+            os.system('fslmaths MNI1mm_L_STR -add MNI1mm_R_STR MNI1mm_STR')
+            os.system('fslmaths MNI1mm_STR -add MNI1mm_L_Pall -add MNI1mm_L_Pall MNI_BG')
 
-
-
+        if not os.path.isfile(os.path.join(qsm_dir, 'QSM_norm_MNI1mm_BG.nii.gz')):
+            os.chdir(qsm_dir)
+            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_L_STR QSM_norm_MNI1mm_L_STR'%roi_dir)
+            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_R_STR QSM_norm_MNI1mm_R_STR'%roi_dir)
+            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_STR QSM_norm_MNI1mm_STR'%roi_dir)
+            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI_BG QSM_norm_MNI1mm_BG'%roi_dir)
 
 # make_normalize(lemon_population, workspace_study_a, 'LEMON')
 # make_normalize(CONTROLS_QSM_A, workspace_study_a, 'Controls')
