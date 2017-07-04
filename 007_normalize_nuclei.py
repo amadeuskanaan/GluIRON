@@ -51,9 +51,9 @@ def make_normalize(population, workspace_dir, popname ):
 
             os.chdir(roi_dir)
             if roi_class =='FIRST':
-                nucleus = os.path.join(reg_dir, 'FIRST', 'FIRST_HYBRID-%s_first_thr.nii.gz' %roi)
+                nucleus = os.path.join(seg_dir, 'FIRST', 'FIRST_HYBRID-%s_first_thr.nii.gz' %roi)
             elif roi_class == 'ATAK':
-                nucleus = os.path.join(reg_dir, 'ATAK', roi)
+                nucleus = os.path.join(seg_dir, 'ATAK', roi)
 
             os.system( 'flirt -in %s -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out %s2MP2RAGE.nii.gz' % (nucleus, unipp, reg_dir, roi))
             os.system( 'WarpImageMultiTransform 3 %s_2MP2RAGE.nii.gz %s_MNI1mm.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
