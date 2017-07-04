@@ -1,0 +1,10 @@
+executable = /usr/bin/python
+arguments = /scr/malta1/Github/GluIRON/003_segment_FIRST.py $(Process)
+universe = vanilla
+output = /scr/malta1/Github/GluIRON/condor/logs/001_output_$(Process).txt
+error = /scr/malta1/Github/GluIRON/condor/logs/001_error_$(Process).txt
+log = /scr/malta1/Github/GluIRON/condor/logs/001_log_$(Process).txt
+getenv = True
+request_memory = 4000
+request_cpus = 1
+queue 109
