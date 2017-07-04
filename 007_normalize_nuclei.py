@@ -55,7 +55,7 @@ def make_normalize(population, workspace_dir, popname ):
             elif roi_class == 'ATAK':
                 nucleus = os.path.join(seg_dir, 'ATAK', roi)
 
-            os.system( 'flirt -in %s -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out %s2_MP2RAGE.nii.gz' % (nucleus, unipp, reg_dir, roi))
+            os.system( 'flirt -in %s -ref %s -applyxfm -init %s/FLASH/FLASH2MP2RAGE.mat -out %s_2MP2RAGE.nii.gz' % (nucleus, unipp, reg_dir, roi))
             os.system( 'WarpImageMultiTransform 3 %s_2MP2RAGE.nii.gz %s_MNI1mm.nii.gz -R %s %s/MNI/MP2RAGE2MNI_warp.nii.gz %s/MNI/MP2RAGE2MNI_affine.mat'
                        % (roi,roi, mni_brain_1mm, reg_dir, reg_dir))
 
