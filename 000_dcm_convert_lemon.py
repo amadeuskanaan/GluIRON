@@ -41,31 +41,28 @@ def get_niftis(population, afs_dir, workspace_dir):
 
         def reorient(img, orient, fname):
             os.system('fslswapdim %s %s %s' % (img, orient, fname))
-            os.system('rm -rf %s' % img)
+            os.system('rm -rf %s' %img)
 
         ################################################################################################################
         # Convert MP2RAGE UNI dcm to nifti
 
-        print '....Converting Anatomical DICOM to NIFTI'
+        print '....Converting UNI Anatomical DICOM to NIFTI'
         if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI.nii.gz')):
 
             os.system('cp -r %s/* %s' %(dicom_dir, anat_dir))
-
-            os.system('isisconv -in %s -out %s/%s_S{sequenceNumber}_{sequenceDescription}_{echoTime}.nii -rf dcm -wdialect fsl'
-                      %(anat_dir, anat_dir, subject))
+            os.system('isisconv -in %s -out %s/%s_S{sequenceNumber}_{sequenceDescription}_{echoTime}.nii -rf dcm -wdialect fsl'%(anat_dir, anat_dir, subject))
 
             os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
             os.system('mv DICOM/*mp2rage* ./MP2RAGE_UNI_.nii')
 
-            orientation = 'RL PA IS'
-            reorient('MP2RAGE_UNI_.nii'   , orientation, 'MP2RAGE_UNI.nii.gz')
+            reorient('MP2RAGE_UNI_.nii' , 'RL PA IS', 'MP2RAGE_UNI.nii.gz')
 
-            os.system('rm -rf %s DICOM' % anat_dir)
+            os.system('rm -rf %s/*' %anat_dir)
 
         ################################################################################################################
         # Convert MP2RAGE T1 dcm to nifti
 
-        print '....Converting Anatomical DICOM to NIFTI'
+        print '....Converting T1 Anatomical DICOM to NIFTI'
         if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_T1MAPS.nii.gz')):
             dicom_dir = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/t1/')
             anat_dir = os.path.join(workspace_dir, subject, 'ANATOMICAL/DICOM')
@@ -76,10 +73,8 @@ def get_niftis(population, afs_dir, workspace_dir):
             os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
             os.system('mv DICOM/*mp2rage* ./MP2RAGE_T1MAPS_.nii')
 
-            orientation = 'RL PA IS'
-            reorient('MP2RAGE_T1MAPS_.nii'   , orientation, 'MP2RAGE_T1MAPS.nii.gz')
-
-            os.system('rm -rf %s DICOM' % anat_dir)
+            reorient('MP2RAGE_T1MAPS_.nii',  'RL PA IS', 'MP2RAGE_T1MAPS.nii.gz')
+            os.system('rm -rf %s' %anat_dir)
 
 
         ###############################################################################################################
