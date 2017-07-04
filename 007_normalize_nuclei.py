@@ -43,7 +43,7 @@ def make_normalize(population, workspace_dir, popname ):
             os.system('WarpImageMultiTransform 3 FLASH/QSMnorm2MP2RAGE.nii.gz %s/QSM_norm_MNI1mm.nii.gz -R %s MNI/MP2RAGE2MNI_warp.nii.gz MNI/MP2RAGE2MNI_affine.mat' % (qsm_dir, mni_brain_1mm))
 
         def normalize_roi(roi, roi_class):
-
+            print roi
             os.chdir(roi_dir)
             if roi_class =='FIRST':
                 nucleus = os.path.join(seg_dir, 'FIRST', 'FIRST_HYBRID-%s_first_thr.nii.gz' %roi)
@@ -56,9 +56,9 @@ def make_normalize(population, workspace_dir, popname ):
                            % (roi,roi, mni_brain_1mm, reg_dir, reg_dir))
 
                 if roi_class == 'FIRST':
-                    os.system('fslmaths %s_MNI1mm.nii.gz -thr 10 -ero -bin MNI1mm_%s.nii.gz' (roi,roi))
+                    os.system('fslmaths %s_MNI1mm.nii.gz -thr 10 -ero -bin MNI1mm_%s.nii.gz' %(roi,roi))
                 elif roi_class == 'ATAK':
-                    os.system('fslmaths %s_MNI1mm.nii.gz -thr 0.2 -bin MNI1mm_%s.nii.gz'(roi, roi))
+                    os.system('fslmaths %s_MNI1mm.nii.gz -thr 0.2 -bin MNI1mm_%s.nii.gz' %(roi, roi))
 
                 os.system('rm -rf *MP2RAGE* *_MNI*')
 
