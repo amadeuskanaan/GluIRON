@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import pandas as pd
 from utils.utils import  mkdir_path, calculate_framewise_displacement_fsl, plot_nucleus, plot_qsm_multi, plot_qsm_single
 from utils.spatial_qc import *
@@ -7,6 +8,9 @@ from matplotlib import colors
 import seaborn as sns
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm, mm, inch, pica
+import nibabel as nb
+from variables_lemon import *
+
 
 '''
 Based on PCP Quality Assessment Protocol
@@ -14,11 +18,18 @@ URL: http://preprocessed-connectomes-project.org/quality-assessment-protocol/
 '''
 
 
-def make_spatial_qc(population, workspace_dir, verio_dir ):
+def make_spatial_qc(population, workspace_dir, verio_dir, popname, plot_nuclei = False):
 
     print '############################%s' %workspace_dir[-1]
     count = 0
-    for subject in population:
+    for subject_id in population:
+
+        if popname == 'LEMON':
+            subject = subject_id[9:]
+        else:
+            subject = subject_id
+
+
         count +=1
         print '%s.Running Spatial Quality Control for Subject: %s' %(count, subject)
 
@@ -28,7 +39,7 @@ def make_spatial_qc(population, workspace_dir, verio_dir ):
 
 
         if not os.path.isfile('QC.csv'):
-            mp2rage_uni = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI.nii')
+            mp2rage_uni = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI.nii.gz')
             mp2rage_mas = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'BRAIN_MASK.nii.gz')
             mp2rage_gm  = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c1MP2RAGE_UNI.nii')
             mp2rage_wm  = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg/c2MP2RAGE_UNI.nii')
@@ -135,24 +146,24 @@ def make_spatial_qc(population, workspace_dir, verio_dir ):
                     'FD']
             df = pd.DataFrame(columns=cols, index=['%s' % subject])
 
-            df.loc[subject]['SNR_UNI'] = qc_snr_uni
-            df.loc[subject]['CNR_UNI'] = qc_cnr_uni
+            df.loc[subject]['SNR_UNI']  = qc_snr_uni
+            df.loc[subject]['CNR_UNI']  = qc_cnr_uni
             df.loc[subject]['FBER_UNI'] = qc_fber_uni
-            df.loc[subject]['EFC_UNI'] = qc_efc_uni
+            df.loc[subject]['EFC_UNI']  = qc_efc_uni
             df.loc[subject]['FWHM_UNI'] = qc_fwhm_uni[3]
-            df.loc[subject]['QI1_UNI'] = qi1_uni
-            df.loc[subject]['SNR_MAG'] = qc_snr_mag
-            df.loc[subject]['CNR_MAG'] = qc_cnr_mag
+            df.loc[subject]['QI1_UNI']  = qi1_uni
+            df.loc[subject]['SNR_MAG']  = qc_snr_mag
+            df.loc[subject]['CNR_MAG']  = qc_cnr_mag
             df.loc[subject]['FBER_MAG'] = qc_fber_mag
-            df.loc[subject]['EFC_MAG'] = qc_efc_mag
+            df.loc[subject]['EFC_MAG']  = qc_efc_mag
             df.loc[subject]['FWHM_MAG'] = qc_fwhm_mag[3]
-            df.loc[subject]['QI1_MAG'] = qi1_mag
-            df.loc[subject]['SNR_PHS'] = qc_snr_phs
-            df.loc[subject]['CNR_PHS'] = qc_cnr_phs
+            df.loc[subject]['QI1_MAG']  = qi1_mag
+            df.loc[subject]['SNR_PHS']  = qc_snr_phs
+            df.loc[subject]['CNR_PHS']  = qc_cnr_phs
             df.loc[subject]['FBER_PHS'] = qc_fber_phs
-            df.loc[subject]['EFC_PHS'] = qc_efc_phs
+            df.loc[subject]['EFC_PHS']  = qc_efc_phs
             df.loc[subject]['FWHM_PHS'] = qc_fwhm_phs[3]
-            df.loc[subject]['QI1_PHS'] = qi1_phs
+            df.loc[subject]['QI1_PHS']  = qi1_phs
             df.to_csv(os.path.join(qcdir, 'QC.csv'))
 
         # ########## FD
@@ -176,77 +187,80 @@ def make_spatial_qc(population, workspace_dir, verio_dir ):
 
         ######### MAKE PLOTS
 
-        seg_dir = os.path.join(workspace_dir, subject, 'SEGMENTATION')
-        qsm = np.rot90(nb.load(os.path.join(workspace_dir, subject, 'QSM', 'QSM.nii')).get_data()) * - 100
-        uni = np.rot90(nb.load(os.path.join(workspace_dir, subject, 'REGISTRATION','MP2RAGE2FLASH_BRAIN.nii.gz')).get_data()) / 350
-        palette = sns.color_palette("hls", 14)
+        if plot_nuclei:
 
-        if not os.path.isfile('plot_nucleus_Hipp.png'):
-            print '........making plots '
-            plot_nucleus(qsm, uni,  nucleus='SN',     cmap= colors.ListedColormap([palette[0]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='STN',    cmap= colors.ListedColormap([palette[1]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='RN',     cmap= colors.ListedColormap([palette[2]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='GPe',    cmap= colors.ListedColormap([palette[3]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='GPi',    cmap= colors.ListedColormap([palette[4]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni, nucleus='DN',      cmap=colors.ListedColormap([palette[13]]), alpha=1, segmentation='Brainstem', seg_dir=seg_dir)
+            seg_dir = os.path.join(workspace_dir, subject, 'SEGMENTATION')
+            qsm = np.rot90(nb.load(os.path.join(workspace_dir, subject, 'QSM', 'QSM.nii')).get_data()) * - 100
+            uni = np.rot90(nb.load(os.path.join(workspace_dir, subject, 'REGISTRATION','MP2RAGE2FLASH_BRAIN.nii.gz')).get_data()) / 350
+            palette = sns.color_palette("hls", 14)
 
-            plot_nucleus(qsm, uni,  nucleus='Caud',   cmap= colors.ListedColormap([palette[5]]), alpha=1, segmentation='BasalGanglia', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='Puta',   cmap= colors.ListedColormap([palette[6]]), alpha=1, segmentation='BasalGanglia', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='Hipp',   cmap= colors.ListedColormap([palette[7]]), alpha=1, segmentation='BasalGanglia', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='Thal',   cmap= colors.ListedColormap([palette[8]]), alpha=1, segmentation='BasalGanglia', seg_dir= seg_dir)
+            if not os.path.isfile('plot_nucleus_Hipp.png'):
+                print '........making plots '
+                plot_nucleus(qsm, uni,  nucleus='SN',     cmap= colors.ListedColormap([palette[0]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni,  nucleus='STN',    cmap= colors.ListedColormap([palette[1]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni,  nucleus='RN',     cmap= colors.ListedColormap([palette[2]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni,  nucleus='GPe',    cmap= colors.ListedColormap([palette[3]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni,  nucleus='GPi',    cmap= colors.ListedColormap([palette[4]]), alpha=1, segmentation='Brainstem', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni, nucleus='DN',      cmap=colors.ListedColormap([palette[13]]), alpha=1, segmentation='Brainstem', seg_dir=seg_dir)
 
-            plot_nucleus(qsm, uni,  nucleus='Insula', cmap= colors.ListedColormap([palette[9]]), alpha=1, segmentation='FREESURFER', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='Cingulum',cmap= colors.ListedColormap([palette[10]]), alpha=1, segmentation='FREESURFER', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='hippo_presubiculum',cmap= colors.ListedColormap([palette[11]]), alpha=1, segmentation='FREESURFER', seg_dir= seg_dir)
-            plot_nucleus(qsm, uni,  nucleus='hippo_subiculum',   cmap= colors.ListedColormap([palette[12]]), alpha=1, segmentation='FREESURFER', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni,  nucleus='Caud',   cmap= colors.ListedColormap([palette[5]]), alpha=1, segmentation='BasalGanglia', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni,  nucleus='Puta',   cmap= colors.ListedColormap([palette[6]]), alpha=1, segmentation='BasalGanglia', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni,  nucleus='Hipp',   cmap= colors.ListedColormap([palette[7]]), alpha=1, segmentation='BasalGanglia', seg_dir= seg_dir)
+                plot_nucleus(qsm, uni,  nucleus='Thal',   cmap= colors.ListedColormap([palette[8]]), alpha=1, segmentation='BasalGanglia', seg_dir= seg_dir)
 
-        qsm = np.rot90(nb.load(os.path.join(workspace_dir, subject, 'QSM', 'QSM.nii')).get_data()) #* - 100
-        zcuts = [50, 60, 70, 80]
-        plot_qsm_single(qsm, zcuts[0])
-        plot_qsm_single(qsm, zcuts[1])
-        plot_qsm_single(qsm, zcuts[2])
-        plot_qsm_single(qsm, zcuts[3])
+                # plot_nucleus(qsm, uni,  nucleus='Insula', cmap= colors.ListedColormap([palette[9]]), alpha=1, segmentation='FREESURFER', seg_dir= seg_dir)
+                # plot_nucleus(qsm, uni,  nucleus='Cingulum',cmap= colors.ListedColormap([palette[10]]), alpha=1, segmentation='FREESURFER', seg_dir= seg_dir)
+                # plot_nucleus(qsm, uni,  nucleus='hippo_presubiculum',cmap= colors.ListedColormap([palette[11]]), alpha=1, segmentation='FREESURFER', seg_dir= seg_dir)
+                # plot_nucleus(qsm, uni,  nucleus='hippo_subiculum',   cmap= colors.ListedColormap([palette[12]]), alpha=1, segmentation='FREESURFER', seg_dir= seg_dir)
 
-        if not os.path.isfile(os.path.join(qcdir, 'QC_REPORT_%s.pdf' % subject)):
-            print 'making qc report'
-            report = canvas.Canvas(os.path.join(qcdir, 'QC_REPORT_%s.pdf' % subject), pagesize=(1200 *2, 1600*2 ))
-            report.setFont("Helvetica", 80)
-            # if os.path.isfile('mcflirt.par'):
-            #     fd_mu = np.round(np.mean(calculate_framewise_displacement_fsl('mcflirt.par')), 2)
-            #     report.drawString(inch * 12 , inch * 42, '%s_%s, FD = %s '% (subject, workspace_dir[-1], fd_mu))
-            # else:
-            #     report.drawString(inch * 12, inch * 42, '%s_%s, FD = NAN ' % (subject, workspace_dir[-1]))
+            qsm = np.rot90(nb.load(os.path.join(workspace_dir, subject, 'QSM', 'QSM.nii')).get_data()) #* - 100
+            zcuts = [50, 60, 70, 80]
+            plot_qsm_single(qsm, zcuts[0])
+            plot_qsm_single(qsm, zcuts[1])
+            plot_qsm_single(qsm, zcuts[2])
+            plot_qsm_single(qsm, zcuts[3])
+
+            if not os.path.isfile(os.path.join(qcdir, 'QC_REPORT_%s.pdf' % subject)):
+                print 'making qc report'
+                report = canvas.Canvas(os.path.join(qcdir, 'QC_REPORT_%s.pdf' % subject), pagesize=(1200 *2, 1600*2 ))
+                report.setFont("Helvetica", 80)
+                # if os.path.isfile('mcflirt.par'):
+                #     fd_mu = np.round(np.mean(calculate_framewise_displacement_fsl('mcflirt.par')), 2)
+                #     report.drawString(inch * 12 , inch * 42, '%s_%s, FD = %s '% (subject, workspace_dir[-1], fd_mu))
+                # else:
+                #     report.drawString(inch * 12, inch * 42, '%s_%s, FD = NAN ' % (subject, workspace_dir[-1]))
 
 
-            if os.path.isfile('plot_nucleus_DN.png'):
-                report.drawImage('plot_nucleus_DN.png',   inch * 1 , inch * 32)
+                if os.path.isfile('plot_nucleus_DN.png'):
+                    report.drawImage('plot_nucleus_DN.png',   inch * 1 , inch * 32)
 
-            report.drawImage('plot_nucleus_SN.png',   inch * 9 , inch * 32)
-            report.drawImage('plot_nucleus_STN.png',  inch * 17, inch * 32)
-            report.drawImage('plot_nucleus_RN.png',   inch * 25, inch * 32)
+                report.drawImage('plot_nucleus_SN.png',   inch * 9 , inch * 32)
+                report.drawImage('plot_nucleus_STN.png',  inch * 17, inch * 32)
+                report.drawImage('plot_nucleus_RN.png',   inch * 25, inch * 32)
 
-            report.drawImage('plot_nucleus_GPe.png',  inch * 1, inch * 22)
-            report.drawImage('plot_nucleus_GPi.png',  inch * 9, inch * 22)
-            report.drawImage('plot_nucleus_Puta.png',  inch * 17, inch * 22)
-            report.drawImage('plot_nucleus_Caud.png',   inch * 25, inch * 22)
+                report.drawImage('plot_nucleus_GPe.png',  inch * 1, inch * 22)
+                report.drawImage('plot_nucleus_GPi.png',  inch * 9, inch * 22)
+                report.drawImage('plot_nucleus_Puta.png',  inch * 17, inch * 22)
+                report.drawImage('plot_nucleus_Caud.png',   inch * 25, inch * 22)
 
-            report.drawImage('plot_nucleus_Thal.png', inch * 1, inch * 12)
-            report.drawImage('plot_nucleus_Hipp.png', inch * 9, inch * 12)
-            report.drawImage('plot_nucleus_hippo_subiculum.png', inch * 17, inch * 12)
-            report.drawImage('plot_nucleus_hippo_presubiculum.png', inch * 25, inch * 12)
+                report.drawImage('plot_nucleus_Thal.png', inch * 1, inch * 12)
+                report.drawImage('plot_nucleus_Hipp.png', inch * 9, inch * 12)
+                # report.drawImage('plot_nucleus_hippo_subiculum.png', inch * 17, inch * 12)
+                # report.drawImage('plot_nucleus_hippo_presubiculum.png', inch * 25, inch * 12)
 
-            report.drawImage('plot_qsm_%s.png'%zcuts[0], inch * 1, inch *  2)
-            report.drawImage('plot_qsm_%s.png'%zcuts[1], inch * 9, inch *  2)
-            report.drawImage('plot_qsm_%s.png'%zcuts[2], inch * 17, inch * 2)
-            report.drawImage('plot_qsm_%s.png'%zcuts[3], inch * 25, inch * 2)
+                report.drawImage('plot_qsm_%s.png'%zcuts[0], inch * 1, inch *  2)
+                report.drawImage('plot_qsm_%s.png'%zcuts[1], inch * 9, inch *  2)
+                report.drawImage('plot_qsm_%s.png'%zcuts[2], inch * 17, inch * 2)
+                report.drawImage('plot_qsm_%s.png'%zcuts[3], inch * 25, inch * 2)
 
-            report.save()
+                report.save()
 
         # os.system('rm -rf %s/REST.nii'%qcdir)
 
 #make_spatial_qc(['GSNT'], workspace_study_a, verio_patients_a)
-# make_spatial_qc(CONTROLS_QSM_A, workspace_study_a, verio_controls_a)
-# make_spatial_qc(CONTROLS_QSM_B, workspace_study_b, verio_controls_b)
-# make_spatial_qc(PATIENTS_QSM_A, workspace_study_a, verio_patients_a)
-# make_spatial_qc(PATIENTS_QSM_B, workspace_study_b, verio_patients_b)
+# make_spatial_qc(CONTROLS_QSM_A, workspace_study_a, verio_controls_a, 'Controls')
+# make_spatial_qc(CONTROLS_QSM_B, workspace_study_b, verio_controls_b, 'Patients)
+# make_spatial_qc(PATIENTS_QSM_A, workspace_study_a, verio_patients_a, 'Controls')
+# make_spatial_qc(PATIENTS_QSM_B, workspace_study_b, verio_patients_b, 'Patients')
+make_spatial_qc(lemon_population[4:], workspace_study_a, verio_patients_a, 'LEMON')
 

@@ -3,6 +3,27 @@ __author__ = 'kanaan'
 
 import os, errno
 
+
+import numpy as np
+from scipy import ndimage
+from nilearn._utils import as_ndarray, check_niimg_3d# , new_img_like
+from nilearn._utils.ndimage import largest_connected_component
+from nilearn._utils.extmath import fast_abs_percentile
+
+from nilearn._utils.ndimage import largest_connected_component
+from nilearn.image import new_img_like
+from nilearn._utils.extmath import fast_abs_percentile
+from nilearn._utils.numpy_conversions import as_ndarray
+from nilearn._utils import check_niimg_3d
+from nilearn._utils.niimg import _safe_get_data
+from nilearn.image.resampling import get_mask_bounds, coord_transform
+from nilearn.image.image import _smooth_array
+import numbers
+import nibabel as nb
+
+
+
+
 def mkdir_path(path):
     import os
     import errno
@@ -187,23 +208,6 @@ def find_cut_coords(img, mask=None, activation_threshold=None):
     # Return as a list of scalars
     return coords
 
-
-import numpy as np
-from scipy import ndimage
-from nilearn._utils import as_ndarray, check_niimg_3d# , new_img_like
-from nilearn._utils.ndimage import largest_connected_component
-from nilearn._utils.extmath import fast_abs_percentile
-
-from nilearn._utils.ndimage import largest_connected_component
-from nilearn.image import new_img_like
-from nilearn._utils.extmath import fast_abs_percentile
-from nilearn._utils.numpy_conversions import as_ndarray
-from nilearn._utils import check_niimg_3d
-from nilearn._utils.niimg import _safe_get_data
-from nilearn.image.resampling import get_mask_bounds, coord_transform
-from nilearn.image.image import _smooth_array
-import numbers
-import nibabel as nb
 
 def get_affine(img):
     return nb.load(img.get_affine())
