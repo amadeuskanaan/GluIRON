@@ -32,8 +32,9 @@ def make_group_average(population, workspace, popname):
                 ]:
 
         qsm_list = [os.path.join(workspace, subject, 'QSM/%s.nii.gz'%roi) for subject in population]
-        os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
-        os.system('fslmaths concat_%s -Tmean MEAN_%s_%s.nii.gz' %(roi, popname, roi))
+        print qsm_list
+        # os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
+        # os.system('fslmaths concat_%s -Tmean MEAN_%s_%s.nii.gz' %(roi, popname, roi))
 
         # t1_list = [os.path.join(workspace, subject, 'REGISTRATION/T1MAPS_MNI1mm.nii.gz') for subject in population ]
         # os.system('fslmerge -t concat_t1 %s' % ' '.join(t1_list))
@@ -43,7 +44,7 @@ def make_group_average(population, workspace, popname):
         # os.system('fslmerge -t concat_uni %s' % ' '.join(uni_list))
         # os.system('fslmaths concat_uni -Tmean UNI_mean')
         #
-        os.system('rm -rf concat*')
+        # os.system('rm -rf concat*')
 
 make_group_average(lemon_population, datadir, 'LEMON')
 
