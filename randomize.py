@@ -22,21 +22,20 @@ os.chdir(stats_dir)
 
 def make_group_average(population, workspace, popname):
 
-    print 'creating group averages images '
     average_dir = os.path.join(workspace, 'QSM_MEAN_MNI')
     mkdir_path(average_dir)
     os.chdir(average_dir)
 
-    for roi in ['QSM_norm_MNI1mm_STR.', 'QSM_norm_MNI1mm_R_STR', 'QSM_norm_MNI1mm_L_STR'
+    for roi in ['QSM_norm_MNI1mm_STR.', 'QSM_norm_MNI1mm_R_STR', 'QSM_norm_MNI1mm_L_STR',
                 'QSM_norm_MNI1mm_BG',   'QSM_norm_MNI1mm'
                 ]:
+        print 'creating group averages images for', roi
 
         if popname =='LEMON':
             qsm_list = [os.path.join(workspace, 'study_a', subject[9:],  'QSM/%s.nii.gz'%roi) for subject in population]
         elif popname == 'GTS':
             qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
 
-        print qsm_list
         os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
         os.system('fslmaths concat_%s -Tmean MEAN_%s_%s.nii.gz' %(roi, popname, roi))
 
