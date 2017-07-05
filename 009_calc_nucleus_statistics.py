@@ -12,7 +12,7 @@ rois_L = ['L_' + roi for roi in rois]
 rois_R = ['R_' + roi for roi in rois]
 first_rois = rois_L + rois_R
 
-rois = ['SN', 'STN', 'RN', 'DN']
+rois = ['SN', 'STN', 'RN', 'DN', 'GPe', 'GPi']
 rois_L = ['L_' + roi for roi in rois]
 rois_R = ['R_' + roi for roi in rois]
 atak_rois = rois_L + rois_R
