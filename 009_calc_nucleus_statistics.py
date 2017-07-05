@@ -55,7 +55,7 @@ def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', sta
                 ximg = os.path.join(workspace_dir, subject, 'REGISTRATION/T1MAPS2FLASH.nii.gz')
                 img  = os.path.join(workspace_dir, subject, 'REGISTRATION/T1MAPS2FLASH_inv.nii.gz')
                 os.system('fslmaths %s -recip %s'%(ximg, img) )
-                XVAL = 1000
+                XVAL = 1
 
             GM  = os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH_GM.nii.gz.nii.gz')
             gmmu = float(commands.getoutput('fslstats %s -k %s %s' % (img, GM,stat_type)))
@@ -73,7 +73,14 @@ def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', sta
             for roi in first_rois:
                 nucleus = os.path.join(workspace_dir, subject, 'SEGMENTATION/FIRST/FIRST_HYBRID-%s_first.nii.gz'%roi)
                 mu =  float(commands.getoutput('fslstats %s -k %s %s' %(img, nucleus,stat_type))) * XVAL
-                print roi, mu
+                print roi, mu * 1000
+                stats_df.loc[subject][roi] = mu
+
+            print '....extracting susceptibility from ATAK'
+            for roi in atak_rois:
+                nucleus = os.path.join(workspace_dir, subject, 'SEGMENTATION/ATAK/%s.nii.gz' % roi)
+                mu = float(commands.getoutput('fslstats %s -k %s %s' % (img, nucleus, stat_type))) * XVAL
+                print roi, mu * 1000
                 stats_df.loc[subject][roi] = mu
 
             # print '....extracting susceptibility from FREESURFER'
@@ -93,12 +100,6 @@ def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', sta
             #    print roi, mu
             #    stats_df.loc[subject][roi] = mu
 
-            print '....extracting susceptibility from ATAK'
-            for roi in atak_rois:
-                nucleus = os.path.join(workspace_dir, subject, 'SEGMENTATION/ATAK/%s.nii.gz' % roi)
-                mu = float(commands.getoutput('fslstats %s -k %s %s' % (img, nucleus, stat_type))) * XVAL
-                print roi, mu
-                stats_df.loc[subject][roi] = mu
 
             #print '....extracting susceptibility from SUIT'
             #for roi in suit_rois:
