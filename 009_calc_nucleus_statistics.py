@@ -55,7 +55,7 @@ def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', sta
                 ximg = os.path.join(workspace_dir, subject, 'REGISTRATION/T1MAPS2FLASH.nii.gz')
                 img  = os.path.join(workspace_dir, subject, 'REGISTRATION/T1MAPS2FLASH_inv.nii.gz')
                 os.system('fslmaths %s -recip %s'%(ximg, img) )
-                XVAL = 1
+                XVAL = 1000
 
             GM  = os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH_GM.nii.gz.nii.gz')
             gmmu = float(commands.getoutput('fslstats %s -k %s %s' % (img, GM,stat_type)))
