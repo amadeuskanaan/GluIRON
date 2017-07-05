@@ -5,6 +5,17 @@ import commands
 from variables import *
 import pandas as pd
 from utils.utils import mkdir_path
+from variables_lemon import *
+
+rois = ['Caud', 'Puta', 'Pall', 'Amyg', 'Hipp', 'Accu', 'Thal']
+rois_L = ['L_' + roi for roi in rois]
+rois_R = ['R_' + roi for roi in rois]
+first_rois = rois_L + rois_R
+
+rois = ['SN', 'STN', 'RN', 'DN']
+rois_L = ['L_' + roi for roi in rois]
+rois_R = ['R_' + roi for roi in rois]
+atak_rois = rois_L + rois_R
 
 def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean'):
     print '########################################################'
