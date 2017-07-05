@@ -3,9 +3,9 @@ import os
 import pandas as pd
 from utils.utils import mkdir_path
 from variables_lemon import *
+from variables import *
 
 datadir = '/scr/malta3/workspace/project_iron/'
-
 
 df_controls = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_controls.csv'), index_col = 0)
 df_patients = pd.read_csv(os.path.join(datadir, 'phenotypic/qsm_patients.csv'), index_col = 0)
@@ -46,7 +46,7 @@ def make_group_average(population, workspace, popname):
         #
         os.system('rm -rf concat*')
 
-make_group_average(lemon_population, workspace_study_a)
+make_group_average(lemon_population, datadir)
 
 
 
