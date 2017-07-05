@@ -34,7 +34,10 @@ def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', sta
         # print '----------------------------------------'
         print '--------%s.Calculating Nucleus stats for %s'%(count, subject)
         # print '----------------------------------------'
-        if not os.path.isfile(os.path.join(workspace_dir, subject, 'NUCLEUS_STATISTICS', 'nucleus_stats_%s.csv' %outname )):
+
+        stats_dir_name = 'NUCLEUS_STATISTICS_JULY'
+
+        if not os.path.isfile(os.path.join(workspace_dir, subject, stats_dir_name , 'nucleus_stats_%s.csv' %outname )):
 
             if popname == 'GTS':
                 stats_df = pd.DataFrame(columns = first_rois + fs_rois + atak_rois + ['MRS_ACC', 'MRS_THA', 'MRS_STR'] + ['GM', 'WM', 'CSF'], index = ['%s'%subject])
@@ -121,7 +124,7 @@ def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', sta
             #     print roi, mu
             #     stats_df.loc[subject]['MRS_%s' % roi] = mu
 
-            stats_dir   = os.path.join(workspace_dir, subject, 'NUCLEUS_STATISTICS_JULY')
+            stats_dir   = os.path.join(workspace_dir, subject, stats_dir_name)
             mkdir_path(stats_dir)
 
             stats_df.ix[subject, 'Caud']  = np.mean((stats_df.loc['%s'%subject]['L_Caud'], stats_df.loc['%s'%subject]['R_Caud']))
