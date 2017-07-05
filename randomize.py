@@ -20,6 +20,26 @@ df = pd.concat([df_controls, df_patients], axis =0)
 stats_dir = mkdir_path(os.path.join(datadir, 'statistics_norm'))
 os.chdir(stats_dir)
 
+lemon_matches = [
+    'LEMON141',
+    'LEMON129', 'LEMON179',
+    'LEMON210', 'LEMON185', #'LEMON183',
+    'LEMON133', 'LEMON188',
+    'LEMON148', 'LEMON140',
+    'LEMON198', 'LEMON177', #'LEMON196', #'LEMON216',
+    'LEMON213', 'LEMON119', #'LEMON209', #'LEMON194', 'LEMON182',
+    'LEMON123',
+    'LEMON174', 'LEMON178', 'LEMON176',
+    'LEMON123',
+    'LEMON149',
+    'LEMON120', 'LEMON223',
+    'LEMON117',
+    'LEMON168',
+    'LEMON124', 'LEMON126'
+ ]
+
+
+
 def make_group_average(population, workspace, popname):
 
     average_dir = os.path.join(workspace, 'QSM_MEAN_MNI')
@@ -27,18 +47,20 @@ def make_group_average(population, workspace, popname):
     os.chdir(average_dir)
 
     for roi in [
-                # 'QSM_norm_MNI1mm_STR.',
+                'QSM_norm_MNI1mm',
+                # 'QSM_norm_MNI1mm_STR',
                 # 'QSM_norm_MNI1mm_R_STR',
                 # 'QSM_norm_MNI1mm_L_STR',
                 # 'QSM_norm_MNI1mm_BG',
-                'QSM_norm_MNI1mm'
                 ]:
-        print 'creating group averages images for', roi
 
-        if popname =='LEMON':
-            qsm_list = [os.path.join(workspace, 'study_a', subject[9:],  'QSM/%s.nii.gz'%roi) for subject in population]
-        elif popname == 'GTS':
-            qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
+        print '############################################'
+        print 'Creating group averages images for', roi
+
+        # if popname =='LEMON':
+        qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
+        # elif popname == 'GTS':
+        #     qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
 
         os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
         os.system('fslmaths concat_%s -Tmean MEAN_%s_%s.nii.gz' %(roi, popname, roi))
@@ -53,7 +75,7 @@ def make_group_average(population, workspace, popname):
         #
         os.system('rm -rf concat*')
 
-make_group_average(lemon_population, datadir, 'LEMON')
+make_group_average(lemon_matches, datadir, 'LEMON')
 
 
 

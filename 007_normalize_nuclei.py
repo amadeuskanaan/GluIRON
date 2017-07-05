@@ -78,14 +78,14 @@ def make_normalize(population, workspace_dir, popname ):
         for roi in atak_rois:
             normalize_roi(roi, 'ATAK')
 
-        if not os.path.isfile(os.path.join(roi_dir,'MNI_BG.nii.gz')):
+        if not os.path.isfile(os.path.join(roi_dir,'MNI_BGx.nii.gz')):
             os.chdir(roi_dir)
             os.system('fslmaths MNI1mm_L_Caud -add MNI1mm_L_Puta MNI1mm_L_STR')
             os.system('fslmaths MNI1mm_R_Caud -add MNI1mm_R_Puta MNI1mm_R_STR')
             os.system('fslmaths MNI1mm_L_STR -add MNI1mm_R_STR MNI1mm_STR')
-            os.system('fslmaths MNI1mm_STR -add MNI1mm_L_Pall -add MNI1mm_L_Pall MNI_BG')
+            os.system('fslmaths MNI1mm_STR -add MNI1mm_L_Pall -add MNI1mm_R_Pall MNI_BG')
 
-        if not os.path.isfile(os.path.join(qsm_dir, 'QSM_norm_MNI1mm_BG.nii.gz')):
+        if not os.path.isfile(os.path.join(qsm_dir, 'QSM_norm_MNI1mm_BGx.nii.gz')):
             os.chdir(qsm_dir)
             os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_L_STR QSM_norm_MNI1mm_L_STR'%roi_dir)
             os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_R_STR QSM_norm_MNI1mm_R_STR'%roi_dir)
