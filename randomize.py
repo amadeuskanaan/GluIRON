@@ -31,9 +31,8 @@ def make_group_average(population, workspace, popname):
                 'QSM_norm_MNI1mm_BG',   'QSM_norm_MNI1mm'
                 ]:
 
-
         if popname =='LEMON':
-            qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject[9:] in population]
+            qsm_list = [os.path.join(workspace, 'study_a', subject[9:],  'QSM/%s.nii.gz'%roi) for subject in population]
         elif popname == 'GTS':
             qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
 
