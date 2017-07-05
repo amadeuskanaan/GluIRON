@@ -6,31 +6,39 @@ from variables import *
 import pandas as pd
 from utils.utils import mkdir_path
 
-def get_nucleus_stats(population, workspace_dir, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean'):
+def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean'):
     print '########################################################'
     print '#############            %s-%s            ##############'%(outname, workspace_dir[-1])
     print '########################################################'
 
     count = 0
-    for subject in population:
+    for subject_id in population:
+
+        if popname == 'LEMON':
+            subject = subject_id[9:]
+        else:
+            subject = subject_id
+
         count +=1
         # print '----------------------------------------'
         print '--------%s.Calculating Nucleus stats for %s'%(count, subject)
         # print '----------------------------------------'
         if not os.path.isfile(os.path.join(workspace_dir, subject, 'NUCLEUS_STATISTICS', 'nucleus_stats_%s.csv' %outname )):
 
-            #stats_df = pd.DataFrame(columns = first_rois + fs_rois + atag_rois + suit_rois + ['MRS_ACC', 'MRS_THA', 'MRS_STR'] + ['GM', 'WM', 'CSF'], index = ['%s'%subject])
-            stats_df = pd.DataFrame(columns = first_rois + fs_rois + atak_rois + ['MRS_ACC', 'MRS_THA', 'MRS_STR'] + ['GM', 'WM', 'CSF'], index = ['%s'%subject])
+            if popname == 'GTS':
+                stats_df = pd.DataFrame(columns = first_rois + fs_rois + atak_rois + ['MRS_ACC', 'MRS_THA', 'MRS_STR'] + ['GM', 'WM', 'CSF'], index = ['%s'%subject])
+            elif popname == 'LEMON':
+                stats_df = pd.DataFrame(columns = first_rois + atak_rois + ['GM', 'WM', 'CSF'], index = ['%s'%subject])
 
-            # if input_img  == 'QSM':
-            #     img = os.path.join(workspace_dir, subject, 'QSM', 'QSM_norm.nii')
+            if input_img  == 'QSM':
+                img = os.path.join(workspace_dir, subject, 'QSM', 'QSM_norm.nii')
+                XVAL = 1
             #     qsm_    = os.path.join(workspace_dir, subject, 'QSM', 'QSM.nii')
             #     LVpath = os.path.join(workspace_dir, subject, 'REGISTRATION/FLASH_LV_constricted.nii.gz.nii.gz')
             #     LVmu = float(commands.getoutput('fslstats %s -k %s %s' % (qsm_, LVpath, stat_type)))
             #     print LVmu
             #     # normalized QSM to Lateratal ventricles
             #     os.system('fslmaths %s -sub %s %s ' %(qsm_, LVmu, img))
-            #     XVAL = 1
 
             if input_img == 'T1MAPS':
                 ximg = os.path.join(workspace_dir, subject, 'REGISTRATION/T1MAPS2FLASH.nii.gz')
@@ -57,15 +65,15 @@ def get_nucleus_stats(population, workspace_dir, input_img = 'QSM', stat_type = 
                 print roi, mu
                 stats_df.loc[subject][roi] = mu
 
-            print '....extracting susceptibility from FREESURFER'
-            for roi in fs_rois:
-                nucleus = os.path.join(workspace_dir, subject, 'SEGMENTATION/FREESURFER/%s.nii.gz'% roi)
-                if nb.load(nucleus).get_data().max() != 0:
-                    mu = float(commands.getoutput('fslstats %s -k %s %s' % (img, nucleus,stat_type))) * XVAL
-                else:
-                    mu = np.nan
-                print roi, mu
-                stats_df.loc[subject][roi] = mu
+            # print '....extracting susceptibility from FREESURFER'
+            # for roi in fs_rois:
+            #     nucleus = os.path.join(workspace_dir, subject, 'SEGMENTATION/FREESURFER/%s.nii.gz'% roi)
+            #     if nb.load(nucleus).get_data().max() != 0:
+            #         mu = float(commands.getoutput('fslstats %s -k %s %s' % (img, nucleus,stat_type))) * XVAL
+            #     else:
+            #         mu = np.nan
+            #     print roi, mu
+            #     stats_df.loc[subject][roi] = mu
 
             # print '....extracting susceptibility from ATAG'
             # for roi in atag_rois:
@@ -91,17 +99,17 @@ def get_nucleus_stats(population, workspace_dir, input_img = 'QSM', stat_type = 
             #    print roi, mu
             #    stats_df.loc[subject][roi] = mu
 
-            print '....extracting susceptibility from MRS rois'
-            for roi in mrs_rois:
-                nucleus = os.path.join(workspace_dir, subject, 'SEGMENTATION/MRS/%s/%s_FLASH_BIN.nii.gz' % (roi,roi))
-                if os.path.isfile(nucleus):
-                    mu = float(commands.getoutput('fslstats %s -k %s %s' % (img, nucleus, stat_type))) * XVAL
-                else:
-                    mu = np.nan
-                print roi, mu
-                stats_df.loc[subject]['MRS_%s' % roi] = mu
+            # print '....extracting susceptibility from MRS rois'
+            # for roi in mrs_rois:
+            #     nucleus = os.path.join(workspace_dir, subject, 'SEGMENTATION/MRS/%s/%s_FLASH_BIN.nii.gz' % (roi,roi))
+            #     if os.path.isfile(nucleus):
+            #         mu = float(commands.getoutput('fslstats %s -k %s %s' % (img, nucleus, stat_type))) * XVAL
+            #     else:
+            #         mu = np.nan
+            #     print roi, mu
+            #     stats_df.loc[subject]['MRS_%s' % roi] = mu
 
-            stats_dir   = os.path.join(workspace_dir, subject, 'NUCLEUS_STATISTICS')
+            stats_dir   = os.path.join(workspace_dir, subject, 'NUCLEUS_STATISTICS_JULY')
             mkdir_path(stats_dir)
 
             stats_df.ix[subject, 'Caud']  = np.mean((stats_df.loc['%s'%subject]['L_Caud'], stats_df.loc['%s'%subject]['R_Caud']))
@@ -147,7 +155,7 @@ def get_nucleus_stats(population, workspace_dir, input_img = 'QSM', stat_type = 
 # get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
 # get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
 # get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
-# get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')#
+# get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-P 50', outname = 'QSM_median')
 #
 # get_nucleus_stats(CONTROLS_QSM_A, workspace_study_a, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
 # get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'QSM', stat_type = '-M', outname = 'QSM_mean')
@@ -163,4 +171,5 @@ def get_nucleus_stats(population, workspace_dir, input_img = 'QSM', stat_type = 
 # get_nucleus_stats(CONTROLS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
 # get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
 # get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
-#
+
+get_nucleus_stats(['LEMON891/LEMON113',], workspace_study_a,'LEMON',  'QSM', '-P 50', outname = 'QSM_median')
