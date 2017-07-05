@@ -31,7 +31,7 @@ def make_group_average(population, workspace, popname):
                 'QSM_norm_MNI1mm_BG',   'QSM_norm_MNI1mm'
                 ]:
 
-        qsm_list = [os.path.join(workspace, subject, 'QSM/%s.nii.gz'%roi) for subject in population]
+        qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
         print qsm_list
         # os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
         # os.system('fslmaths concat_%s -Tmean MEAN_%s_%s.nii.gz' %(roi, popname, roi))
