@@ -184,4 +184,4 @@ def get_nucleus_stats(population, workspace_dir, popname, input_img = 'QSM', sta
 # get_nucleus_stats(PATIENTS_QSM_A, workspace_study_a, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
 # get_nucleus_stats(PATIENTS_QSM_B, workspace_study_b, input_img = 'T1MAPS', stat_type = '-M', outname = 'R1_mean')
 
-get_nucleus_stats(['LEMON891/LEMON113',], workspace_study_a,'LEMON',  'QSM', '-P 50', outname = 'QSM_median')
+get_nucleus_stats(lemon_population, workspace_study_a,'LEMON',  'QSM', '-P 50', outname = 'QSM_median')
