@@ -46,7 +46,7 @@ def make_group_average(population, workspace, popname):
         #
         os.system('rm -rf concat*')
 
-make_group_average(lemon_population, datadir)
+make_group_average(lemon_population, datadir, 'LEMON')
 
 
 
