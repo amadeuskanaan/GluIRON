@@ -78,28 +78,37 @@ def make_normalize(population, workspace_dir, popname ):
         for roi in atak_rois:
             normalize_roi(roi, 'ATAK')
 
-        if not os.path.isfile(os.path.join(roi_dir,'MNI_BGx.nii.gz')):
+        if not os.path.isfile(os.path.join(roi_dir,'MNI_BG.nii.gz')):
             os.chdir(roi_dir)
             os.system('fslmaths MNI1mm_L_Caud -add MNI1mm_L_Puta MNI1mm_L_STR')
             os.system('fslmaths MNI1mm_R_Caud -add MNI1mm_R_Puta MNI1mm_R_STR')
             os.system('fslmaths MNI1mm_L_STR -add MNI1mm_R_STR MNI1mm_STR')
             os.system('fslmaths MNI1mm_STR -add MNI1mm_L_Pall -add MNI1mm_R_Pall MNI_BG')
 
-        if not os.path.isfile(os.path.join(qsm_dir, 'QSM_norm_MNI1mm_BGx.nii.gz')):
+        if not os.path.isfile(os.path.join(roi_dir, 'MNI_BS.nii.gz')):
+            os.chdir(roi_dir)
+            os.system('fslmaths MNI1mm_L_STN -add MNI1mm_L_SN -add MNI1mm_L_RN MNI1mm_L_BS')
+            os.system('fslmaths MNI1mm_R_STN -add MNI1mm_R_SN -add MNI1mm_R_RN MNI1mm_R_BS')
+            os.system('fslmaths MNI1mm_L_BS -add MNI1mm_R_BS  MNI1mm_BS')
+            os.system('fslmaths MNI1mm_BS -add MNI_BG  MNI1mm_subcortical')
+
+        if not os.path.isfile(os.path.join(qsm_dir, 'QSM_norm_MNI1mm_subcortical.nii.gz')):
             os.chdir(qsm_dir)
-            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_L_STR QSM_norm_MNI1mm_L_STR'%roi_dir)
-            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_R_STR QSM_norm_MNI1mm_R_STR'%roi_dir)
-            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_STR QSM_norm_MNI1mm_STR'%roi_dir)
-            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI_BG QSM_norm_MNI1mm_BG'%roi_dir)
+            # os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_L_STR QSM_norm_MNI1mm_L_STR'%roi_dir)
+            # os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_R_STR QSM_norm_MNI1mm_R_STR'%roi_dir)
+            # os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_STR QSM_norm_MNI1mm_STR'%roi_dir)
+            # os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI_BG QSM_norm_MNI1mm_BG'%roi_dir)
+
+            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_BS QSM_norm_MNI1mm_BS'%roi_dir)
+            os.system('fslmaths QSM_norm_MNI1mm -mul %s/MNI1mm_subcortical QSM_norm_MNI1mm_subcortical'%roi_dir)
 
 # make_normalize(lemon_population, workspace_study_a, 'LEMON')
-# make_normalize(CONTROLS_QSM_A, workspace_study_a, 'Controls')
-# make_normalize(PATIENTS_QSM_A, workspace_study_a, 'Patients')
+make_normalize(CONTROLS_QSM_A, workspace_study_a, 'Controls')
+make_normalize(PATIENTS_QSM_A, workspace_study_a, 'Patients')
+# make_normalize(['BATP'], workspace_study_a, 'Patients')
 make_normalize(lemon_population, workspace_study_a, 'LEMON')
 
-
-
-    # if not os.path.isfile('QSM_MNI1mm_norm.nii.gz'):
+    #     if not os.path.isfile('QSM_MNI1mm_norm.nii.gz'):
     #     os.system( 'flirt -in FLASH_LV_constricted -ref %s -applyxfm -init FLASH/FLASH2MP2RAGE.mat -out MP2RAGE_LV_constricted.nii.gz' % (unipp))
     #     os.system('WarpImageMultiTransform 3 MP2RAGE_LV_constricted.nii.gz MNI1mm_LV_constricted.nii.gz -R %s MNI/MP2RAGE2MNI_warp.nii.gz MNI/MP2RAGE2MNI_affine.mat' % (mni_brain_1mm))
     #     os.system('fslmaths MNI1mm_LV_constricted.nii.gz -thr 0.2 -bin MNI1mm_LV_constricted_bin.nii.gz')
@@ -191,7 +200,3 @@ make_normalize(lemon_population, workspace_study_a, 'LEMON')
     # mkdir_path(os.path.join(reg_dir_, 'abs'))
     # for i in imgs:
     #     os.system('fslmaths %s -abs -log -abs abs/%s_log_abs' % (i, i))
-    #
-    #
-    #
-    #

@@ -83,8 +83,8 @@ def get_atak_nuclei(population, workspace_dir, popname):
 
 # get_atak_nuclei(['HM1X'], workspace_study_a, 'Controls')
 # get_atak_nuclei(CONTROLS_QSM_A, workspace_study_a, 'Controls')
-# get_atak_nuclei(PATIENTS_QSM_A, workspace_study_a, 'Patients')
+get_atak_nuclei(PATIENTS_QSM_A, workspace_study_a, 'Patients')
 # get_atak_nuclei(CONTROLS_QSM_B, workspace_study_b, 'Controls')
 # get_atak_nuclei(PATIENTS_QSM_B, workspace_study_b, 'Patients')
-get_atak_nuclei(lemon_population, workspace_study_a, 'LEMON')
+# get_atak_nuclei(lemon_population, workspace_study_a, 'LEMON')
 # get_atak_nuclei(['LEMON891/LEMON113'], workspace_study_a, 'LEMON')

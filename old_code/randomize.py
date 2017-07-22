@@ -46,21 +46,26 @@ def make_group_average(population, workspace, popname):
     mkdir_path(average_dir)
     os.chdir(average_dir)
 
+
+
+
     for roi in [
-                'QSM_norm_MNI1mm',
+                # 'QSM_norm_MNI1mm',
                 # 'QSM_norm_MNI1mm_STR',
                 # 'QSM_norm_MNI1mm_R_STR',
                 # 'QSM_norm_MNI1mm_L_STR',
                 # 'QSM_norm_MNI1mm_BG',
+                'QSM_norm_MNI1mm_BS',
+                'QSM_norm_MNI1mm_subcortical',
                 ]:
 
         print '############################################'
         print 'Creating group averages images for', roi
 
-        # if popname =='LEMON':
-        qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
-        # elif popname == 'GTS':
-        #     qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
+        if popname =='LEMON':
+            qsm_list = [os.path.join(workspace, 'study_a', subject[9:],  'QSM/%s.nii.gz'%roi) for subject in population]
+        else:
+            qsm_list = [os.path.join(workspace, 'study_a', subject,  'QSM/%s.nii.gz'%roi) for subject in population]
 
         os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
         os.system('fslmaths concat_%s -Tmean MEAN_%s_%s.nii.gz' %(roi, popname, roi))
@@ -75,7 +80,10 @@ def make_group_average(population, workspace, popname):
         #
         os.system('rm -rf concat*')
 
-make_group_average(lemon_matches, datadir, 'LEMON')
+make_group_average(lemon_population, datadir, 'LEMON')
+# make_group_average(CONTROLS_QSM_A, datadir, 'Controls')
+# make_group_average(PATIENTS_QSM_A, datadir, 'Patients')
+
 
 
 
@@ -125,14 +133,14 @@ def run_randomise():
     print qsm_list
     os.system('fslmerge -t concat_qsm.nii.gz %s' % ' '.join(qsm_list))
     os.system('fslmaths concat_qsm -Tmean mean')
-    # input_file = os.path.join(stats_dir, 'concat_qsm.nii.gz')
-    #
-    # con_file = os.path.join(stats_dir, 'design.con')
-    # mat_file = os.path.join(stats_dir, 'design.mat')
-    #
-    # os.system('randomise -i %s -o randomise -d %s -t %s -R'
-    #           % (input_file, mat_file, con_file))
+    input_file = os.path.join(stats_dir, 'concat_qsm.nii.gz')
 
+    con_file = os.path.join(stats_dir, 'design.con')
+    mat_file = os.path.join(stats_dir, 'design.mat')
+
+    os.system('randomise -i %s -o randomise -d %s -t %s -R'
+              % (input_file, mat_file, con_file))
+#
 # prep_fsl_glm(df)
 # run_randomise()
 
