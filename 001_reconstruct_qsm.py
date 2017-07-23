@@ -115,20 +115,20 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
 
         print subject
 
-        # recon_dir = mkdir_path(os.path.join(workspace, subject, 'QSM'))
-        # os.chdir(recon_dir)
+        recon_dir = mkdir_path(os.path.join(workspace, subject, 'QSM'))
+        os.chdir(recon_dir)
 
-        # print '.....Combining Multi-Channel Data '
-        #
-        # if not os.path.isfile('FLASH_PHASE.nii'):
-        #     phase = os.path.join(recon_dir, 'all_partitions_phase.nii.gz')
-        #     mag   = os.path.join(recon_dir, 'all_partitions_magnitude.nii.gz')
-        #     combine_coils_svd(phase, mag , num_svd=16, num_acs=24)
-        #
-        # print 'Calculating Quantitative Susceptibility map'
-        #
-        # if not os.path.isfile('QSM.nii'):
-        #     os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
+        print '.....Combining Multi-Channel Data '
+
+        if not os.path.isfile('FLASH_PHASE.nii'):
+            phase = os.path.join(recon_dir, 'all_partitions_phase.nii.gz')
+            mag   = os.path.join(recon_dir, 'all_partitions_magnitude.nii.gz')
+            combine_coils_svd(phase, mag , num_svd=16, num_acs=24)
+
+        print 'Calculating Quantitative Susceptibility map'
+
+        if not os.path.isfile('QSM.nii'):
+            os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
 
 reconstruct_qsm(['BATP'], afs_patients, workspace_study_a, 'GTS')
