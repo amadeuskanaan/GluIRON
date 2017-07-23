@@ -92,4 +92,4 @@ def make_reg(population, workspace_dir):
                 anat2mni.run()
 
 
-make_reg(['BATP', 'LEMON113'], workspace_iron)
+make_reg(['BATP'], workspace_iron)
