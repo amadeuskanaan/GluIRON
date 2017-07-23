@@ -14,7 +14,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
         if pop_name == 'GTS':
             subject   = subject_id
             dicom_dir = os.path.join(afs_dir, pop_name, subject, 'DICOM')
-            qsm_dir   = os.path.join(afs_dir, pop_name, subject, 'QSM_NIFTI')
+            qsm_dir   = glob.glob(os.path.join(afs_dir, subject, 'QSM_NIFTI/*/*'))
 
         elif pop_name == 'LEMON':
             subject   = subject_id[9:]
@@ -45,7 +45,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
 
         # Grab QSM multi-channel data
 
-make_nifti(['BATP'], afs_controls, workspace_study_a, 'GTS')
+make_nifti(['BATP'], afs_patients, workspace_study_a, 'GTS')
 make_nifti(['LEMON891/LEMON113'], afs_lemon, workspace_study_a, 'LEMON')
 
 
