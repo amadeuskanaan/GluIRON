@@ -37,7 +37,7 @@ def make_reg(population, workspace_dir):
 
         # Transform MP2RAGE to FLASH space
         if not os.path.isfile('../MP2RAGE2FLASH_BRAIN.nii.gz'):
-            os.system('flirt  -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out ../MP2RAGE2FLASH_BRAIN.nii '
+            os.system('flirt  -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out ../MP2RAGE2FLASH_BRAIN '
                       '-omat MP2RAGE2FLASH.mat -dof 6 -cost corratio' %uni)
 
         # Transform FLASH to MP2RAGE space
