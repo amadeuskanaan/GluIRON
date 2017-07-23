@@ -40,4 +40,4 @@ def make_reg(population, workspace_dir):
         # Creating
 
 
-make_reg(['BATP', 'LEMON113'], workspace_dir)
+make_reg(['BATP', 'LEMON113'], workspace_study_a)
