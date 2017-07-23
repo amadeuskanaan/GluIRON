@@ -26,10 +26,8 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
 
         raw_dir   = mkdir_path(os.path.join(workspace_dir, subject, 'RAW'))
         raw_uni  = mkdir_path(os.path.join(raw_dir, 'uni'))
-        raw_qsm   = mkdir_path(os.path.join(raw_dir, 'qsm'))
         anat_dir  = mkdir_path(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
         qsm_dir   = mkdir_path(os.path.join(workspace_dir, subject, 'QSM'))
-
 
         ##############################################
         #  Copy mp2rage_uni data
