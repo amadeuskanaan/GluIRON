@@ -5,7 +5,7 @@ afs_dir = '/a/projects/nmr093'
 afs_lemon = '/a/projects/nro109_lemon/probands/'
 
 
-def get_qsm_subject_list(afs_dir, study_id, population):
+def map_gts_subjects(afs_dir, study_id, population):
     afs_dir = '%s%s/%s' % (afs_dir, study_id, population)
     subjects = [subject for subject in os.listdir(afs_dir) if
                 os.path.isdir(os.path.join(afs_dir, subject, 'QSM_NIFTI'))]
@@ -20,11 +20,6 @@ def get_qsm_subject_list(afs_dir, study_id, population):
     print 'QSM_NIFTI %s - study_%s - %s' % (population, study_id, len(qsm_subjects))
 
 
-get_qsm_subject_list(afs_dir, 'a', 'probands')
-get_qsm_subject_list(afs_dir, 'b', 'probands')
-
-get_qsm_subject_list(afs_dir, 'a', 'patients')
-get_qsm_subject_list(afs_dir, 'b', 'patients')
 
 
 def map_lemon_subjects(afs):
@@ -38,3 +33,10 @@ def map_lemon_subjects(afs):
                     if os.path.isdir(gre_dir):
                         GRE_subjects.append(gre_dir)
                         print gre_dir[34:51]
+
+
+map_gts_subjects(afs_dir, 'a', 'probands')
+map_gts_subjects(afs_dir, 'b', 'probands')
+map_gts_subjects(afs_dir, 'a', 'patients')
+map_gts_subjects(afs_dir, 'b', 'patients')
+map_lemon_subjects(afs_lemon)
