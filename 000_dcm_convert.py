@@ -53,7 +53,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
             for uni in uni_imgs:
                 shutil.copy(uni, raw_uni)
 
-            os.system('isisconv -in %s -out %s/UNI.nii -rf dcm -wdialect fsl' %(raw_uni, anat_dir, subject))
+            os.system('isisconv -in %s -out %s/UNI.nii -rf dcm -wdialect fsl' %(raw_uni, anat_dir))
 
 
         ##############################################
