@@ -95,7 +95,7 @@ def make_reg(population, workspace_dir):
 
         def antsApplyTransforms(input,output):
             os.system('antsApplyTransforms -d 3 -i %s -o %s -r %s -n Linear '
-                      '-t MNI/transform1Warp.nii.gz /MNItransform0GenericAffine.mat'
+                      '-t MNI/transform1Warp.nii.gz /MNI/transform0GenericAffine.mat'
                       % (input, output, mni_brain_1mm))
 
         antsApplyTransforms('FLASH2MP2RAGE_BRAIN.nii.gz', 'FLASH2MNI.nii.gz')
