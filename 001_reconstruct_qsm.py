@@ -101,6 +101,7 @@ def get_nodding_angle(dicomdir):
 def reconstruct_qsm(population, afsdir, workspace, popname):
     for subject_id in population:
 
+
         if popname == 'GTS':
             subject = subject_id
             nodding_angle = get_nodding_angle(os.path.join(afsdir, subject, 'DICOM'))
@@ -112,7 +113,8 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
                 line = pydicom.read_file(dcm)[0x0051, 0x100e].value
                 nodding_angle = line[line.index('(') + 1:line.index(')', line.index('('))]
 
-        print 'Nodding Angle=', nodding_angle
+        print subject
+
         # recon_dir = mkdir_path(os.path.join(workspace, subject, 'QSM'))
         # os.chdir(recon_dir)
 
