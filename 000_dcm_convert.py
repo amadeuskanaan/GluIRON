@@ -51,7 +51,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
                     except AttributeError:
                         continue
                     if 'mp2rage' in SeriesDescription:
-                        mp2rage_list.append(dicom)
+                        uni_imgs.append(dicom)
 
             elif pop_name == 'LEMON':
                 uni_imgs = [os.path.join(dicom_dir, dicom) for dicom in os.listdir(dicom_dir)]
