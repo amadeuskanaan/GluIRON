@@ -51,7 +51,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
                 uni_imgs = [os.path.join(dicom_dir, dicom) for dicom in os.listdir(dicom_dir)]
 
             for uni in uni_imgs:
-                shutil.copy(uni, raw_anat)
+                shutil.copy(uni, raw_uni)
 
             os.system('isisconv -in %s -out %s/UNI.nii -rf dcm -wdialect fsl' %(raw_uni, anat_dir, subject))
 
