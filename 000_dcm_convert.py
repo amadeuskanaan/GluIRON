@@ -15,7 +15,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
         if pop_name == 'GTS':
             subject     = subject_id
             dicom_dir   = os.path.join(afs_dir, subject, 'DICOM')
-            qsm_mc_dir  = glob.glob(os.path.join(afs_dir, subject, 'QSM_NIFTI/*/*'))
+            qsm_mc_dir  = glob.glob(os.path.join(afs_dir, subject, 'QSM_NIFTI/*/*'))[0]
 
         elif pop_name == 'LEMON':
             subject      = subject_id[9:]
@@ -70,8 +70,6 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
         ##############################################
 
         print '....Creating FLASH 4D Multichannel image'
-
-        print qsm_mc_dir
 
         os.chdir(qsm_dir)
         orientation = '-y -x z'
