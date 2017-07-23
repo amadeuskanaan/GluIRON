@@ -11,27 +11,38 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
 
     for subject_id in population:
 
+        # I/O
         if pop_name == 'GTS':
-            subject   = subject_id
-            dicom_dir = os.path.join(afs_dir, pop_name, subject, 'DICOM')
-            qsm_dir   = glob.glob(os.path.join(afs_dir, subject, 'QSM_NIFTI/*/*'))
+            subject     = subject_id
+            dicom_dir   = os.path.join(afs_dir, pop_name, subject, 'DICOM')
+            qsm_mc_dir  = glob.glob(os.path.join(afs_dir, subject, 'QSM_NIFTI/*/*'))
 
         elif pop_name == 'LEMON':
-            subject   = subject_id[9:]
-            dicom_dir = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni')
-            qsm_dir   = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))[0]
+            subject      = subject_id[9:]
+            dicom_dir    = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni')
+            qsm_mc_dir   = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))[0]
+
+        print 'Converting DICOM to nifti for Subject:', subject
+
+        raw_dir   = mkdir_path(workspace_dir, subject, 'RAW')
+        raw_anat  = mkdir_path(raw_dir, 'uni')
+        raw_qsm   = mkdir_path(raw_dir, 'qsm')
+        anat_dir  = mkdir_path(workspace_dir, subject, 'ANATOMICAL')
+        qsm_dir   = mkdir_path(workspace_dir, subject, 'QSM')
 
 
-        print subject
-        print dicom_dir
-        print qsm_dir
+        # Copy mp2rage_uni data
+        if pop_name ==  'GTS':
+            dicoms = [os.path.join(dicom_dir, dicom) for dicom in os.listdir(dicom_dir)]
+            uni_imgs = [dicom for dicom in dicoms if'UNI_Images' in pydicom.read_file(dicom, force=True).SeriesDescription]
 
-        # print 'Converting DICOM to nifti for Subject:', subject
-        #
-        # # I/O
-        # anat_dir  = mkdir_path(workspace_dir, subject, 'ANATOMICAL/DICOM')
-        # qsm_dir   = mkdir_path(workspace_dir, subject, 'QSM')
-        #
+        elif pop_name == 'GTS'
+            uni_imgs = [os.path.join(dicom_dir, dicom) for dicom in os.listdir(dicom_dir)]
+
+
+        print uni_imgs
+
+
         # # Grab MP2RAGE DATA
         # if pop_name == 'GTS':
         #
