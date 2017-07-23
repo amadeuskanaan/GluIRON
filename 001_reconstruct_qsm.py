@@ -126,5 +126,5 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
         #     os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
 
-reconstruct_qsm(['BATP'], afs_patients, workspace_study_a)
-reconstruct_qsm(['LEMON891/LEMON113'], afs_lemon, workspace_study_a)
+reconstruct_qsm(['BATP'], afs_patients, workspace_study_a, 'GTS')
+reconstruct_qsm(['LEMON891/LEMON113'], afs_lemon, workspace_study_a, 'LEMON')
