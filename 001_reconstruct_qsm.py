@@ -107,7 +107,7 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
             nodding_angle = get_nodding_angle(os.path.join(afsdir, subject, 'DICOM'))
         elif popname == 'LEMON':
             subject = subject_id[9:]
-            nodding_angle = get_nodding_angle(os.path.join(afsdir, subject_id, 'MRI/DICOM/swi'))
+            nodding_angle = get_nodding_angle(os.path.join(afsdir, subject_id, 'MRI/DICOMS/swi'))
 
         print 'Nodding Angle=', nodding_angle
         # recon_dir = mkdir_path(os.path.join(workspace, subject, 'QSM'))
