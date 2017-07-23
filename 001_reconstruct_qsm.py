@@ -1,7 +1,7 @@
 import os
 import nibabel as nb
 import numpy as np
-from variables.subject_list import *
+from variables.variables import *
 import glob
 import dicom as pydicom
 from utils.utils import *
@@ -131,5 +131,5 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
             os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
 
-reconstruct_qsm(['BATP'], afs_patients, workspace_study_a, 'GTS')
-reconstruct_qsm(['LEMON891/LEMON113'], afs_lemon, workspace_study_a, 'LEMON')
+reconstruct_qsm(['BATP'], afs_patients, workspace_iron, 'GTS')
+reconstruct_qsm(['LEMON891/LEMON113'], afs_lemon, workspace_iron, 'LEMON')

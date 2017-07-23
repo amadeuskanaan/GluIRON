@@ -6,7 +6,7 @@ from variables import *
 import shutil
 import nipype.interfaces.spm as spm
 import commands
-from variables.subject_list import *
+from variables.variables import *
 
 
 
@@ -19,7 +19,8 @@ def preprocess_anatomical(population, workspace_dir):
         print 'SEGMENTING MP2RAGE-UNI for subject:', subject
 
         # I/O
-        seg_dir   = mkdir_path(os.path.join(workspace_dir, subject, 'ANATOMICAL', 'seg'))
+        anat_dir   = os.path.join(workspace_dir, subject, 'ANATOMICAL')
+        seg_dir    = mkdir_path(os.path.join(anat_dir, 'seg'))
         os.chdir(seg_dir)
 
         # Segment anatomical
@@ -34,11 +35,11 @@ def preprocess_anatomical(population, workspace_dir):
                 seg.run()
 
         # Deskulling
-        if not os.path.isfile(os.path.join(workspace_dir, subject, 'ANATOMICAL/MP2RAGE_UNI_PPROC.nii.gz')):
+        if not os.path.isfile(os.path.join(anat_dir, 'MP2RAGE_UNI_PPROC.nii.gz')):
             os.system('fslmaths c1MP2RAGE_UNI.nii -add c2MP2RAGE_UNI.nii -add c3MP2RAGE_UNI.nii -thr 0.9 -bin  -fillh ../BRAIN_MASK')
-            os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
-            os.system('fslmaths BRAIN_MASK -mul MP2RAGE_UNI.nii MP2RAGE_UNI_BRAIN')
+            os.chdir(anat_dir)
+            os.system('fslmaths BRAIN_MASK -mul MP2RAGE_UNI MP2RAGE_UNI_BRAIN')
 
 
-preprocess_anatomical(['BATP'], workspace_study_a)
-preprocess_anatomical(['LEMON113'], workspace_study_a)
+preprocess_anatomical(['BATP'], workspace_iron)
+preprocess_anatomical(['LEMON113'], workspace_iron)

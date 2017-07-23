@@ -4,7 +4,7 @@ import nibabel as nb
 import numpy as np
 import os
 import shutil
-from variables.subject_list import *
+from variables.variables import *
 from utils.utils import mkdir_path
 
 def make_nifti(population, afs_dir, workspace_dir, pop_name):
@@ -90,7 +90,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
             reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
 
 
-make_nifti(['BATP'], afs_patients, workspace_study_a, 'GTS')
-make_nifti(['LEMON891/LEMON113'], afs_lemon, workspace_study_a, 'LEMON')
+make_nifti(['BATP'], afs_patients, workspace_iron, 'GTS')
+make_nifti(['LEMON891/LEMON113'], afs_lemon, workspace_iron, 'LEMON')
 
 
