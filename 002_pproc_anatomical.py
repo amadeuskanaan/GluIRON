@@ -19,7 +19,7 @@ def preprocess_anatomical(population, workspace_dir):
         print 'SEGMENTING MP2RAGE-UNI for subject:', subject
 
         # I/O
-        seg_dir  = os.path.join(anat_dir, 'seg')
+        seg_dir  = os.path.join(workspace_dir, subject, 'seg')
         os.chdir(seg_dir)
 
         # Segment anatomical
