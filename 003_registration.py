@@ -33,7 +33,7 @@ def make_reg(population, workspace_dir):
             os.system('fslmaths FLASH_MAGNITUDE_BIAS_CORR -sub 0.02 -thr 0 -mul 8833.3 -min 255 FLASH_MAGNITUDE_BIAS_CORR_thr ')
 
         # Running FLIRT registration
-        if not os.path.isfile('MP2RAGE2FLASH_BRAIN.nii.gz'):
+        if not os.path.isfile('../MP2RAGE2FLASH_BRAIN.nii.gz'):
             os.system('flirt  -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out ../MP2RAGE2FLASH_BRAIN.nii '
                       '-omat MP2RAGE2FLASH.mat -dof 6 -cost corratio' %uni)
 
