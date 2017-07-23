@@ -36,7 +36,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
             dicoms = [os.path.join(dicom_dir, dicom) for dicom in os.listdir(dicom_dir)]
             uni_imgs = [dicom for dicom in dicoms if'UNI_Images' in pydicom.read_file(dicom, force=True).SeriesDescription]
 
-        elif pop_name == 'GTS'
+        elif pop_name == 'LEMON':
             uni_imgs = [os.path.join(dicom_dir, dicom) for dicom in os.listdir(dicom_dir)]
 
 
