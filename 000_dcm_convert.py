@@ -22,7 +22,6 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
             qsm_dir   = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))[0]
 
 
-
         print subject
         print dicom_dir
         print qsm_dir
