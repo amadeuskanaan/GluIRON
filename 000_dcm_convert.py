@@ -40,7 +40,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
             os.system('fslswapdim %s %s %s' % (img, orient, fname))
             os.system('rm -rf %s' % img)
 
-        if not os.path.isfile(os.path.join(anat_dir, 'MP2RAGE_UNI.nii')):
+        if not os.path.isfile(os.path.join(anat_dir, 'MP2RAGE_UNI.nii.gz')):
 
             if pop_name ==  'GTS':
                 dicoms = [os.path.join(dicom_dir, dicom) for dicom in os.listdir(dicom_dir)]
