@@ -19,8 +19,10 @@ def make_reg(population, workspace_dir):
         subject_dir = os.path.join(workspace_dir, subject)
         mag         = os.path.join(subject_dir, 'QSM', 'FLASH_MAGNITUDE.nii')
         uni         = os.path.join(subject_dir, 'ANATOMICAL', 'MP2RAGE_UNI_BRAIN.nii.gz')
-        lin_dir     = mkdir_path(os.path.join(subject_dir, 'REGISTRATION', 'FLASH'))
-        nln_dir     = mkdir_path(os.path.join(subject_dir, 'REGISTRATION', 'MNI'))
+        seg_dir     = os.path.join(subject_dir, 'ANATOMICAL/seg')
+        reg_dir     = os.path.join(subject_dir, 'REGISTRATION')
+        lin_dir     = mkdir_path(os.path.join(reg_dir, 'FLASH'))
+        nln_dir     = mkdir_path(os.path.join(reg_dir, 'MNI'))
 
         ###############################################
         # Make Linear Resigistration
@@ -37,7 +39,19 @@ def make_reg(population, workspace_dir):
             os.system('flirt  -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out ../MP2RAGE2FLASH_BRAIN.nii '
                       '-omat MP2RAGE2FLASH.mat -dof 6 -cost corratio' %uni)
 
-        # Creating
+        # Transforming Tissue classess to FLASH space
+
+        if not os.path.isfile('../FLASH_MAGNITUDE_BRAIN.nii.gz'):
+            dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
+            for seg_name in dict_seg.keys():
+                seg_img = os.path.join(subject_dir,'ANATOMICAL', 'seg', '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
+                os.system('flirt -in -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out %s2FLASH_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
+                          %(seg_img, seg_name))
+                os.system('fslmaths %s2FLASH_prob -thr 0.5 -bin -mul ../../QSM/brain_mask.nii.gz ../%s2FLASH'%(seg_name,seg_name))
+
+            # Mask FLASH image
+            os.system('fslmaths FLASH_MAGNITUDE_BIAS_CORR_thr.nii.gz -mul ../../QSM/brain_mask.nii.gz ../FLASH_MAGNITUDE_BRAIN.nii.gz')
+
 
 
 make_reg(['BATP', 'LEMON113'], workspace_study_a)
