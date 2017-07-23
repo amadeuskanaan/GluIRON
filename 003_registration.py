@@ -64,7 +64,7 @@ def make_reg(population, workspace_dir):
         if not os.path.isfile('transform1Warp.nii.gz'):
                 print '......... Running mp2rage to mni non-linear registration'
                 anat2mni = ants.Registration()
-                anat2mni.inputs.moving_image= anat
+                anat2mni.inputs.moving_image= uni
                 anat2mni.inputs.fixed_image= mni_brain_1mm
                 anat2mni.inputs.dimension=3
                 anat2mni.inputs.transforms=['Rigid','Affine','SyN']
