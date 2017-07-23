@@ -14,7 +14,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
         # I/O
         if pop_name == 'GTS':
             subject     = subject_id
-            dicom_dir   = os.path.join(afs_dir, pop_name, subject, 'DICOM')
+            dicom_dir   = os.path.join(afs_dir, subject, 'DICOM')
             qsm_mc_dir  = glob.glob(os.path.join(afs_dir, subject, 'QSM_NIFTI/*/*'))
 
         elif pop_name == 'LEMON':
