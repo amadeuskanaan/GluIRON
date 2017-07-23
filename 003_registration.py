@@ -48,7 +48,7 @@ def make_reg(population, workspace_dir):
             os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../QSM2MP2RAGE.nii.gz' % uni)
 
         # Transforming Tissue classess to FLASH space
-        if not os.path.isfile('../FLASH_MAGNITUDE_BRAIN.nii.gz'):
+        if not os.path.isfile('../GMF2FLASH.nii.gz'):
             dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
             for seg_name in dict_seg.keys():
                 seg_img = os.path.join(subject_dir,'ANATOMICAL', 'seg', '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
@@ -90,6 +90,20 @@ def make_reg(population, workspace_dir):
                 anat2mni.inputs.output_warped_image=True
                 anat2mni.inputs.use_histogram_matching=True
                 anat2mni.run()
+
+
+
+        def antsApplyTransforms(input,output):
+            os.system('antsApplyTransforms -d 3 -i %s -o %s -r %s -n Linear '
+                      '-t MNI/transform1Warp.nii.gz /MNItransform0GenericAffine.mat'
+                      % (input, output))
+
+        antsApplyTransforms('FLASH2MP2RAGE_BRAIN.nii.gz', 'FLASH2MNI.nii.gz')
+        antsApplyTransforms('QSM2MP2RAGE.nii.gz', 'QSM2MNI.nii.gz')
+
+
+
+
 
 
 make_reg(['BATP'], workspace_iron)
