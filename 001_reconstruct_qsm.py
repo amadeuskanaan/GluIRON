@@ -3,6 +3,7 @@ import nibabel as nb
 import numpy as np
 from variables.subject_list import *
 import glob
+import dicom as pydicom
 from utils.utils import *
 
 def readcfl(name):
@@ -87,8 +88,6 @@ def reorient(img, orient, fname):
     os.system('rm -rf %s'%img)
 
 def get_nodding_angle(dicomdir):
-    import dicom as pydicom
-
     for dicom in os.listdir(dicomdir):
         dcm = os.path.join(dicomdir, dicom)
         series = pydicom.read_file(dcm).SeriesDescription
