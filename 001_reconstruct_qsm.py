@@ -107,7 +107,11 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
             nodding_angle = get_nodding_angle(os.path.join(afsdir, subject, 'DICOM'))
         elif popname == 'LEMON':
             subject = subject_id[9:]
-            nodding_angle = get_nodding_angle(os.path.join(afsdir, subject_id, 'MRI/DICOMS/swi'))
+            dcm = [i for i in glob.glob(os.path.join(dicom_dir, '*/*')) if 'swi' in i or 'qsm' in i][0]
+            series = pydicom.read_file(dcm).SeriesDescription
+            if 'as_gre_TE17ms' in series:
+                line = pydicom.read_file(dcm)[0x0051, 0x100e].value
+                nodding_angle = line[line.index('(') + 1:line.index(')', line.index('('))]
 
         print 'Nodding Angle=', nodding_angle
         # recon_dir = mkdir_path(os.path.join(workspace, subject, 'QSM'))
