@@ -34,13 +34,19 @@ def make_reg(population, workspace_dir):
             os.system('N4BiasFieldCorrection -d 3 --input-image %s --output [FLASH_MAGNITUDE_BIAS_CORR.nii.gz, FLASH_MAGNITUDE_BIAS_FIELD.nii.gz ]'%mag)
             os.system('fslmaths FLASH_MAGNITUDE_BIAS_CORR -sub 0.02 -thr 0 -mul 8833.3 -min 255 FLASH_MAGNITUDE_BIAS_CORR_thr ')
 
-        # Running FLIRT registration
+        # Transform MP2RAGE to FLASH space
         if not os.path.isfile('../MP2RAGE2FLASH_BRAIN.nii.gz'):
             os.system('flirt  -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out ../MP2RAGE2FLASH_BRAIN.nii '
                       '-omat MP2RAGE2FLASH.mat -dof 6 -cost corratio' %uni)
 
-        # Transforming Tissue classess to FLASH space
+        # Transform FLASH to MP2RAGE space
+        if not os.path.isfile('../FLASH2MP2RAGE_BRAIN.nii.gz'):
+            os.system('fslmaths FLASH_MAGNITUDE_BIAS_CORR_thr -mul ../../QSM/brain_mask  ../FLASH_MAGNITUDE_BRAIN ')
+            os.system('convert_xfm -omat FLASH2MP2RAGE.mat -inverse MP2RAGE2FLASH.mat')
+            os.system('flirt -in FLASH_MAGNITUDE_BRAIN -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out FLASH2MP2RAGE_BRAIN' %uni)
+            os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out QSM2MP2RAGE.nii.gz' % uni)
 
+        # Transforming Tissue classess to FLASH space
         if not os.path.isfile('../FLASH_MAGNITUDE_BRAIN.nii.gz'):
             dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
             for seg_name in dict_seg.keys():
@@ -49,8 +55,6 @@ def make_reg(population, workspace_dir):
                           %(seg_img, seg_name))
                 os.system('fslmaths %s2FLASH_prob -thr 0.5 -bin -mul ../../QSM/brain_mask.nii.gz ../%s2FLASH'%(seg_name,seg_name))
 
-            # Mask FLASH image
-            os.system('fslmaths FLASH_MAGNITUDE_BIAS_CORR_thr.nii.gz -mul ../../QSM/brain_mask.nii.gz ../FLASH_MAGNITUDE_BRAIN.nii.gz')
 
 
 
