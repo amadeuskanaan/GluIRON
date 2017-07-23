@@ -1,7 +1,7 @@
 import os
 import nibabel as nb
 import numpy as np
-from variables import *
+from variables.subject_list import *
 import glob
 from utils.utils import *
 
