@@ -28,9 +28,9 @@ def make_reg(population, workspace_dir):
 
         # preprocessing Magnitude Image
         os.chdir(lin_dir)
-        if not os.path.isfile('FLASH_MAGNITUDE_BIAS_CORR_thr.nii.gz'):
+        if not os.path.isfile('FLASH_MAGNITUDE_BIAS_CORR.nii.gz'):
             os.system('N4BiasFieldCorrection -d 3 --input-image %s --output [FLASH_MAGNITUDE_BIAS_CORR.nii.gz, FLASH_MAGNITUDE_BIAS_FIELD.nii.gz ]'%mag)
-            os.system('fslamaths FLASH_MAGNITUDE_BIAS_CORR -sub 0.02 -thr 0 -mul 8833.3 -min 255 FLASH_MAGNITUDE_BIAS_CORR_thr ')
+        os.system('fslamaths FLASH_MAGNITUDE_BIAS_CORR -sub 0.02 -thr 0 -mul 8833.3 -min 255 FLASH_MAGNITUDE_BIAS_CORR_thr ')
 
         # Running FLIRT registration
         if not os.path.isfile('MP2RAGE2FLASH_BRAIN.nii.gz'):
