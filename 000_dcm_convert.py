@@ -71,6 +71,8 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
 
         print '....Creating FLASH 4D Multichannel image'
 
+        print qsm_mc_dir
+
         os.chdir(qsm_dir)
         orientation = '-y -x z'
         mags = sorted([i for i in glob.glob('%s/all_channels_partition_*_magnitude.nii' % qsm_mc_dir)])
