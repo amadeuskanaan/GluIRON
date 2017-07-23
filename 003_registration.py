@@ -43,8 +43,8 @@ def make_reg(population, workspace_dir):
         if not os.path.isfile('../FLASH2MP2RAGE_BRAIN.nii.gz'):
             os.system('fslmaths FLASH_MAGNITUDE_BIAS_CORR_thr -mul ../../QSM/brain_mask  ../FLASH_MAGNITUDE_BRAIN ')
             os.system('convert_xfm -omat FLASH2MP2RAGE.mat -inverse MP2RAGE2FLASH.mat')
-            os.system('flirt -in FLASH_MAGNITUDE_BRAIN -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out FLASH2MP2RAGE_BRAIN' %uni)
-            os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out QSM2MP2RAGE.nii.gz' % uni)
+            os.system('flirt -in ../FLASH_MAGNITUDE_BRAIN -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../FLASH2MP2RAGE_BRAIN' %uni)
+            os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../QSM2MP2RAGE.nii.gz' % uni)
 
         # Transforming Tissue classess to FLASH space
         if not os.path.isfile('../FLASH_MAGNITUDE_BRAIN.nii.gz'):
