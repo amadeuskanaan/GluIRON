@@ -45,7 +45,7 @@ def make_reg(population, workspace_dir):
             dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
             for seg_name in dict_seg.keys():
                 seg_img = os.path.join(subject_dir,'ANATOMICAL', 'seg', '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
-                os.system('flirt -in -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out %s2FLASH_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
+                os.system('flirt -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out %s2FLASH_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
                           %(seg_img, seg_name))
                 os.system('fslmaths %s2FLASH_prob -thr 0.5 -bin -mul ../../QSM/brain_mask.nii.gz ../%s2FLASH'%(seg_name,seg_name))
 
