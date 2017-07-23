@@ -12,17 +12,24 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
     for subject_id in population:
 
         if pop_name == 'GTS':
-            subject = subject_id
+            subject   = subject_id
+            dicom_dir = os.path.join(afs_dir, pop_name, subject, 'DICOM')
+            qsm_dir   = os.path.join(afs_dir, pop_name, subject, 'QSM_NIFTI')
 
         elif pop_name == 'LEMON':
-            subject = subject_id[9:]
+            subject   = subject_id[9:]
+            dicom_dir = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni')
+            qsm_dir   = glob.glob(os.path.join(afs_dir, subject, 'MRI/*as_gre*'))[0]
 
-        print 'Converting DICOM to nifti for Subject:', subject
+
+
+        print subject
+        print dicom_dir
+        print qsm_dir
+
+        # print 'Converting DICOM to nifti for Subject:', subject
         #
         # # I/O
-        # dicom_dir = os.path.join(afs_dir, pop_name, subject, 'DICOM')
-        # qsm_dir   = os.path.join(afs_dir, pop_name, subject, 'QSM_NIFTI')
-        #
         # anat_dir  = mkdir_path(workspace_dir, subject, 'ANATOMICAL/DICOM')
         # qsm_dir   = mkdir_path(workspace_dir, subject, 'QSM')
         #
@@ -34,10 +41,9 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
         #
         # elif pop_name == 'LEMON':
         #     dicom_dir = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni/')
-        #
+
 
         # Grab QSM multi-channel data
-        #qsm_data_dir = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))[0]
 
 make_nifti(['BATP'], afs_controls, workspace_study_a, 'GTS')
 make_nifti(['LEMON891/LEMON113'], afs_lemon, workspace_study_a, 'LEMON')
