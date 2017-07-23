@@ -92,12 +92,12 @@ def make_reg(population, workspace_dir):
                 anat2mni.run()
 
 
-
         def antsApplyTransforms(input,output):
             os.system('antsApplyTransforms -d 3 -i %s -o %s -r %s -n Linear '
-                      '-t MNI/transform1Warp.nii.gz /MNI/transform0GenericAffine.mat'
+                      '-t MNI/transform1Warp.nii.gz MNI/transform0GenericAffine.mat'
                       % (input, output, mni_brain_1mm))
 
+        os.chdir(reg_dir)
         antsApplyTransforms('FLASH2MP2RAGE_BRAIN.nii.gz', 'FLASH2MNI.nii.gz')
         antsApplyTransforms('QSM2MP2RAGE.nii.gz', 'QSM2MNI.nii.gz')
 
