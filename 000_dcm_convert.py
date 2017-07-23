@@ -19,7 +19,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
         elif pop_name == 'LEMON':
             subject   = subject_id[9:]
             dicom_dir = os.path.join(afs_dir, subject_id, 'MRI/DICOMS/uni')
-            qsm_dir   = glob.glob(os.path.join(afs_dir, subject, 'MRI/*as_gre*'))[0]
+            qsm_dir   = glob.glob(os.path.join(afs_dir, subject_id, 'MRI/*as_gre*'))[0]
 
 
 
