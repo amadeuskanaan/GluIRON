@@ -50,7 +50,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
                         SeriesDescription = pydicom.read_file(dicom, force=True).SeriesDescription
                     except AttributeError:
                         continue
-                    if 'mp2rage' in SeriesDescription:
+                    if 'UNI_Images' in SeriesDescription:
                         uni_imgs.append(dicom)
 
             elif pop_name == 'LEMON':
