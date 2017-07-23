@@ -56,47 +56,40 @@ def make_reg(population, workspace_dir):
                           %(seg_img, seg_name))
                 os.system('fslmaths %s2FLASH_prob -thr 0.5 -bin -mul ../../QSM/brain_mask.nii.gz ../%s2FLASH'%(seg_name,seg_name))
 
-        #
-        # ###############################################
-        # # Make Non-Linear Resigistration
-        #
-        # if not os.path.isfile(os.path.join(regdir, 'ANATOMICAL_BRAIN_MNI1mm.nii.gz')):
-        #     print 'Non-linear ANTS - anat2mni non-linear '
-        #     os.chdir(regdir_mni)
-        #     anat2mni = ants.Registration()
-        #     anat2mni.inputs.moving_image= anat
-        #     anat2mni.inputs.fixed_image= mni_brain_1mm
-        #     anat2mni.inputs.dimension=3
-        #     anat2mni.inputs.transforms=['Rigid','Affine','SyN']
-        #     anat2mni.inputs.metric=['MI','MI','CC']
-        #     anat2mni.inputs.metric_weight=[1,1,1]
-        #     anat2mni.inputs.number_of_iterations=[[1000,500,250,100],[1000,500,250,100],[100,70,50,20]]
-        #     anat2mni.inputs.convergence_threshold=[1e-6,1e-6,1e-6]
-        #     anat2mni.inputs.convergence_window_size=[10,10,10]
-        #     anat2mni.inputs.shrink_factors=[[8,4,2,1],[8,4,2,1],[8,4,2,1]]
-        #     anat2mni.inputs.smoothing_sigmas=[[3,2,1,0],[3,2,1,0],[3,2,1,0]]
-        #     anat2mni.inputs.sigma_units=['vox','vox','vox']
-        #     anat2mni.inputs.initial_moving_transform_com=1
-        #     anat2mni.inputs.transform_parameters=[(0.1,),(0.1,),(0.1,3.0,0.0)]
-        #     anat2mni.inputs.sampling_strategy=['Regular', 'Regular', 'None']
-        #     anat2mni.inputs.sampling_percentage=[0.25,0.25,1]
-        #     anat2mni.inputs.radius_or_number_of_bins=[32,32,4]
-        #     #anat2mni.inputs.num_threads = 26
-        #     anat2mni.inputs.interpolation='Linear'
-        #     anat2mni.inputs.winsorize_lower_quantile=0.005
-        #     anat2mni.inputs.winsorize_upper_quantile=0.995
-        #     anat2mni.inputs.collapse_output_transforms=True
-        #     anat2mni.inputs.output_inverse_warped_image=True
-        #     anat2mni.inputs.output_warped_image=True
-        #     anat2mni.inputs.use_histogram_matching=True
-        #     #anat2mni.cmdline
-        #     anat2mni.run()
-        #     #os.system('cp transform_Warped.nii.gz ../ANATOMICAL_BRAIN_MNI1mm.nii.gz')
-        #
-        #
-        #
-        #
+        ###############################################
+        # Make Non-Linear Resigistration
 
+        os.chdir(nln_dir)
+
+        if not os.path.isfile('transform1Warp.nii.gz'):
+                print '......... Running mp2rage to mni non-linear registration'
+                anat2mni = ants.Registration()
+                anat2mni.inputs.moving_image= anat
+                anat2mni.inputs.fixed_image= mni_brain_1mm
+                anat2mni.inputs.dimension=3
+                anat2mni.inputs.transforms=['Rigid','Affine','SyN']
+                anat2mni.inputs.metric=['MI','MI','CC']
+                anat2mni.inputs.metric_weight=[1,1,1]
+                anat2mni.inputs.number_of_iterations=[[1000,500,250,100],[1000,500,250,100],[100,70,50,20]]
+                anat2mni.inputs.convergence_threshold=[1e-6,1e-6,1e-6]
+                anat2mni.inputs.convergence_window_size=[10,10,10]
+                anat2mni.inputs.shrink_factors=[[8,4,2,1],[8,4,2,1],[8,4,2,1]]
+                anat2mni.inputs.smoothing_sigmas=[[3,2,1,0],[3,2,1,0],[3,2,1,0]]
+                anat2mni.inputs.sigma_units=['vox','vox','vox']
+                anat2mni.inputs.initial_moving_transform_com=1
+                anat2mni.inputs.transform_parameters=[(0.1,),(0.1,),(0.1,3.0,0.0)]
+                anat2mni.inputs.sampling_strategy=['Regular', 'Regular', 'None']
+                anat2mni.inputs.sampling_percentage=[0.25,0.25,1]
+                anat2mni.inputs.radius_or_number_of_bins=[32,32,4]
+                anat2mni.inputs.num_threads = 8
+                anat2mni.inputs.interpolation='Linear'
+                anat2mni.inputs.winsorize_lower_quantile=0.005
+                anat2mni.inputs.winsorize_upper_quantile=0.995
+                anat2mni.inputs.collapse_output_transforms=True
+                anat2mni.inputs.output_inverse_warped_image=True
+                anat2mni.inputs.output_warped_image=True
+                anat2mni.inputs.use_histogram_matching=True
+                anat2mni.run()
 
 
 make_reg(['BATP', 'LEMON113'], workspace_iron)
