@@ -34,7 +34,13 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
         ##############################################
         #  Copy mp2rage_uni data
 
-        if not os.path.isfile(os.path.join(anat_dir, 'UNI.nii')):
+        print '....Converting Anatomical DICOM to NIFTI'
+
+        def reorient(img, orient, fname):
+            os.system('fslswapdim %s %s %s' % (img, orient, fname))
+            os.system('rm -rf %s' % img)
+
+        if not os.path.isfile(os.path.join(anat_dir, 'MP2RAGE_UNI.nii')):
 
             if pop_name ==  'GTS':
                 dicoms = [os.path.join(dicom_dir, dicom) for dicom in os.listdir(dicom_dir)]
@@ -54,13 +60,39 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
                 shutil.copy(uni, raw_uni)
 
             os.system('isisconv -in %s -out %s/UNI.nii -rf dcm -wdialect fsl' %(raw_uni, anat_dir))
+            orientation = 'RL PA IS'
+            os.chdir(os.path.join(workspace_dir, subject, 'ANATOMICAL'))
+            reorient('UNI.nii', orientation, 'MP2RAGE_UNI.nii.gz')
 
+            # clean
+            #os.system('rm -rf UNI.nii')
 
         ##############################################
 
+        print '....Creating FLASH 4D Multichannel image'
+
+        os.chdir(qsm_dir)
+        orientation = '-y -x z'
+        mags = sorted([i for i in glob.glob('%s/all_channels_partition_*_magnitude.nii' % qsm_mc_dir)])
+        phas = sorted([i for i in glob.glob('%s/all_channels_partition_*_phase.nii' % qsm_mc_dir)])
+
+        if not os.path.isfile('all_partitions_magnitude.nii.gz'):
+            arrays = [nb.load(i).get_data() for i in mags]
+            m_ = np.stack(arrays, -1)
+
+            m = np.transpose(m_, (0, 2, 3, 1))
+            nb.Nifti1Image(m, nb.load(mags[0]).get_affine()).to_filename('all_partitions_magnitude_.nii.gz')
+            reorient('all_partitions_magnitude_.nii.gz', orientation, 'all_partitions_magnitude.nii.gz')
+
+        if not os.path.isfile('all_partitions_phase.nii.gz'):
+            arrays = [nb.load(i).get_data() for i in phas]
+            p_ = np.stack(arrays, -1)
+            p = np.transpose(p_, (0, 2, 3, 1))
+            nb.Nifti1Image(p, nb.load(phas[0]).get_affine()).to_filename('all_partitions_phase_.nii.gz')
+            reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
 
 
-# make_nifti(['BATP'], afs_patients, workspace_study_a, 'GTS')
+make_nifti(['BATP'], afs_patients, workspace_study_a, 'GTS')
 make_nifti(['LEMON891/LEMON113'], afs_lemon, workspace_study_a, 'LEMON')
 
 
