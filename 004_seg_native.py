@@ -48,16 +48,25 @@ def run_first(population, workspace):
         # Run FIRST subcortical segmentation
 
         os.chdir(first_dir)
-        if not os.path.isfile('FIRST_HYBRID_all_fast_firstseg.nii.gz'):
+        if not os.path.isfile('FIRST_HYBRID-R_Thal_first.nii.gz'):
             print '...... running FSL-FIRST'
             os.system('flirt -in ../HYBRID_CONTRAST_IMAGE.nii.gz -ref %s -omat HYBRID_CONTRAST_IMAGE_MNI1mm.mat '
                       '-out HYBRID_CONTRAST_IMAGE_MNI1mm.nii.gz -cost mutualinfo -dof 12' % mni_brain_1mm)
 
             os.system('run_first_all -d -i ../HYBRID_CONTRAST_IMAGE.nii.gz -a HYBRID_CONTRAST_IMAGE_MNI1mm.mat -o FIRST_HYBRID')
 
-
         ######################################################
         # Erode masks
+        if not os.path.isfile(os.path.join(first_dir, 'FIRST_HYBRID-R_Thal_first_thr.nii.gz')):
+            print '....Thresholding FIRST masks'
+            for roi in first_rois:
+                print roi
+                first = os.path.join(first_dir, 'FIRST_HYBRID-%s_first.nii.gz' % roi)
+                outname = os.path.join(first_dir, 'FIRST_HYBRID-%s_first_thr.nii.gz' % i)
+                os.system('fslmaths %s -kernel sphere 1 -ero %s' % (first, outname))
+
+
+
 
 
 run_first(['BATP'], workspace_iron)
