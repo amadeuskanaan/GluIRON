@@ -3,14 +3,19 @@ import glob
 import nibabel as nb
 import numpy as np
 import os
+import sys
 import shutil
 from variables.variables import *
 from utils.utils import mkdir_path
 
+
+# assert len(sys.argv)== 2
+# subject_index=int(sys.argv[1])
+
 def make_nifti(population, afs_dir, workspace_dir, pop_name):
 
     for subject_id in population:
-
+        # subject_id = population[subject_index]
         # I/O
         if pop_name == 'GTS':
             subject     = subject_id
@@ -48,7 +53,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
                         SeriesDescription = pydicom.read_file(dicom, force=True).SeriesDescription
                     except AttributeError:
                         continue
-                    if 'UNI_Images' in SeriesDescription:
+                    if 'UNI_Images' in SeriesDescription and 'SLAB' not in SeriesDescription:
                         uni_imgs.append(dicom)
 
             elif pop_name == 'LEMON':
@@ -90,7 +95,7 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
             reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
 
 
-make_nifti(['BATP'], afs_patients, workspace_iron, 'GTS')
-make_nifti(['LEMON891/LEMON113'], afs_lemon, workspace_iron, 'LEMON')
-
-
+# make_nifti(controls_a, afs_controls, workspace_iron, 'GTS')
+# make_nifti(patients_a, afs_patients, workspace_iron, 'GTS')
+# make_nifti(lemon_population_key[:50], afs_lemon, workspace_iron, 'LEMON')
+make_nifti(lemon_population_key[50:], afs_lemon, workspace_iron, 'LEMON')

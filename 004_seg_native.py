@@ -46,7 +46,6 @@ def run_first(population, workspace):
 
         ######################################################
         # Run FIRST subcortical segmentation
-
         os.chdir(first_dir)
         if not os.path.isfile('FIRST_HYBRID-R_Thal_first.nii.gz'):
             print '...... running FSL-FIRST'
@@ -62,11 +61,19 @@ def run_first(population, workspace):
             for roi in first_rois:
                 print roi
                 first = os.path.join(first_dir, 'FIRST_HYBRID-%s_first.nii.gz' % roi)
-                outname = os.path.join(first_dir, 'FIRST_HYBRID-%s_first_thr.nii.gz' % i)
-                os.system('fslmaths %s -kernel sphere 1 -ero %s' % (first, outname))
+                outname = os.path.join(first_dir, 'FIRST_HYBRID-%s_first_thr.nii.gz' % roi)
+                os.system('fslmaths %s -kernel sphere 1 -ero -bin %s' % (first, outname))
 
 
+        ######################################################
+        # Combine Masks
 
-
+        if not os.path.isfile('BG_L.nii.gz'):
+            for i in ['R', 'L']:
+                os.system('fslmaths FIRST_HYBRID-%s_Accu_first_thr.nii.gz -add '
+                                   'FIRST_HYBRID-%s_Caud_first_thr.nii.gz -add '
+                                   'FIRST_HYBRID-%s_Puta_first_thr.nii.gz -add '
+                                   'FIRST_HYBRID-%s_Pall_first_thr.nii.gz ' 
+                                   'BG_%s'%(i,i,i,i,i))
 
 run_first(['BATP'], workspace_iron)
