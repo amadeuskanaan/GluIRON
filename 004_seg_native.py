@@ -66,8 +66,7 @@ def run_first(population, workspace):
 
 
         ######################################################
-        # Combine Masks
-
+        # Combine Basal Ganglia Masks
         if not os.path.isfile('BG_L.nii.gz'):
             for i in ['R', 'L']:
                 os.system('fslmaths FIRST_HYBRID-%s_Accu_first_thr.nii.gz -add '
