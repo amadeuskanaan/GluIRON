@@ -11,6 +11,7 @@ def get_mrs_masks(population, afs, workspace_dir):
 
     for subject in population:
 
+        print '########################################'
         print 'Creating SVS masks for subject:', subject
 
         ##I/O
@@ -48,68 +49,43 @@ def get_mrs_masks(population, afs, workspace_dir):
 
         def create_svs_mask(voxel, string_list):
 
-            vox_dir = mkdir_path(os.path.join(seg_dir, voxel))
+            if not os.path.isfile('%s.nii'%voxel):
 
-            uni_path    = os.path.join(seg_dir + '/')
-            uni_img     = 'mp2rage_spm.nii'
-            vox_path    = os.path.join(seg_dir, voxel + '/')
-            vox_file   = voxel
+                vox_dir = mkdir_path(os.path.join(seg_dir, voxel))
+                uni_path    = os.path.join(seg_dir + '/')
+                uni_img     = 'mp2rage_spm.nii'
+                vox_path    = os.path.join(seg_dir, voxel + '/')
+                vox_file    = '%s.RDA' %voxel
 
-            # grab correct RDA
-            for root, dirs, files in os.walk(afs_dir, topdown=False):
-                for file in files:
-                    if file.endswith('rda') and 'SUPP' in file:
-                        if any(string in file for string in string_list):
-                            print os.path.join(root, file)
-                            shutil.copy(os.path.join(root, file),  os.path.join(vox_dir, voxel))
+                # grab correct RDA
+                for root, dirs, files in os.walk(afs_dir, topdown=False):
+                    for file in files:
+                        if file.endswith('rda') and 'SUPP' in file:
+                            if any(string in file for string in string_list):
+                                print os.path.join(root, file)
+                                shutil.copy(os.path.join(root, file),  os.path.join(vox_dir, '%s.RDA' %voxel))
 
-            # convert correct RDA
-            matlab_cmd = ['matlab', '-nodesktop', '-nosplash', '-nojvm',
-                          '-r "RDA_TO_NIFTI(\'%s\', \'%s\', \'%s\', \'%s\') ; quit;"'
-                          % (uni_path, uni_img, vox_path, vox_file)]
-            subprocess.call(matlab_cmd)
+                # Convert correct RDA
+                matlab_cmd = ['matlab', '-nodesktop', '-nosplash', '-nojvm', '-r "RDA_TO_NIFTI(\'%s\', \'%s\', \'%s\', \'%s\') ; quit;"'
+                              % (uni_path, uni_img, vox_path, vox_file)]
+
+                subprocess.call(matlab_cmd)
+
+                # Clean
+                os.chdir(vox_path)
+                os.system('mv ../*Mask.nii* ../*coord* ./')
+
+                # Swap dims to RPI
+                os.system('fslswapdim %s_Mask RL PA IS %s_Mask_RPI' % (voxel, voxel))
+                os.system('flirt -in %s_Mask_RPI -ref %s -applyxfm -init %s -dof 6 -out %s_prob.nii.gz'
+                          % (voxel, mag, uni2mag, voxel))
+                os.system('fslmaths %s_prob -thr 0.99 -bin %s.nii.gz' % (voxel, voxel))
+                os.system('rm -rf *prob* *Mask*')
 
 
         create_svs_mask('STR', ['ST', 'ST', 'st'])
-
-
-        #########################################################################################
-        # create SVS masks
-
-        #
-        # def create_svs_masks(voxel_name):
-        #     if not os.path.isfile(os.path.join(mrs_dir, '%s'%voxel_name, '%s_FLASH_BIN.nii.gz'%voxel_name)):
-        #
-        #
-        #             anat_path   = os.path.join(mrs_dir + '/')
-        #             anat_img    = 'mp2rage_spm.nii'
-        #             svs_path    = os.path.join(mrs_dir, voxel_name + '/')
-        #             svs_file    = '%s'%voxel_name
-        #             print anat_path
-        #             print anat_img
-        #             print svs_path
-        #             print svs_file
-        #
-        #             if os.path.isfile(os.path.join(svs_path, svs_file)):
-        #                 # run matlab code to create registered mask from rda file
-        #                 matlab_cmd = ['matlab',  '-nodesktop', '-nosplash', '-nojvm',
-        #                               '-r "RDA_TO_NIFTI(\'%s\', \'%s\', \'%s\', \'%s\') ; quit;"'
-        #                               %(anat_path, anat_img, svs_path, svs_file)]
-        #                 subprocess.call(matlab_cmd)
-        #                 os.system('mv %s %s'%(os.path.join(mrs_dir, '%s_Mask.nii'%voxel_name),
-        #                             os.path.join(mrs_dir, '%s'%voxel_name)))
-        #                 os.chdir(os.path.join(mrs_dir, voxel_name))
-        #                 os.system('fslswapdim %s_Mask.nii RL PA IS %s_Mask_RPI'%(voxel_name,voxel_name))
-        #                 os.system('flirt -in %s_Mask_RPI -ref %s -applyxfm -init %s -dof 6 -out %s_FLASH.nii.gz'
-        #                           %(voxel_name, mag, anat2mag, voxel_name))
-        #                 os.system('fslmaths %s_FLASH -thr 0.99 -bin  %s_FLASH_BIN'%(voxel_name,voxel_name))
-        #                 os.system('mv ../*coord* ./')
-        #             else:
-        #                 print '%s is missing'%voxel_name
-        #
-        #     create_svs_masks('ACC')
-        #     create_svs_masks('THA')
-        #     create_svs_masks('STR')
+        create_svs_mask('THA', ['TH', 'Th', 'th'])
+        create_svs_mask('ACC', ['ACC', 'acc', 'Acc'])
 
 
 get_mrs_masks(['BATP'], afs_patients, workspace_iron)
