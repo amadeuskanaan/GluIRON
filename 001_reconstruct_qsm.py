@@ -131,5 +131,7 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
             os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
 
-reconstruct_qsm(['BATP'], afs_patients, workspace_iron, 'GTS')
-reconstruct_qsm(['LEMON891/LEMON113'], afs_lemon, workspace_iron, 'LEMON')
+# reconstruct_qsm(controls_a, afs_controls, workspace_iron, 'GTS')
+# reconstruct_qsm(patients_a, afs_patients, workspace_iron, 'GTS')
+# reconstruct_qsm(lemon_population_key[:50], afs_lemon, workspace_iron, 'LEMON')
+reconstruct_qsm(lemon_population_key[50:], afs_lemon, workspace_iron, 'LEMON')
