@@ -55,7 +55,7 @@ def get_mrs_masks(population, afs, workspace_dir):
                 uni_path    = os.path.join(seg_dir + '/')
                 uni_img     = 'mp2rage_spm.nii'
                 vox_path    = os.path.join(seg_dir, voxel + '/')
-                vox_file    = '%s.RDA' %voxel
+                vox_file    = voxel
 
                 # grab correct RDA
                 for root, dirs, files in os.walk(afs_dir, topdown=False):
@@ -63,7 +63,7 @@ def get_mrs_masks(population, afs, workspace_dir):
                         if file.endswith('rda') and 'SUPP' in file:
                             if any(string in file for string in string_list):
                                 print os.path.join(root, file)
-                                shutil.copy(os.path.join(root, file),  os.path.join(vox_dir, '%s.RDA' %voxel))
+                                shutil.copy(os.path.join(root, file),  os.path.join(vox_dir, voxel))
 
                 # Convert correct RDA
                 matlab_cmd = ['matlab', '-nodesktop', '-nosplash', '-nojvm', '-r "RDA_TO_NIFTI(\'%s\', \'%s\', \'%s\', \'%s\') ; quit;"'

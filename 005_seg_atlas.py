@@ -34,23 +34,30 @@ def transform_atlas_roi(population, workspace_dir):
 
         #########################################################################################
         # transform ATAK rois
-        for roi_name in atak_rois:
-            roi_img = os.path.join(atlas_dir, 'ATAK', 'ATAK_%s.nii.gz'%roi_name)
-            print roi_name
-            if roi_name in ['R_SN', 'L_SN']:
-                thr = 0.55
-            elif roi_name in ['R_STN', 'L_STN']:
-                thr = 0.6
-            else:
-                thr = 0.7
-            applyAntsTransform(roi_img, roi_name, thr)
+
+        if not os.path.isfile('L_STN.nii.gz'):
+
+            for roi_name in atak_rois:
+                roi_img = os.path.join(atlas_dir, 'ATAK', 'ATAK_%s.nii.gz'%roi_name)
+                print roi_name
+                if roi_name in ['R_SN', 'L_SN']:
+                    thr = 0.55
+                elif roi_name in ['R_STN', 'L_STN']:
+                    thr = 0.6
+                else:
+                    thr = 0.7
+                applyAntsTransform(roi_img, roi_name, thr)
 
 
         #########################################################################################
         # transform STR rois
-        for roi_name in str_rois:
-            print roi_name
-            roi_image = os.path.join(atlas_dir, 'STR', '%s.nii.gz' %roi_name)
-            applyAntsTransform(roi_image, roi_name, thr = 0.7)
+
+        if not os.path.isfile('str_div3_motor.nii.gz'):
+            for roi_name in str_rois:
+                print roi_name
+                roi_image = os.path.join(atlas_dir, 'STR', '%s.nii.gz' %roi_name)
+                applyAntsTransform(roi_image, roi_name, thr = 0.7)
+
+
 
 transform_atlas_roi(['BATP'], workspace_iron)

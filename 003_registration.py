@@ -95,7 +95,7 @@ def make_reg(population, workspace_dir):
         # Warp QSM to MNI space
         os.chdir(reg_dir)
 
-        def antsApplyTransforms(input,output):
+        def antsApplyTransforms_2mni(input,output):
             os.system('antsApplyTransforms -d 3 -i %s -o %s -r %s -n Linear '
                       '-t MNI/transform1Warp.nii.gz MNI/transform0GenericAffine.mat'
                       % (input, output, mni_brain_1mm))
@@ -103,6 +103,25 @@ def make_reg(population, workspace_dir):
         if not os.path.isfile('QSM2MNI.nii.gz'):
             antsApplyTransforms('FLASH2MP2RAGE_BRAIN.nii.gz', 'FLASH2MNI.nii.gz')
             antsApplyTransforms('QSM2MP2RAGE.nii.gz', 'QSM2MNI.nii.gz')
+
+        #Warp Lateral Ventricles to QSM space
+        os.system('antsApplyTransforms -d 3 -i %s -o lv_uni -r %s -n Linear '
+                  '-t [MNI/transform0GenericAffine.mat,1] -t  MNI/transform1InverseWarp '
+                   % (lv_mask, output, uni))
+
+
+
+
+
+
+        #########################################################################################
+        # transform Laterval Ventricles mask
+        if not os.path.isfile('FLASH_LV.nii.gz'):
+            lv_mask = '/scr/malta1/Github/GluIRON/atlases/HarvardOxford-lateral-ventricles-thr25-1mm.nii.gz'
+            applyAntsTransform(lv_mask, 'FLASH_LV', thr=0.7)
+            csf = os.path.join(subject_dir, 'REGISTRATION', 'CSF2FLASH.nii.gz')
+            os.system('fslmaths %s -mul FLASH_LV -kernel sphere 2 -ero -thr 0.8 -bin FLASH_LV_constricted' %csf)
+
 
 
 make_reg(['BATP', 'LEMON113'], workspace_iron)
