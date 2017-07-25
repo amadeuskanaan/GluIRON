@@ -61,18 +61,15 @@ def run_first(population, workspace):
             for roi in first_rois:
                 print roi
                 first = os.path.join(first_dir, 'FIRST_HYBRID-%s_first.nii.gz' % roi)
-                outname = os.path.join(first_dir, 'FIRST_HYBRID-%s_first_thr.nii.gz' % roi)
+                outname = os.path.join(first_dir, '%s' % roi)
                 os.system('fslmaths %s -kernel sphere 1 -ero -bin %s' % (first, outname))
 
 
         ######################################################
         # Combine Basal Ganglia Masks
         if not os.path.isfile('BG_L.nii.gz'):
-            for i in ['R', 'L']:
-                os.system('fslmaths FIRST_HYBRID-%s_Accu_first_thr.nii.gz -add '
-                                   'FIRST_HYBRID-%s_Caud_first_thr.nii.gz -add '
-                                   'FIRST_HYBRID-%s_Puta_first_thr.nii.gz -add '
-                                   'FIRST_HYBRID-%s_Pall_first_thr.nii.gz ' 
-                                   'BG_%s'%(i,i,i,i,i))
+                os.system('fslmaths L_Accu.nii.gz -add L_Caud -add L_Puta -add L_Pall BG_L')
+                os.system('fslmaths R_Accu.nii.gz -add R_Caud -add R_Puta -add R_Pall BG_R')
+
 
 run_first(['BATP'], workspace_iron)
