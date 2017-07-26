@@ -56,7 +56,7 @@ def run_first(population, workspace):
 
         ######################################################
         # Erode masks
-        if not os.path.isfile(os.path.join(first_dir, 'FIRST_HYBRID-R_Thal_first_thr.nii.gz')):
+        if not os.path.isfile(os.path.join(first_dir, 'R_Thal.nii.gz')):
             print '....Thresholding FIRST masks'
             for roi in first_rois:
                 print roi
@@ -70,6 +70,16 @@ def run_first(population, workspace):
         if not os.path.isfile('BG_L.nii.gz'):
                 os.system('fslmaths L_Accu.nii.gz -add L_Caud -add L_Puta -add L_Pall BG_L')
                 os.system('fslmaths R_Accu.nii.gz -add R_Caud -add R_Puta -add R_Pall BG_R')
+
+
+        ######################################################
+        # Optimize Tissue class masks
+        reg_dir = os.path.join(subject_dir, 'REGISTRATION')
+        if not os.path.isfile(os.path.join(reg_dir, 'FLASH_GM_opt.nii.gz')):
+            os.system('fslmaths %s/FLASH/FLASH_GM -add BG_L -add BG_R %s/FLASH_GM_opt'%(reg_dir,reg_dir))
+            os.system('fslmaths %s/FLASH/FLASH_WM -sub BG_L -sub BG_R %s/FLASH_WM_opt'%(reg_dir,reg_dir))
+            os.system('fslmaths %s/FLASH/FLASH_CSF -sub BG_L -sub BG_R %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
+
 
 
 run_first(['BATP'], workspace_iron)

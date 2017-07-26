@@ -27,34 +27,37 @@ def make_reg(population, workspace_dir):
 
         ###############################################
         # Make Linear Resigistration
-        print '....... Running Linear Registration'
 
         # preprocessing Magnitude Image
         os.chdir(lin_dir)
         if not os.path.isfile('FLASH_MAGNITUDE_BIAS_CORR_thr.nii.gz'):
+            print '....... preprocessing FLASH Magnitude'
             os.system('N4BiasFieldCorrection -d 3 --input-image %s --output [FLASH_MAGNITUDE_BIAS_CORR.nii.gz, FLASH_MAGNITUDE_BIAS_FIELD.nii.gz ]'%mag)
             os.system('fslmaths FLASH_MAGNITUDE_BIAS_CORR -sub 0.02 -thr 0 -mul 8833.3 -min 255 FLASH_MAGNITUDE_BIAS_CORR_thr ')
 
         # Transform MP2RAGE to FLASH space
         if not os.path.isfile('../MP2RAGE2FLASH_BRAIN.nii.gz'):
+            print '....... transforming MP2RAGE to FLASH'
             os.system('flirt  -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out ../MP2RAGE2FLASH_BRAIN '
                       '-omat MP2RAGE2FLASH.mat -dof 6 -cost corratio' %uni)
 
         # Transform FLASH to MP2RAGE space
         if not os.path.isfile('../FLASH2MP2RAGE_BRAIN.nii.gz'):
+            print '....... transforming FLASH to MP2RAGE'
             os.system('fslmaths FLASH_MAGNITUDE_BIAS_CORR_thr -mul ../../QSM/brain_mask  ../FLASH_MAGNITUDE_BRAIN ')
             os.system('convert_xfm -omat FLASH2MP2RAGE.mat -inverse MP2RAGE2FLASH.mat')
             os.system('flirt -in ../FLASH_MAGNITUDE_BRAIN -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../FLASH2MP2RAGE_BRAIN' %uni)
             os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../QSM2MP2RAGE.nii.gz' % uni)
 
         # Transforming Tissue classess to FLASH space
-        if not os.path.isfile('../GMF2FLASH.nii.gz'):
+        if not os.path.isfile('FLASH_GM.nii.gz'):
+            print '....... transforming Tissue-Classess to FLASH space'
             dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
             for seg_name in dict_seg.keys():
                 seg_img = os.path.join(subject_dir,'ANATOMICAL', 'seg', '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
-                os.system('flirt -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out %s2FLASH_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
+                os.system('flirt -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out FLASH_%s_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
                           %(seg_img, seg_name))
-                os.system('fslmaths %s2FLASH_prob -thr 0.5 -bin -mul ../../QSM/brain_mask.nii.gz ../%s2FLASH'%(seg_name,seg_name))
+                os.system('fslmaths FLASH_%s_prob -thr 0.5 -bin -mul ../../QSM/brain_mask.nii.gz FLASH_%s'%(seg_name,seg_name))
 
         ###############################################
         # Make Non-Linear Resigistration
@@ -92,36 +95,43 @@ def make_reg(population, workspace_dir):
                 anat2mni.run()
 
 
-        # Warp QSM to MNI space
         os.chdir(reg_dir)
-
-        def antsApplyTransforms_2mni(input,output):
-            os.system('antsApplyTransforms -d 3 -i %s -o %s -r %s -n Linear '
-                      '-t MNI/transform1Warp.nii.gz MNI/transform0GenericAffine.mat'
-                      % (input, output, mni_brain_1mm))
-
-        if not os.path.isfile('QSM2MNI.nii.gz'):
-            antsApplyTransforms('FLASH2MP2RAGE_BRAIN.nii.gz', 'FLASH2MNI.nii.gz')
-            antsApplyTransforms('QSM2MP2RAGE.nii.gz', 'QSM2MNI.nii.gz')
-
-        #Warp Lateral Ventricles to QSM space
-        os.system('antsApplyTransforms -d 3 -i %s -o lv_uni -r %s -n Linear '
-                  '-t [MNI/transform0GenericAffine.mat,1] -t  MNI/transform1InverseWarp '
-                   % (lv_mask, output, uni))
-
-
-
-
-
 
         #########################################################################################
         # transform Laterval Ventricles mask
-        if not os.path.isfile('FLASH_LV.nii.gz'):
+        if not os.path.isfile('FLASH_LV_constricted.nii.gz'):
+            print '....... transforming Lateral-Venticles atlas to FLASH space'
             lv_mask = '/scr/malta1/Github/GluIRON/atlases/HarvardOxford-lateral-ventricles-thr25-1mm.nii.gz'
-            applyAntsTransform(lv_mask, 'FLASH_LV', thr=0.7)
-            csf = os.path.join(subject_dir, 'REGISTRATION', 'CSF2FLASH.nii.gz')
-            os.system('fslmaths %s -mul FLASH_LV -kernel sphere 2 -ero -thr 0.8 -bin FLASH_LV_constricted' %csf)
+            os.system('antsApplyTransforms -d 3 -i %s -o FLASH/FLASH_LV_uni.nii.gz -r %s '
+                      '-t [MNI/transform0GenericAffine.mat,1] -t MNI/transform1InverseWarp.nii.gz' %(lv_mask, uni))
+            os.system('flirt -in FLASH/FLASH_LV_uni -ref %s -applyxfm -init FLASH/MP2RAGE2FLASH.mat -dof 6 -out FLASH/FLASH_LV_mag' %mag)
+            os.system('fslmaths FLASH/FLASH_LV_mag -kernel sphere 2 -thr 0.8 -ero -bin FLASH_LV_constricted')
+            #
+
+        #########################################################################################
+        # Normalize QSM image to LV_CSF
+        qsm     = os.path.join(subject_dir, 'QSM/QSM.nii.gz')
+        qsmnorm = os.path.join(subject_dir, 'QSM/QSMnorm.nii.gz')
+        qsmmni  = os.path.join(subject_dir, 'QSM/QSMnorm_MNI1mm.nii.gz')
+
+        if not os.path.isfile(qsmnorm):
+            print '....... normalizing QSM to LV_CSF'
+            LVmu = float(commands.getoutput('fslstats %s -k FLASH_LV_constricted -M'%qsm))
+            print '....... constricted lateral vensticles Median =', LVmu
+            os.system('fslmaths %s -sub %s %s' % (qsm, LVmu, qsmnorm))
+
+        # #########################################################################################
+        # Transform normalized QSM to MNI space .... Will be used for AHBA correlations
+        if not os.path.isfile(qsmmni):
+            print '....... transforming normalied QSM to MNI space'
+            os.system('flirt -in %s -ref %s -applyxfm -init FLASH/FLASH2MP2RAGE.mat -out FLASH/QSMnorm2MP2RAGE' %(qsmnorm, uni))
+            os.system('antsApplyTransforms -d 3 -i FLASH/QSMnorm2MP2RAGE.nii.gz -o %s -r %s -n Linear '
+                      '-t MNI/transform1Warp.nii.gz MNI/transform0GenericAffine.mat'
+                      %(qsmmni, mni_brain_1mm))
+
+            os.system('antsApplyTransforms -d 3 -i FLASH2MP2RAGE_BRAIN.nii.gz -o FLASH2MNI.nii.gz -r %s -n Linear '
+                      '-t MNI/transform1Warp.nii.gz MNI/transform0GenericAffine.mat' % mni_brain_1mm)
 
 
 
-make_reg(['BATP', 'LEMON113'], workspace_iron)
+make_reg(['BATP'], workspace_iron)

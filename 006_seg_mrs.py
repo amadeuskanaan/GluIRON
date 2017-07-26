@@ -79,9 +79,12 @@ def get_mrs_masks(population, afs, workspace_dir):
                 os.system('fslswapdim %s_Mask RL PA IS %s_Mask_RPI' % (voxel, voxel))
                 os.system('flirt -in %s_Mask_RPI -ref %s -applyxfm -init %s -dof 6 -out %s_prob.nii.gz'
                           % (voxel, mag, uni2mag, voxel))
-                os.system('fslmaths %s_prob -thr 0.99 -bin %s.nii.gz' % (voxel, voxel))
-                os.system('rm -rf *prob* *Mask*')
 
+                # bin and constrict to GM
+                gm = os.path.join(subject_dir, 'REGISTRATION', 'FLASH_GM_opt.nii.gz')
+                os.system('fslmaths %s_prob -thr 0.99 -bin -mul %s.nii.gtz' % (voxel, voxel))
+                os.system('fslmaths %s -mul %s %s_constricted'%(voxel, gm, voxel))
+                os.system('rm -rf *prob* *Mask*')
 
         create_svs_mask('STR', ['ST', 'ST', 'st'])
         create_svs_mask('THA', ['TH', 'Th', 'th'])
