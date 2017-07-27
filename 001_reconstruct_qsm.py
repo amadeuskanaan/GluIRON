@@ -118,20 +118,19 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
         recon_dir = mkdir_path(os.path.join(workspace, subject, 'QSM'))
         os.chdir(recon_dir)
 
-        print '.....Combining Multi-Channel Data '
-
         if not os.path.isfile('FLASH_PHASE.nii'):
+            print '.....Combining Multi-Channel Data '
             phase = os.path.join(recon_dir, 'all_partitions_phase.nii.gz')
             mag   = os.path.join(recon_dir, 'all_partitions_magnitude.nii.gz')
             combine_coils_svd(phase, mag , num_svd=16, num_acs=24)
 
-        print 'Calculating Quantitative Susceptibility map'
 
         if not os.path.isfile('QSM.nii'):
+            print '.....Calculating Quantitative Susceptibility map'
             os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
 
-# reconstruct_qsm(controls_a, afs_controls, workspace_iron, 'GTS')
-# reconstruct_qsm(patients_a, afs_patients, workspace_iron, 'GTS')
-# reconstruct_qsm(lemon_population_key[:50], afs_lemon, workspace_iron, 'LEMON')
-reconstruct_qsm(lemon_population_key[50:], afs_lemon, workspace_iron, 'LEMON')
+reconstruct_qsm(controls_a, afs_controls, workspace_iron, 'GTS')
+reconstruct_qsm(patients_a, afs_patients, workspace_iron, 'GTS')
+reconstruct_qsm(lemon_population_key[:50], afs_lemon, workspace_iron, 'LEMON')
+# reconstruct_qsm(lemon_population_key[50:], afs_lemon, workspace_iron, 'LEMON')

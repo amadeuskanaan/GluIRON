@@ -1,6 +1,7 @@
-__author__ = 'kanaan' '18.11.2015'
+__author__ = 'kanaan' '18.11.2015' 'modified july 2017'
 
 import os
+import sys
 from utils.utils import *
 from variables import *
 import shutil
@@ -9,10 +10,13 @@ import commands
 import nipype.interfaces.ants as ants
 from variables.variables import *
 
+# assert len(sys.argv)== 2
+# subject_index=int(sys.argv[1])
 
 def make_reg(population, workspace_dir):
 
     for subject in population:
+        # subject = population[subject_index]
 
         print '##########################################'
         print 'Running registration for subject:', subject
@@ -50,14 +54,14 @@ def make_reg(population, workspace_dir):
             os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../QSM2MP2RAGE.nii.gz' % uni)
 
         # Transforming Tissue classess to FLASH space
-        if not os.path.isfile('FLASH_GM.nii.gz'):
+        if not os.path.isfile('FLASH_GMx.nii.gz'):
             print '....... transforming Tissue-Classess to FLASH space'
             dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
             for seg_name in dict_seg.keys():
                 seg_img = os.path.join(subject_dir,'ANATOMICAL', 'seg', '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
                 os.system('flirt -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out FLASH_%s_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
                           %(seg_img, seg_name))
-                os.system('fslmaths FLASH_%s_prob -thr 0.5 -bin -mul ../../QSM/brain_mask.nii.gz FLASH_%s'%(seg_name,seg_name))
+                os.system('fslmaths FLASH_%s_prob -thr 0.5 -bin -mul ../../QSM/mask.nii.gz FLASH_%s'%(seg_name,seg_name))
 
         ###############################################
         # Make Non-Linear Resigistration
@@ -133,5 +137,7 @@ def make_reg(population, workspace_dir):
                       '-t MNI/transform1Warp.nii.gz MNI/transform0GenericAffine.mat' % mni_brain_1mm)
 
 
-
+# pop = controls_a + patients_a + lemon_population
+# make_reg(pop, workspace_iron)
 make_reg(['BATP'], workspace_iron)
+
