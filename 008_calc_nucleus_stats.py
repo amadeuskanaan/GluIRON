@@ -30,7 +30,6 @@ def calc_nucleus_stats(population, workspace_dir):
 
         stats_df = pd.DataFrame(columns= first_rois + atlas_rois  + mrs_rois + tissue_rois, index=['%s' % subject])
 
-
         for roi in tissue_rois:
             med = return_median_vals('REGISTRATION/FLASH_%s_opt.nii.gz'%roi) * 1000
             print roi, med
@@ -45,7 +44,6 @@ def calc_nucleus_stats(population, workspace_dir):
             med = return_median_vals('SEGMENTATION/ATLAS/%s.nii.gz'%roi) * 1000
             print roi, med
             stats_df.loc[subject][roi] = med
-
 
         for roi in mrs_rois:
             med = return_median_vals('SEGMENTATION/MRS/%s/%s_Mask_RPI_flash_bin_constricted.nii.gz' % (roi[4:],roi[4:])) * 1000
