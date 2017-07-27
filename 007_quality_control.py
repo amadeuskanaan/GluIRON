@@ -24,6 +24,10 @@ def extract_quality_metrics(population, workspace_dir):
 
     for subject in population:
 
+        print '######################################'
+        print 'Running Quality Control for subject:',subject
+
+
         subject_dir = os.path.join(workspace_dir, subject)
         qc_dir      = mkdir_path(os.path.join(subject_dir, 'QUALITY_CONTROL'))
 

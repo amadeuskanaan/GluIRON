@@ -67,18 +67,18 @@ def run_first(population, workspace):
 
         ######################################################
         # Combine Basal Ganglia Masks
-        if not os.path.isfile('BG_L.nii.gz'):
-                os.system('fslmaths L_Accu.nii.gz -add L_Caud -add L_Puta -add L_Pall BG_L')
-                os.system('fslmaths R_Accu.nii.gz -add R_Caud -add R_Puta -add R_Pall BG_R')
+        if not os.path.isfile('L_BG.nii.gz'):
+                os.system('fslmaths L_Accu.nii.gz -add L_Caud -add L_Puta -add L_Pall L_BG')
+                os.system('fslmaths R_Accu.nii.gz -add R_Caud -add R_Puta -add R_Pall R_BG')
 
 
         ######################################################
         # Optimize Tissue class masks
         reg_dir = os.path.join(subject_dir, 'REGISTRATION')
         if not os.path.isfile(os.path.join(reg_dir, 'FLASH_GM_opt.nii.gz')):
-            os.system('fslmaths %s/FLASH/FLASH_GM -add BG_L -add BG_R %s/FLASH_GM_opt'%(reg_dir,reg_dir))
-            os.system('fslmaths %s/FLASH/FLASH_WM -sub BG_L -sub BG_R %s/FLASH_WM_opt'%(reg_dir,reg_dir))
-            os.system('fslmaths %s/FLASH/FLASH_CSF -sub BG_L -sub BG_R %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
+            os.system('fslmaths %s/FLASH/FLASH_GM -add L_BG -add R_BG %s/FLASH_GM_opt'%(reg_dir,reg_dir))
+            os.system('fslmaths %s/FLASH/FLASH_WM -sub L_BG -sub R_BG %s/FLASH_WM_opt'%(reg_dir,reg_dir))
+            os.system('fslmaths %s/FLASH/FLASH_CSF -sub L_BG -sub R_BG %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
 
 
 

@@ -49,7 +49,7 @@ def get_mrs_masks(population, afs, workspace_dir):
 
         def create_svs_mask(voxel, string_list):
 
-            if not os.path.isfile('%s.nii'%voxel):
+            if not os.path.isfile('%s_Mask_RPI_flash_bin_constricted.nii.gz'%voxel):
 
                 vox_dir = mkdir_path(os.path.join(seg_dir, voxel))
                 uni_path    = os.path.join(seg_dir + '/')
@@ -70,21 +70,20 @@ def get_mrs_masks(population, afs, workspace_dir):
                               % (uni_path, uni_img, vox_path, vox_file)]
 
                 subprocess.call(matlab_cmd)
-
-                # Clean
+                #
+                # # Clean
                 os.chdir(vox_path)
-                os.system('mv ../*Mask.nii* ../*coord* ./')
-
-                # Swap dims to RPI
-                os.system('fslswapdim %s_Mask RL PA IS %s_Mask_RPI' % (voxel, voxel))
-                os.system('flirt -in %s_Mask_RPI -ref %s -applyxfm -init %s -dof 6 -out %s_prob.nii.gz'
+                os.system('mv ../%s_Mask.nii ../*coord* ./'%voxel)
+                #
+                # # Swap dims to RPI
+                os.system('fslswapdim %s_Mask.nii RL PA IS %s_Mask_RPI' % (voxel, voxel))
+                os.system('flirt -in %s_Mask_RPI -ref %s -applyxfm -init %s -dof 6 -out %s_Mask_RPI_flash.nii.gz'
                           % (voxel, mag, uni2mag, voxel))
 
                 # bin and constrict to GM
                 gm = os.path.join(subject_dir, 'REGISTRATION', 'FLASH_GM_opt.nii.gz')
-                os.system('fslmaths %s_prob -thr 0.99 -bin -mul %s.nii.gtz' % (voxel, voxel))
-                os.system('fslmaths %s -mul %s %s_constricted'%(voxel, gm, voxel))
-                os.system('rm -rf *prob* *Mask*')
+                os.system('fslmaths %s_Mask_RPI_flash -thr 0.99 -bin  %s_Mask_RPI_flash_bin' % (voxel, voxel))
+                os.system('fslmaths %s_Mask_RPI_flash_bin -mul %s -bin %s_Mask_RPI_flash_bin_constricted' % (voxel, gm, voxel))
 
         create_svs_mask('STR', ['ST', 'ST', 'st'])
         create_svs_mask('THA', ['TH', 'Th', 'th'])
