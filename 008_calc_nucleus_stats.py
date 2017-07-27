@@ -50,7 +50,6 @@ def calc_nucleus_stats(population, workspace_dir):
             print roi, med
             stats_df.loc[subject][roi] = med
 
-
         stats_df.ix[subject, 'Caud']  = ((stats_df.loc['%s' % subject]['R_Caud'] + stats_df.loc['%s' % subject]['L_Caud'])) / 2.
         stats_df.ix[subject, 'Puta']  = ((stats_df.loc['%s' % subject]['R_Puta'] + stats_df.loc['%s' % subject]['L_Puta'])) / 2.
         stats_df.ix[subject, 'Pall']  = ((stats_df.loc['%s' % subject]['R_Pall'] + stats_df.loc['%s' % subject]['L_Pall'])) / 2.
