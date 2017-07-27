@@ -137,7 +137,7 @@ def make_reg(population, workspace_dir):
                       '-t MNI/transform1Warp.nii.gz MNI/transform0GenericAffine.mat' % mni_brain_1mm)
 
 
-# pop = controls_a + patients_a + lemon_population
+pop = controls_a + patients_a + lemon_population
 make_reg(pop, workspace_iron)
 #make_reg(['BATP'], workspace_iron)
 
