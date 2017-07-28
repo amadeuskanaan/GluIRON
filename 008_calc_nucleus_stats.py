@@ -28,6 +28,8 @@ def calc_nucleus_stats(population, workspace_dir):
             med = float(commands.getoutput('fslstats %s -k %s -M' % (qsm, nuc)))
             return med
 
+
+
         stats_df = pd.DataFrame(columns= first_rois + atlas_rois  + mrs_rois + tissue_rois, index=['%s' % subject])
 
         for roi in tissue_rois:

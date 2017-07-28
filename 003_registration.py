@@ -10,13 +10,13 @@ import commands
 import nipype.interfaces.ants as ants
 from variables.variables import *
 
-assert len(sys.argv)== 2
-subject_index=int(sys.argv[1])
+# assert len(sys.argv)== 2
+# subject_index=int(sys.argv[1])
 
 def make_reg(population, workspace_dir):
 
-    # for subject in population:
-        subject = population[subject_index]
+    for subject in population:
+        # subject = population[subject_index]
 
         print '##########################################'
         print 'Running registration for subject:', subject
@@ -54,7 +54,7 @@ def make_reg(population, workspace_dir):
             os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../QSM2MP2RAGE.nii.gz' % uni)
 
         # Transforming Tissue classess to FLASH space
-        if not os.path.isfile('FLASH_GMx.nii.gz'):
+        if not os.path.isfile('FLASH_GM.nii.gz'):
             print '....... transforming Tissue-Classess to FLASH space'
             dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
             for seg_name in dict_seg.keys():
@@ -139,4 +139,5 @@ def make_reg(population, workspace_dir):
 
 pop = controls_a + patients_a + lemon_population
 make_reg(pop, workspace_iron)
+# make_reg(['EC9T'], workspace_iron)
 
