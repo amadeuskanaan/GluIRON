@@ -7,4 +7,5 @@ log = /scr/malta1/Github/GluIRON/condor/logs/003_log_$(Process).txt
 getenv = True
 request_memory = 4000
 request_cpus = 1
+notify_user = amadeus.kanaan@gmail.com
 queue 158
