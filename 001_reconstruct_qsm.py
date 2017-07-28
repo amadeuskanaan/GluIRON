@@ -133,4 +133,4 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
 reconstruct_qsm(controls_a, afs_controls, workspace_iron, 'GTS')
 reconstruct_qsm(patients_a, afs_patients, workspace_iron, 'GTS')
 reconstruct_qsm(lemon_population_key[:50], afs_lemon, workspace_iron, 'LEMON')
-# reconstruct_qsm(lemon_population_key[50:], afs_lemon, workspace_iron, 'LEMON')
+reconstruct_qsm(lemon_population_key[50:], afs_lemon, workspace_iron, 'LEMON')

@@ -13,10 +13,13 @@ rois_L = ['L_' + roi for roi in rois]
 rois_R = ['R_' + roi for roi in rois]
 first_rois = rois_L + rois_R
 
+# assert len(sys.argv)== 2
+# subject_index=int(sys.argv[1])
 
 def run_first(population, workspace):
 
     for subject in population:
+        # subject = population[subject_index]
 
         print '###############################'
         print 'Running FIRST subcortical segmentation for subject:', subject
@@ -26,7 +29,7 @@ def run_first(population, workspace):
         subject_dir = os.path.join(workspace, subject)
         qsm         = os.path.join(subject_dir, 'QSM', 'QSM.nii')
         uni         = os.path.join(subject_dir, 'REGISTRATION', 'MP2RAGE2FLASH_BRAIN.nii.gz')
-        wm          = os.path.join(subject_dir, 'REGISTRATION', 'WM2FLASH.nii.gz')
+        wm          = os.path.join(subject_dir, 'REGISTRATION', 'FLASH/FLASH_WM.nii.gz')
         seg_dir     = mkdir_path(os.path.join(subject_dir, 'SEGMENTATION'))
         first_dir   = mkdir_path(os.path.join(subject_dir, 'SEGMENTATION/FIRST'))
         os.chdir(seg_dir)
@@ -80,6 +83,10 @@ def run_first(population, workspace):
             os.system('fslmaths %s/FLASH/FLASH_WM -sub L_BG -sub R_BG %s/FLASH_WM_opt'%(reg_dir,reg_dir))
             os.system('fslmaths %s/FLASH/FLASH_CSF -sub L_BG -sub R_BG %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
 
-
-
-run_first(['BATP'], workspace_iron)
+pop = controls_a + patients_a + lemon_population
+run_first(controls_a, workspace_iron)
+# run_first(patients_a, workspace_iron)
+# run_first(lemon_population[0:25], workspace_iron)
+# run_first(lemon_population[25:50], workspace_iron)
+# run_first(lemon_population[50:75], workspace_iron)
+# run_first(lemon_population[75:], workspace_iron)

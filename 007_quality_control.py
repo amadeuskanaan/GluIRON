@@ -91,4 +91,4 @@ def extract_quality_metrics(population, workspace_dir):
         df.to_csv(os.path.join(qc_dir, 'QC.csv'))
 
 
-extract_quality_metrics(['BATP'], workspace_iron)
+extract_quality_metrics(controls_a + patients_a + lemon_population, workspace_iron)

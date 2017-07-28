@@ -20,7 +20,6 @@ def transform_atlas_roi(population, workspace_dir):
         aff_mni    = os.path.join(subject_dir, 'REGISTRATION', 'MNI', 'transform0GenericAffine.mat')
         warp_mni   = os.path.join(subject_dir, 'REGISTRATION', 'MNI', 'transform1InverseWarp.nii.gz')
 
-
         def applyAntsTransform(mni_roi, roi_name, thr = 0.7):
             os.system('antsApplyTransforms -i %s -o %s_uni.nii.gz -r %s -t [%s,1] -t %s ' %(mni_roi, roi_name, uni, aff_mni, warp_mni))
             os.system('flirt -in %s_uni -ref %s -applyxfm -init %s -dof 6 -out %s_mag' %(roi_name, mag, aff_flash, roi_name ))
@@ -59,5 +58,6 @@ def transform_atlas_roi(population, workspace_dir):
                 applyAntsTransform(roi_image, roi_name, thr = 0.7)
 
 
-
-transform_atlas_roi(['BATP'], workspace_iron)
+transform_atlas_roi(controls_a, workspace_iron)
+# transform_atlas_roi(patients_a, workspace_iron)
+transform_atlas_roi(lemon_population, workspace_iron)

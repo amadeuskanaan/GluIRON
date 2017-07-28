@@ -10,13 +10,13 @@ import commands
 import nipype.interfaces.ants as ants
 from variables.variables import *
 
-# assert len(sys.argv)== 2
-# subject_index=int(sys.argv[1])
+assert len(sys.argv)== 2
+subject_index=int(sys.argv[1])
 
 def make_reg(population, workspace_dir):
 
-    for subject in population:
-        # subject = population[subject_index]
+    # for subject in population:
+        subject = population[subject_index]
 
         print '##########################################'
         print 'Running registration for subject:', subject
@@ -58,7 +58,7 @@ def make_reg(population, workspace_dir):
             print '....... transforming Tissue-Classess to FLASH space'
             dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
             for seg_name in dict_seg.keys():
-                seg_img = os.path.join(subject_dir,'ANATOMICAL', 'seg', '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
+                seg_img = os.path.join(seg_dir, '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
                 os.system('flirt -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out FLASH_%s_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
                           %(seg_img, seg_name))
                 os.system('fslmaths FLASH_%s_prob -thr 0.5 -bin -mul ../../QSM/mask.nii.gz FLASH_%s'%(seg_name,seg_name))
@@ -116,16 +116,16 @@ def make_reg(population, workspace_dir):
         # Normalize QSM image to LV_CSF
         qsm     = os.path.join(subject_dir, 'QSM/QSM.nii.gz')
         qsmnorm = os.path.join(subject_dir, 'QSM/QSMnorm.nii.gz')
-        qsmmni  = os.path.join(subject_dir, 'QSM/QSMnorm_MNI1mm.nii.gz')
 
         if not os.path.isfile(qsmnorm):
             print '....... normalizing QSM to LV_CSF'
             LVmu = float(commands.getoutput('fslstats %s -k FLASH_LV_constricted -M'%qsm))
-            print '....... constricted lateral vensticles Median =', LVmu
+            print '....... constricted lateral ventricles Median =', LVmu
             os.system('fslmaths %s -sub %s %s' % (qsm, LVmu, qsmnorm))
 
         # #########################################################################################
         # Transform normalized QSM to MNI space .... Will be used for AHBA correlations
+        qsmmni  = os.path.join(subject_dir, 'QSM/QSMnorm_MNI1mm.nii.gz')
         if not os.path.isfile(qsmmni):
             print '....... transforming normalied QSM to MNI space'
             os.system('flirt -in %s -ref %s -applyxfm -init FLASH/FLASH2MP2RAGE.mat -out FLASH/QSMnorm2MP2RAGE' %(qsmnorm, uni))
@@ -139,5 +139,4 @@ def make_reg(population, workspace_dir):
 
 pop = controls_a + patients_a + lemon_population
 make_reg(pop, workspace_iron)
-#make_reg(['BATP'], workspace_iron)
 
