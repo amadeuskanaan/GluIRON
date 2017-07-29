@@ -79,6 +79,6 @@ def calc_nucleus_stats(population, workspace_dir):
 
 # calc_nucleus_stats(controls_a, workspace_iron)
 # calc_nucleus_stats(patients_a, workspace_iron)
-calc_nucleus_stats(lemon_population[0:50], workspace_iron)
-# calc_nucleus_stats(lemon_population[50:], workspace_iron)
+# calc_nucleus_stats(lemon_population[0:50], workspace_iron)
+calc_nucleus_stats(lemon_population[50:], workspace_iron)
 
