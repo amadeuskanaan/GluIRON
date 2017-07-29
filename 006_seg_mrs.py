@@ -91,5 +91,5 @@ def get_mrs_masks(population, afs, workspace_dir):
 
 
 get_mrs_masks(controls_a, afs_controls, workspace_iron)
-get_mrs_masks(patients_a, afs_patients, workspace_iron)
-get_mrs_masks(lemon_population, afs_lemon, workspace_iron)
+# get_mrs_masks(patients_a, afs_patients, workspace_iron)
+# get_mrs_masks(lemon_population, afs_lemon, workspace_iron)
