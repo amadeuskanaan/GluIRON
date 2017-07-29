@@ -31,46 +31,48 @@ def calc_nucleus_stats(population, workspace_dir):
                 med = np.nan
             return med
 
+        stats_fname = os.path.join(stats_dir, 'nucleus_stats.csv')
 
+        if not os.path.isfile(stats_fname):
 
-        stats_df = pd.DataFrame(columns= first_rois + atlas_rois  + mrs_rois + tissue_rois, index=['%s' % subject])
+            stats_df = pd.DataFrame(columns= first_rois + atlas_rois  + mrs_rois + tissue_rois, index=['%s' % subject])
 
-        for roi in tissue_rois:
-            med = return_median_vals('REGISTRATION/FLASH_%s_opt.nii.gz'%roi) * 1000
-            print roi, med
-            stats_df.loc[subject][roi] = med
+            for roi in tissue_rois:
+                med = return_median_vals('REGISTRATION/FLASH_%s_opt.nii.gz'%roi) * 1000
+                print roi, med
+                stats_df.loc[subject][roi] = med
 
-        for roi in first_rois:
-            med = return_median_vals('SEGMENTATION/FIRST/%s.nii.gz'%roi) * 1000
-            print roi, med
-            stats_df.loc[subject][roi] = med
+            for roi in first_rois:
+                med = return_median_vals('SEGMENTATION/FIRST/%s.nii.gz'%roi) * 1000
+                print roi, med
+                stats_df.loc[subject][roi] = med
 
-        for roi in atlas_rois:
-            med = return_median_vals('SEGMENTATION/ATLAS/%s.nii.gz'%roi) * 1000
-            print roi, med
-            stats_df.loc[subject][roi] = med
+            for roi in atlas_rois:
+                med = return_median_vals('SEGMENTATION/ATLAS/%s.nii.gz'%roi) * 1000
+                print roi, med
+                stats_df.loc[subject][roi] = med
 
-        for roi in mrs_rois:
-            med = return_median_vals('SEGMENTATION/MRS/%s/%s_Mask_RPI_flash_bin_constricted.nii.gz' % (roi[4:],roi[4:])) * 1000
-            print roi, med
-            stats_df.loc[subject][roi] = med
+            for roi in mrs_rois:
+                med = return_median_vals('SEGMENTATION/MRS/%s/%s_Mask_RPI_flash_bin_constricted.nii.gz' % (roi[4:],roi[4:])) * 1000
+                print roi, med
+                stats_df.loc[subject][roi] = med
 
-        stats_df.ix[subject, 'Caud']  = ((stats_df.loc['%s' % subject]['R_Caud'] + stats_df.loc['%s' % subject]['L_Caud'])) / 2.
-        stats_df.ix[subject, 'Puta']  = ((stats_df.loc['%s' % subject]['R_Puta'] + stats_df.loc['%s' % subject]['L_Puta'])) / 2.
-        stats_df.ix[subject, 'Pall']  = ((stats_df.loc['%s' % subject]['R_Pall'] + stats_df.loc['%s' % subject]['L_Pall'])) / 2.
-        stats_df.ix[subject, 'Amyg']  = ((stats_df.loc['%s' % subject]['R_Amyg'] + stats_df.loc['%s' % subject]['L_Amyg'])) / 2.
-        stats_df.ix[subject, 'Hipp']  = ((stats_df.loc['%s' % subject]['R_Hipp'] + stats_df.loc['%s' % subject]['L_Hipp'])) / 2.
-        stats_df.ix[subject, 'Accu']  = ((stats_df.loc['%s' % subject]['R_Accu'] + stats_df.loc['%s' % subject]['L_Accu'])) / 2.
-        stats_df.ix[subject, 'Thal']  = ((stats_df.loc['%s' % subject]['R_Thal'] + stats_df.loc['%s' % subject]['L_Thal'])) / 2.
-        stats_df.ix[subject, 'SN']    = ((stats_df.loc['%s' % subject]['R_SN'] + stats_df.loc['%s' % subject]['L_SN'])) / 2.
-        stats_df.ix[subject, 'RN']    = ((stats_df.loc['%s' % subject]['R_RN'] + stats_df.loc['%s' % subject]['L_RN'])) / 2.
-        stats_df.ix[subject, 'STN']   = ((stats_df.loc['%s' % subject]['R_STN'] + stats_df.loc['%s' % subject]['L_STN'])) / 2.
-        stats_df.ix[subject, 'BG']    = ((stats_df.loc['%s' % subject]['R_BG']   + stats_df.loc['%s' % subject]['L_BG']))   / 2.
-        stats_df.ix[subject, 'BS']    = ((stats_df.loc['%s' % subject]['SN'] +
-                                          stats_df.loc['%s' % subject]['RN']) +
-                                          stats_df.loc['%s' % subject]['STN']) / 3.
+            stats_df.ix[subject, 'Caud']  = ((stats_df.loc['%s' % subject]['R_Caud'] + stats_df.loc['%s' % subject]['L_Caud'])) / 2.
+            stats_df.ix[subject, 'Puta']  = ((stats_df.loc['%s' % subject]['R_Puta'] + stats_df.loc['%s' % subject]['L_Puta'])) / 2.
+            stats_df.ix[subject, 'Pall']  = ((stats_df.loc['%s' % subject]['R_Pall'] + stats_df.loc['%s' % subject]['L_Pall'])) / 2.
+            stats_df.ix[subject, 'Amyg']  = ((stats_df.loc['%s' % subject]['R_Amyg'] + stats_df.loc['%s' % subject]['L_Amyg'])) / 2.
+            stats_df.ix[subject, 'Hipp']  = ((stats_df.loc['%s' % subject]['R_Hipp'] + stats_df.loc['%s' % subject]['L_Hipp'])) / 2.
+            stats_df.ix[subject, 'Accu']  = ((stats_df.loc['%s' % subject]['R_Accu'] + stats_df.loc['%s' % subject]['L_Accu'])) / 2.
+            stats_df.ix[subject, 'Thal']  = ((stats_df.loc['%s' % subject]['R_Thal'] + stats_df.loc['%s' % subject]['L_Thal'])) / 2.
+            stats_df.ix[subject, 'SN']    = ((stats_df.loc['%s' % subject]['R_SN'] + stats_df.loc['%s' % subject]['L_SN'])) / 2.
+            stats_df.ix[subject, 'RN']    = ((stats_df.loc['%s' % subject]['R_RN'] + stats_df.loc['%s' % subject]['L_RN'])) / 2.
+            stats_df.ix[subject, 'STN']   = ((stats_df.loc['%s' % subject]['R_STN'] + stats_df.loc['%s' % subject]['L_STN'])) / 2.
+            stats_df.ix[subject, 'BG']    = ((stats_df.loc['%s' % subject]['R_BG']   + stats_df.loc['%s' % subject]['L_BG']))   / 2.
+            stats_df.ix[subject, 'BS']    = ((stats_df.loc['%s' % subject]['SN'] +
+                                              stats_df.loc['%s' % subject]['RN']) +
+                                              stats_df.loc['%s' % subject]['STN']) / 3.
 
-        stats_df.to_csv(os.path.join(stats_dir, 'nucleus_stats.csv'))
+            stats_df.to_csv(stats_fname)
 
 calc_nucleus_stats(controls_a, workspace_iron)
 calc_nucleus_stats(patients_a, workspace_iron)
