@@ -17,6 +17,9 @@ def calc_nucleus_stats(population, workspace_dir):
 
     for subject in population:
 
+        print '#####################################################'
+        print 'Calculating Nucleus Statistics for Subject:', subject
+
         #I/O
         subject_dir = os.path.join(workspace_dir, subject)
         stats_dir_name = 'NUCLEUS_STATS'
