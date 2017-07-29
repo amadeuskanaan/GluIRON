@@ -72,5 +72,7 @@ def calc_nucleus_stats(population, workspace_dir):
 
         stats_df.to_csv(os.path.join(stats_dir, 'nucleus_stats.csv'))
 
-calc_nucleus_stats(['AA8P'], workspace_iron)
+calc_nucleus_stats(controls_a, workspace_iron)
+calc_nucleus_stats(patients_a, workspace_iron)
+calc_nucleus_stats(lemon_population, workspace_iron)
 
