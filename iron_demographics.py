@@ -38,6 +38,6 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     df_concat.to_csv(os.path.join(phenotypic_dir, 'lemon.csv'))
     return df_concat
 
-gts_controls   = extract_demographics(controls_a, afs_controls_a, phenotypic_dir, 'GTS')
+gts_controls   = extract_demographics(controls_a, afs_controls, phenotypic_dir, 'GTS')
 lemon_controls = extract_demographics(lemon_population_key, afs_lemon, phenotypic_dir, 'LEMON')
-patients       = extract_demographics(patients_a, afs_patients_a, phenotypic_dir, 'GTS')
+patients       = extract_demographics(patients_a, afs_patients, phenotypic_dir, 'GTS')
