@@ -11,12 +11,17 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     df_all = []
     for subject_id in population:
 
-        if popname == 'GTS':
-            subject = subject_id
-            dicom_dir = os.path.join(afs_dir, subject_id, 'DICOM')
-        elif popname == 'LEMON':
+        if popname == 'LEMON':
             subject = subject_id[9:]
             dicom_dir = os.path.join(afs_dir, subject_id, 'MRI', 'DICOMS', 't1')
+        else:
+            subject = subject_id
+            dicom_dir = os.path.join(afs_dir, subject_id, 'DICOM')
+
+        if popname == 'LEMON' or popname == 'controls':
+            group = 'Controls'
+        else:
+            group = 'Patients'
 
         df = pd.DataFrame(index=['%s' % subject], columns=['Age', 'Gender'])
         dcm = os.path.join(dicom_dir, os.listdir(dicom_dir)[0])
@@ -31,6 +36,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
 
         df['Age'] = int(age)
         df['Gender'] = sex
+        df['Group'] = group
         df_all.append(df)
 
     df_concat = pd.concat(df_all, axis=0)
@@ -38,6 +44,6 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     df_concat.to_csv(os.path.join(phenotypic_dir, 'demographics_%s.csv'%popname))
     return df_concat
 
-gts_controls   = extract_demographics(controls_a, afs_controls, phenotypic_dir, 'GTS')
+gts_controls   = extract_demographics(controls_a, afs_controls, phenotypic_dir, 'controls')
 lemon_controls = extract_demographics(lemon_population_key, afs_lemon, phenotypic_dir, 'LEMON')
-patients       = extract_demographics(patients_a, afs_patients, phenotypic_dir, 'GTS')
+patients       = extract_demographics(patients_a, afs_patients, phenotypic_dir, 'patients')
