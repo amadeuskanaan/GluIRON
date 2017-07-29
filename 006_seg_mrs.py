@@ -65,11 +65,11 @@ def get_mrs_masks(population, afs, workspace_dir):
                                 print os.path.join(root, file)
                                 shutil.copy(os.path.join(root, file),  os.path.join(vox_dir, voxel))
 
-                # Convert correct RDA
+                ## Convert correct RDA
                 matlab_cmd = ['matlab', '-nodesktop', '-nosplash', '-nojvm', '-r "RDA_TO_NIFTI(\'%s\', \'%s\', \'%s\', \'%s\') ; quit;"'
                               % (uni_path, uni_img, vox_path, vox_file)]
 
-                if os.path.isfile(os.path.join(vox_path,vox_file)):
+                if os.path.isfile(os.path.join(vox_path,voxel)):
                     subprocess.call(matlab_cmd)
 
                 # # Clean
