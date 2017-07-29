@@ -49,7 +49,7 @@ def get_mrs_masks(population, afs, workspace_dir):
 
         def create_svs_mask(voxel, string_list):
 
-            if not os.path.isfile('%s_Mask_RPI_flash_bin_constricted.nii.gz'%voxel):
+            if not os.path.isfile('%s/%s/%s_Mask_RPI_flash_bin_constricted.nii.gz'%(svs_dir,voxel,voxel)):
 
                 vox_dir = mkdir_path(os.path.join(seg_dir, voxel))
                 uni_path    = os.path.join(seg_dir + '/')
