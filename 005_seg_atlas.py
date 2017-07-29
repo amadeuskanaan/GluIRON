@@ -59,5 +59,5 @@ def transform_atlas_roi(population, workspace_dir):
 
 
 transform_atlas_roi(controls_a, workspace_iron)
-# transform_atlas_roi(patients_a, workspace_iron)
+transform_atlas_roi(patients_a, workspace_iron)
 transform_atlas_roi(lemon_population, workspace_iron)
