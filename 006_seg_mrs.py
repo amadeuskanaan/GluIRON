@@ -72,19 +72,19 @@ def get_mrs_masks(population, afs, workspace_dir):
                 if os.path.isfile(os.path.join(vox_path,voxel)):
                     subprocess.call(matlab_cmd)
 
-                # # Clean
-                os.chdir(vox_path)
-                os.system('mv ../%s_Mask.nii ../*coord* ./'%voxel)
-                #
-                # # Swap dims to RPI
-                os.system('fslswapdim %s_Mask.nii RL PA IS %s_Mask_RPI' % (voxel, voxel))
-                os.system('flirt -in %s_Mask_RPI -ref %s -applyxfm -init %s -dof 6 -out %s_Mask_RPI_flash.nii.gz'
-                          % (voxel, mag, uni2mag, voxel))
+                    # # Clean
+                    os.chdir(vox_path)
+                    os.system('mv ../%s_Mask.nii ../*coord* ./'%voxel)
+                    #
+                    # # Swap dims to RPI
+                    os.system('fslswapdim %s_Mask.nii RL PA IS %s_Mask_RPI' % (voxel, voxel))
+                    os.system('flirt -in %s_Mask_RPI -ref %s -applyxfm -init %s -dof 6 -out %s_Mask_RPI_flash.nii.gz'
+                              % (voxel, mag, uni2mag, voxel))
 
-                # bin and constrict to GM
-                gm = os.path.join(subject_dir, 'REGISTRATION', 'FLASH_GM_opt.nii.gz')
-                os.system('fslmaths %s_Mask_RPI_flash -thr 0.99 -bin  %s_Mask_RPI_flash_bin' % (voxel, voxel))
-                os.system('fslmaths %s_Mask_RPI_flash_bin -mul %s -bin %s_Mask_RPI_flash_bin_constricted' % (voxel, gm, voxel))
+                    # bin and constrict to GM
+                    gm = os.path.join(subject_dir, 'REGISTRATION', 'FLASH_GM_opt.nii.gz')
+                    os.system('fslmaths %s_Mask_RPI_flash -thr 0.99 -bin  %s_Mask_RPI_flash_bin' % (voxel, voxel))
+                    os.system('fslmaths %s_Mask_RPI_flash_bin -mul %s -bin %s_Mask_RPI_flash_bin_constricted' % (voxel, gm, voxel))
 
         create_svs_mask('STR', ['ST', 'ST', 'st'])
         create_svs_mask('THA', ['TH', 'Th', 'th'])
