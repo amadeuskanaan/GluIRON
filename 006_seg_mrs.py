@@ -91,5 +91,5 @@ def get_mrs_masks(population, afs, workspace_dir):
         create_svs_mask('ACC', ['ACC', 'acc', 'Acc'])
 
 
-get_mrs_masks(['AA8P'], afs_controls, workspace_iron) # WSKT
-# get_mrs_masks(patients_a, afs_patients, workspace_iron)
+get_mrs_masks(controls_a, afs_controls, workspace_iron) # WSKT
+get_mrs_masks(patients_a, afs_patients, workspace_iron)
