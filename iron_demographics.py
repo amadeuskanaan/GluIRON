@@ -35,7 +35,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
 
     df_concat = pd.concat(df_all, axis=0)
 
-    df_concat.to_csv(os.path.join(phenotypic_dir, 'lemon.csv'))
+    df_concat.to_csv(os.path.join(phenotypic_dir, 'demographics_%s.csv'%popname))
     return df_concat
 
 gts_controls   = extract_demographics(controls_a, afs_controls, phenotypic_dir, 'GTS')
