@@ -25,7 +25,10 @@ def calc_nucleus_stats(population, workspace_dir):
 
         def return_median_vals(nuc_subpath):
             nuc = os.path.join(subject_dir, nuc_subpath)
-            med = float(commands.getoutput('fslstats %s -k %s -M' % (qsm, nuc)))
+            if os.path.isfile(nuc):
+                med = float(commands.getoutput('fslstats %s -k %s -M' % (qsm, nuc)))
+            else:
+                med = np.nan
             return med
 
 
@@ -69,5 +72,5 @@ def calc_nucleus_stats(population, workspace_dir):
 
         stats_df.to_csv(os.path.join(stats_dir, 'nucleus_stats.csv'))
 
-calc_nucleus_stats(['BATP'], workspace_iron)
+calc_nucleus_stats(['AA8P'], workspace_iron)
 
