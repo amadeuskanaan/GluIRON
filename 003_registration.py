@@ -113,12 +113,12 @@ def make_reg(population, workspace_dir):
             #
 
         #########################################################################################
-        # Normalize QSM image to LV_CSF
-        qsm     = os.path.join(subject_dir, 'QSM/QSM.nii.gz')
+        # QSM zero
         qsmnorm = os.path.join(subject_dir, 'QSM/QSMnorm.nii.gz')
 
         if not os.path.isfile(qsmnorm):
             print '....... normalizing QSM to LV_CSF'
+            qsm = os.path.join(subject_dir, 'QSM/QSM.nii.gz')
             LVmu = float(commands.getoutput('fslstats %s -k FLASH_LV_constricted -M'%qsm))
             print '....... constricted lateral ventricles Median =', LVmu
             os.system('fslmaths %s -sub %s %s' % (qsm, LVmu, qsmnorm))
