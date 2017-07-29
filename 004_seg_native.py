@@ -84,9 +84,4 @@ def run_first(population, workspace):
             os.system('fslmaths %s/FLASH/FLASH_CSF -sub L_BG -sub R_BG %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
 
 pop = controls_a + patients_a + lemon_population
-run_first(controls_a, workspace_iron)
-# run_first(patients_a, workspace_iron)
-# run_first(lemon_population[0:25], workspace_iron)
-# run_first(lemon_population[25:50], workspace_iron)
-# run_first(lemon_population[50:75], workspace_iron)
-# run_first(lemon_population[75:], workspace_iron)
+run_first(pop, workspace_iron)
