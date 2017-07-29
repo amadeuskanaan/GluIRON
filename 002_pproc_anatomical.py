@@ -35,7 +35,7 @@ def preprocess_anatomical(population, workspace_dir):
                 seg.run()
 
         # Deskulling
-        if not os.path.isfile(os.path.join(anat_dir, 'MP2RAGE_UNI_PPROC.nii.gz')):
+        if not os.path.isfile(os.path.join(anat_dir, 'MP2RAGE_UNI_BRAIN.nii.gz')):
             os.system('fslmaths c1MP2RAGE_UNI.nii -add c2MP2RAGE_UNI.nii -add c3MP2RAGE_UNI.nii -thr 0.9 -bin  -fillh ../BRAIN_MASK')
             os.chdir(anat_dir)
             os.system('fslmaths BRAIN_MASK -mul MP2RAGE_UNI MP2RAGE_UNI_BRAIN')
