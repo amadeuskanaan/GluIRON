@@ -47,7 +47,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
         df_subject = pd.concat([df_pheno, df_qc, df_stats], axis  = 1)
         df_subjects.append(df_subject)
 
-    df_concat = pd.concat(df_all, axis=0)
+    df_concat = pd.concat(df_subjects, axis=0)
     df_concat.to_csv(os.path.join(phenotypic_dir, '%s.csv'%popname))
 
 
