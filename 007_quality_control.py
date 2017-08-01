@@ -10,7 +10,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.units import cm, mm, inch, pica
 import nibabel as nb
 from variables.variables import *
-
+from sklearn.decomposition import TruncatedSVD
 from utils.spatial_qc import *
 
 '''
@@ -71,26 +71,37 @@ def extract_quality_metrics(population, workspace_dir):
 
         if not os.path.isfile(os.path.join(qc_dir, 'QC.csv')):
 
-            uni_qc_cnr, uni_qc_snr, uni_qc_fwhm, uni_qc_efc, uni_qc_fber, uni_qc_qi1 = calc_spatial_metrics(mp2rage_uni, mp2rage_mas, mp2rage_gm, mp2rage_wm, mp2rage_cm)
+            #uni_qc_cnr, uni_qc_snr, uni_qc_fwhm, uni_qc_efc, uni_qc_fber, uni_qc_qi1 = calc_spatial_metrics(mp2rage_uni, mp2rage_mas, mp2rage_gm, mp2rage_wm, mp2rage_cm)
             mag_qc_cnr, mag_qc_snr, mag_qc_fwhm, mag_qc_efc, mag_qc_fber, mag_qc_qi1 = calc_spatial_metrics(flash_mag, flash_mas, flash_gm, flash_wm, flash_cm)
 
-            cols = ['SNR_UNI', 'CNR_UNI', 'FBER_UNI', 'EFC_UNI', 'FWHM_UNI', 'QI1_UNI',
+            cols = [#'SNR_UNI', 'CNR_UNI', 'FBER_UNI', 'EFC_UNI', 'FWHM_UNI', 'QI1_UNI',
                     'SNR_MAG', 'CNR_MAG', 'FBER_MAG', 'EFC_MAG', 'FWHM_MAG', 'QI1_MAG',
                     ]
             df = pd.DataFrame(columns=cols, index=['%s' % subject])
 
-            df.loc[subject]['SNR_UNI']  = uni_qc_snr
-            df.loc[subject]['CNR_UNI']  = uni_qc_cnr
-            df.loc[subject]['FBER_UNI'] = uni_qc_fber
-            df.loc[subject]['EFC_UNI']  = uni_qc_efc
-            df.loc[subject]['FWHM_UNI'] = uni_qc_fwhm
-            df.loc[subject]['QI1_UNI']  = uni_qc_qi1
+            #df.loc[subject]['SNR_UNI']  = uni_qc_snr
+            #df.loc[subject]['CNR_UNI']  = uni_qc_cnr
+            #df.loc[subject]['FBER_UNI'] = uni_qc_fber
+            #df.loc[subject]['EFC_UNI']  = uni_qc_efc
+            #df.loc[subject]['FWHM_UNI'] = uni_qc_fwhm
+            #df.loc[subject]['QI1_UNI']  = uni_qc_qi1
             df.loc[subject]['SNR_MAG']  = mag_qc_snr
             df.loc[subject]['CNR_MAG']  = mag_qc_cnr
             df.loc[subject]['FBER_MAG'] = mag_qc_fber
             df.loc[subject]['EFC_MAG']  = mag_qc_efc
             df.loc[subject]['FWHM_MAG'] = mag_qc_fwhm
             df.loc[subject]['QI1_MAG']  = mag_qc_qi1
+
+            pca = TruncatedSVD(n_components=1)
+            qc_metrics = ['EFC_MAG', 'FWHM_MAG', 'QI1_MAG']  # 'SNR_MAG', 'CNR_MAG', 'FBER_MAG',
+            pca.fit(np.array(np.asarray([df_qsm[qc] for qc in qc_metrics])))
+            df_qsm['QC_PCA_lower'] = pca.components_[0, :]
+
+            pca = TruncatedSVD(n_components=1)
+            qc_metrics = ['SNR_MAG', 'CNR_MAG', 'FBER_MAG']  # 'SNR_MAG', 'CNR_MAG', 'FBER_MAG',
+            pca.fit(np.array(np.asarray([df_qsm[qc] for qc in qc_metrics])))
+            df_qsm['QC_PCA_higher'] = pca.components_[0, :]
+
             df.to_csv(os.path.join(qc_dir, 'QC.csv'))
 
 
