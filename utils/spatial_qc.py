@@ -1,4 +1,3 @@
-
 import os
 import sys
 import numpy as np
@@ -386,3 +385,105 @@ def ghost_all(epi_data, mask_data):
     return tuple(gsrs + [None])
 
 
+
+
+
+
+'''
+Based on PCP Quality Assessment Protocol
+URL: http://preprocessed-connectomes-project.org/quality-assessment-protocol/
+'''
+
+def calc_spatial_qc_metrics(subject, mp2rage_uni, mp2rage_mas, mp2rage_gm, mp2rage_wm, mp2rage_cm,
+                            flash_mag, flash_mas, flash_gm, flash_wm, flash_cm):
+    import os
+    import numpy as np
+    import pandas as pd
+    import nibabel as nb
+
+    mp2rage_uni_data = nb.load(mp2rage_uni).get_data()
+    mp2rage_mas_data = nb.load(mp2rage_mas).get_data()
+    mp2rage_gm_data = nb.load(mp2rage_gm).get_data()
+    mp2rage_wm_data = nb.load(mp2rage_wm).get_data()
+    mp2rage_cm_data = nb.load(mp2rage_cm).get_data()
+
+    flash_mag_data = nb.load(flash_mag).get_data()  # * 1000
+    flash_mas_data = nb.load(flash_mas).get_data()
+    flash_gm_data = nb.load(flash_gm).get_data()
+    flash_wm_data = nb.load(flash_wm).get_data()
+    flash_cm_data = nb.load(flash_cm).get_data()
+
+    # Summary Measures [fg_mean, fg_std, fg_size, bg_mean, bg_std, bg_size, gm_mean, gm_std, gm_size, wm_mean, wm_std,
+    # wm_size, csf_mean, csf_std, csf_size]:
+    # Intermediate measures used to calculate the metrics above.
+    # Mean, standard deviation, and mask size are given for foreground, background, white matter, and CSF masks.
+
+    print '........calculating qc paramters '
+    mp2rage_fg_mean, mp2rage_fg_std, mp2rage_fg_size = summary_mask(mp2rage_uni_data, mp2rage_mas_data)
+    mp2rage_gm_mean, mp2rage_gm_std, mp2rage_gm_size = summary_mask(mp2rage_uni_data,
+                                                                    np.where(mp2rage_gm_data > 0.5, 1, 0))
+    mp2rage_wm_mean, mp2rage_wm_std, mp2rage_wm_size = summary_mask(mp2rage_uni_data,
+                                                                    np.where(mp2rage_wm_data > 0.5, 1, 0))
+    mp2rage_cm_mean, mp2rage_cm_std, mp2rage_cm_size = summary_mask(mp2rage_uni_data,
+                                                                    np.where(mp2rage_cm_data > 0.5, 1, 0))
+    mp2rage_bg_data, mp2rage_bg_mask = get_background(mp2rage_uni_data, mp2rage_mas_data)
+    mp2rage_bg_mean, mp2rage_bg_std, mp2rage_bg_size = summary_mask(mp2rage_uni_data, mp2rage_bg_mask)
+
+    flash_mag_fg_mean, flash_mag_fg_std, flash_mag_fg_size = summary_mask(flash_mag_data, flash_mas_data)
+    flash_mag_gm_mean, flash_mag_gm_std, flash_mag_gm_size = summary_mask(flash_mag_data,
+                                                                          np.where(flash_gm_data > 0.5, 1, 0))
+    flash_mag_wm_mean, flash_mag_wm_std, flash_mag_wm_size = summary_mask(flash_mag_data,
+                                                                          np.where(flash_wm_data > 0.5, 1, 0))
+    flash_mag_cm_mean, flash_mag_cm_std, flash_mag_cm_size = summary_mask(flash_mag_data,
+                                                                          np.where(flash_cm_data > 0.5, 1, 0))
+    flash_mag_bg_data, flash_mag_bg_mask = get_background(flash_mag_data, flash_mas_data)
+    flash_mag_bg_mean, flash_mag_bg_std, flash_mag_bg_size = summary_mask(flash_mag_data, flash_mag_bg_mask)
+
+    # # Contrast to Noise Ratio (CNR) [cnr]:
+    qc_cnr_uni = cnr(mp2rage_gm_mean, mp2rage_wm_mean, mp2rage_bg_std)
+    qc_cnr_mag = cnr(flash_mag_gm_mean, flash_mag_wm_mean, flash_mag_bg_std)
+
+    # # Signal-to-Noise Ratio (SNR) [snr]:
+    # ## The mean of image values within gray matter divided by the SD of the image values within air (i.e., outside the head).
+    # ## Higher values are better
+    qc_snr_uni = snr(mp2rage_fg_mean, mp2rage_bg_std)
+    qc_snr_mag = snr(flash_mag_fg_mean, flash_mag_bg_std)
+
+    # # Entropy Focus Criterion (EFC) [efc]:
+    qc_efc_uni = efc(mp2rage_uni_data)
+    qc_efc_mag = efc(flash_mag_data)
+
+    # # Foreground to Background Energy Ratio (FBER) [fber]:
+    qc_fber_uni = fber(mp2rage_uni_data, mp2rage_mas_data)
+    qc_fber_mag = fber(flash_mag_data, flash_mas_data)
+
+    # # Smoothness of Voxels (FWHM) [fwhm, fwhm_x, fwhm_y, fwhm_z]:
+    # qc_fwhm_uni = fwhm(mp2rage_uni, mp2rage_mas, out_vox=False)
+    # qc_fwhm_mag = fwhm(flash_mag, flash_mas, out_vox=False)
+
+    # # Artifact Detection (Qi1) [qi1]:
+    qi1_uni = artifacts(mp2rage_uni_data, mp2rage_mas_data, 'UNI')
+    qi1_mag = artifacts(flash_mag_data, flash_mas_data, 'MAG')
+
+    cols = ['SNR_UNI', 'CNR_UNI', 'FBER_UNI', 'EFC_UNI', 'FWHM_UNI', 'QI1_UNI',
+            'SNR_MAG', 'CNR_MAG', 'FBER_MAG', 'EFC_MAG', 'FWHM_MAG', 'QI1_MAG',
+            ]
+    df = pd.DataFrame(columns=cols, index=['%s' % subject])
+
+    print qc_efc_mag
+    print qc_efc_uni
+
+    df.loc[subject]['SNR_UNI'] = qc_snr_uni
+    df.loc[subject]['CNR_UNI'] = qc_cnr_uni
+    df.loc[subject]['FBER_UNI'] = qc_fber_uni
+    df.loc[subject]['EFC_UNI'] = qc_efc_uni
+    # df.loc[subject]['FWHM_UNI'] = qc_fwhm_uni[3]
+    df.loc[subject]['QI1_UNI'] = qi1_uni
+    df.loc[subject]['SNR_MAG'] = qc_snr_mag
+    df.loc[subject]['CNR_MAG'] = qc_cnr_mag
+    df.loc[subject]['FBER_MAG'] = qc_fber_mag
+    df.loc[subject]['EFC_MAG'] = qc_efc_mag
+    # df.loc[subject]['FWHM_MAG'] = qc_fwhm_mag[3]
+    df.loc[subject]['QI1_MAG'] = qi1_mag
+
+    return df
