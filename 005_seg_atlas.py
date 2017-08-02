@@ -35,7 +35,6 @@ def transform_atlas_roi(population, workspace_dir):
         # transform ATAK rois
         atak_rois = ['R_RN', 'R_SN', 'R_STN', 'R_DN', 'R_GPi', 'R_GPe', 'R_BS',
                      'L_RN', 'L_SN', 'L_STN', 'L_DN', 'L_GPi', 'L_GPe', 'L_BS']
-
         for roi_name in atak_rois:
             if not os.path.isfile('%s.nii.gz'%roi_name):
                 roi_img = os.path.join(atlas_dir, 'ATAK', 'ATAK_%s.nii.gz'%roi_name)
@@ -51,16 +50,15 @@ def transform_atlas_roi(population, workspace_dir):
 
         #########################################################################################
         # transform STR rois
-
         str_rois = ['STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC']
-
         for roi_name in str_rois:
-            if not os.path.isfile('STR3_MOTOR.nii.gz'):
+            if not os.path.isfile('%s.nii.gz'%roi_name):
                 print roi_name
                 roi_image = os.path.join(atlas_dir, 'STR', '%s.nii.gz' %roi_name)
                 applyAntsTransform(roi_image, roi_name, thr = 0.7)
 
 
-transform_atlas_roi(controls_a, workspace_iron)
-transform_atlas_roi(patients_a, workspace_iron)
+# transform_atlas_roi(['GSNT'], workspace_iron)
+# transform_atlas_roi(controls_a, workspace_iron)
+# transform_atlas_roi(patients_a, workspace_iron)
 transform_atlas_roi(lemon_population, workspace_iron)
