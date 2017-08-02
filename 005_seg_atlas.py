@@ -27,16 +27,17 @@ def transform_atlas_roi(population, workspace_dir):
             os.system('rm -rf *mag* *uni*')
 
         atlas_dir = '/scr/malta1/Github/GluIRON/atlases'
-        atak_rois = ['R_RN', 'R_SN', 'R_STN', 'L_RN', 'L_SN', 'L_STN']
-        str_rois  = ['str_div3_motor', 'str_div3_limbic', 'str_div3_executive']
+
+
         os.chdir(seg_dir)
 
         #########################################################################################
         # transform ATAK rois
+        atak_rois = ['R_RN', 'R_SN', 'R_STN', 'R_DN', 'R_GPi', 'R_GPe', 'R_BS',
+                     'L_RN', 'L_SN', 'L_STN', 'L_DN', 'L_GPi', 'L_GPe', 'L_BS']
 
-        if not os.path.isfile('L_STN.nii.gz'):
-
-            for roi_name in atak_rois:
+        for roi_name in atak_rois:
+            if not os.path.isfile('%s.nii.gz'%roi_name):
                 roi_img = os.path.join(atlas_dir, 'ATAK', 'ATAK_%s.nii.gz'%roi_name)
                 print roi_name
                 if roi_name in ['R_SN', 'L_SN']:
@@ -51,8 +52,10 @@ def transform_atlas_roi(population, workspace_dir):
         #########################################################################################
         # transform STR rois
 
-        if not os.path.isfile('str_div3_motor.nii.gz'):
-            for roi_name in str_rois:
+        str_rois = ['STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC']
+
+        for roi_name in str_rois:
+            if not os.path.isfile('STR3_MOTOR.nii.gz'):
                 print roi_name
                 roi_image = os.path.join(atlas_dir, 'STR', '%s.nii.gz' %roi_name)
                 applyAntsTransform(roi_image, roi_name, thr = 0.7)
