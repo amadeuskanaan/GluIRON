@@ -8,8 +8,10 @@ from variables.variables import *
 
 first_rois  = ['R_Caud', 'R_Puta', 'R_Pall', 'R_Amyg', 'R_Hipp', 'R_Accu', 'R_Thal',
               'L_Caud', 'L_Puta', 'L_Pall', 'L_Amyg', 'L_Hipp', 'L_Accu', 'L_Thal', 'L_BG', 'R_BG']
-atlas_rois   = ['R_RN', 'R_SN', 'R_STN', 'L_RN', 'L_SN', 'L_STN',
-                'str_div3_motor', 'str_div3_limbic', 'str_div3_executive']
+atlas_rois   = ['R_RN', 'R_SN', 'R_STN', 'R_DN', 'R_GPi', 'R_GPe',
+                'L_RN', 'L_SN', 'L_STN', 'L_DN', 'L_GPi', 'L_GPe',
+                'L_BS', 'R_BS',
+                'STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC']
 mrs_rois    = ['MRS_ACC', 'MRS_THA', 'MRS_STR']
 tissue_rois = ['GM', 'WM', 'CSF']
 
@@ -34,7 +36,7 @@ def calc_nucleus_stats(population, workspace_dir):
                 med = np.nan
             return med
 
-        stats_fname = os.path.join(stats_dir, 'nucleus_stats_july29.csv')
+        stats_fname = os.path.join(stats_dir, 'nucleus_stats_aug02.csv')
 
         if not os.path.isfile(stats_fname):
 
@@ -68,13 +70,12 @@ def calc_nucleus_stats(population, workspace_dir):
             stats_df.ix[subject, 'Accu']  = ((stats_df.loc['%s' % subject]['R_Accu'] + stats_df.loc['%s' % subject]['L_Accu'])) / 2.
             stats_df.ix[subject, 'Thal']  = ((stats_df.loc['%s' % subject]['R_Thal'] + stats_df.loc['%s' % subject]['L_Thal'])) / 2.
             stats_df.ix[subject, 'SN']    = ((stats_df.loc['%s' % subject]['R_SN'] + stats_df.loc['%s' % subject]['L_SN'])) / 2.
-            stats_df.ix[subject, 'RN']    = ((stats_df.loc['%s' % subject]['R_RN'] + stats_df.loc['%s' % subject]['L_RN'])) / 2.
             stats_df.ix[subject, 'STN']   = ((stats_df.loc['%s' % subject]['R_STN'] + stats_df.loc['%s' % subject]['L_STN'])) / 2.
+            stats_df.ix[subject, 'RN']    = ((stats_df.loc['%s' % subject]['R_RN'] + stats_df.loc['%s' % subject]['L_RN'])) / 2.
+            stats_df.ix[subject, 'DN']    = ((stats_df.loc['%s' % subject]['R_DN'] + stats_df.loc['%s' % subject]['L_DN'])) / 2.
             stats_df.ix[subject, 'BG']    = ((stats_df.loc['%s' % subject]['R_BG']   + stats_df.loc['%s' % subject]['L_BG']))   / 2.
-            stats_df.ix[subject, 'BS']    = ((stats_df.loc['%s' % subject]['SN'] +
-                                              stats_df.loc['%s' % subject]['RN']) +
-                                              stats_df.loc['%s' % subject]['STN']) / 3.
-
+            stats_df.ix[subject, 'BS']    = ((stats_df.loc['%s' % subject]['R_BS']   + stats_df.loc['%s' % subject]['L_BS']))   / 2.
+            stats_df.ix[subject, 'ALL'] = ((stats_df.loc['%s' % subject]['BG'] + stats_df.loc['%s' % subject]['BS'])) / 2.
             stats_df.to_csv(stats_fname)
 
 # calc_nucleus_stats(controls_a, workspace_iron)

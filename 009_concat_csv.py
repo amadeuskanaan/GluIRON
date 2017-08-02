@@ -32,16 +32,16 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
         age = reader.PatientAge[:-1]
 
         if reader.PatientSex is 'F':
-            sex = 'F'
+            sex = '1'
         elif reader.PatientSex is 'M':
-            sex = 'M'
+            sex = '0'
 
         df_pheno['Age'] = int(age)
         df_pheno['Gender'] = sex
         df_pheno['Group'] = group
 
         subject_dir = os.path.join(workspace_iron, subject)
-        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_july29.csv'), index_col = 0)
+        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug04.csv'), index_col = 0)
         df_qc    = pd.read_csv(os.path.join(subject_dir, 'QUALITY_CONTROL', 'QC.csv'), index_col = 0)
 
         df_subject = pd.concat([df_pheno, df_qc, df_stats], axis  = 1)
@@ -51,7 +51,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     df_concat.to_csv(os.path.join(phenotypic_dir, '%s.csv'%popname))
 
 
-extract_demographics(controls_a, afs_controls, phenotypic_dir, 'controls')
-extract_demographics(lemon_population_key, afs_lemon, phenotypic_dir, 'LEMON')
-extract_demographics(patients_a, afs_patients, phenotypic_dir, 'patients')
+extract_demographics(controls_a, afs_controls, phenotypic_dir, 'df_raw_controls')
+extract_demographics(lemon_population_key, afs_lemon, phenotypic_dir, 'df_raw_lemon')
+extract_demographics(patients_a, afs_patients, phenotypic_dir, 'df_raw_patients')
 
