@@ -13,7 +13,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     df_subjects = []
     for subject_id in population:
 
-        if popname == 'LEMON':
+        if popname[-5:] == 'lemon':
             subject = subject_id[9:]
             dicom_dir = os.path.join(afs_dir, subject_id, 'MRI', 'DICOMS', 't1')
         else:
@@ -41,7 +41,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
         df_pheno['Group'] = group
 
         subject_dir = os.path.join(workspace_iron, subject)
-        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug04.csv'), index_col = 0)
+        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug02.csv'), index_col = 0)
         df_qc    = pd.read_csv(os.path.join(subject_dir, 'QUALITY_CONTROL', 'QC.csv'), index_col = 0)
 
         df_subject = pd.concat([df_pheno, df_qc, df_stats], axis  = 1)

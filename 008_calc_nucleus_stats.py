@@ -73,13 +73,15 @@ def calc_nucleus_stats(population, workspace_dir):
             stats_df.ix[subject, 'STN']   = ((stats_df.loc['%s' % subject]['R_STN'] + stats_df.loc['%s' % subject]['L_STN'])) / 2.
             stats_df.ix[subject, 'RN']    = ((stats_df.loc['%s' % subject]['R_RN'] + stats_df.loc['%s' % subject]['L_RN'])) / 2.
             stats_df.ix[subject, 'DN']    = ((stats_df.loc['%s' % subject]['R_DN'] + stats_df.loc['%s' % subject]['L_DN'])) / 2.
+            stats_df.ix[subject, 'GPi'] = ((stats_df.loc['%s' % subject]['R_GPi'] + stats_df.loc['%s' % subject]['L_GPi'])) / 2.
+            stats_df.ix[subject, 'GPe'] = ((stats_df.loc['%s' % subject]['R_GPe'] + stats_df.loc['%s' % subject]['L_GPe'])) / 2.
             stats_df.ix[subject, 'BG']    = ((stats_df.loc['%s' % subject]['R_BG']   + stats_df.loc['%s' % subject]['L_BG']))   / 2.
             stats_df.ix[subject, 'BS']    = ((stats_df.loc['%s' % subject]['R_BS']   + stats_df.loc['%s' % subject]['L_BS']))   / 2.
             stats_df.ix[subject, 'ALL'] = ((stats_df.loc['%s' % subject]['BG'] + stats_df.loc['%s' % subject]['BS'])) / 2.
             stats_df.to_csv(stats_fname)
 
-# calc_nucleus_stats(controls_a, workspace_iron)
-# calc_nucleus_stats(patients_a, workspace_iron)
-# calc_nucleus_stats(lemon_population[0:50], workspace_iron)
+calc_nucleus_stats(controls_a, workspace_iron)
+calc_nucleus_stats(patients_a, workspace_iron)
+calc_nucleus_stats(lemon_population[0:50], workspace_iron)
 calc_nucleus_stats(lemon_population[50:], workspace_iron)
 
