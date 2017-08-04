@@ -4,6 +4,7 @@ import numpy as np
 from variables import *
 from utils.utils import  *
 from variables.variables import *
+from sklearn.decomposition import TruncatedSVD
 
 def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     import os
@@ -36,18 +37,40 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
         elif reader.PatientSex is 'M':
             sex = '0'
 
+        print sex
+
         df_pheno['Age'] = int(age)
         df_pheno['Gender'] = sex
         df_pheno['Group'] = group
 
+
+
         subject_dir = os.path.join(workspace_iron, subject)
-        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug02.csv'), index_col = 0)
+        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug03.csv'), index_col = 0)
         df_qc    = pd.read_csv(os.path.join(subject_dir, 'QUALITY_CONTROL', 'QC.csv'), index_col = 0)
 
         df_subject = pd.concat([df_pheno, df_qc, df_stats], axis  = 1)
         df_subjects.append(df_subject)
 
     df_concat = pd.concat(df_subjects, axis=0)
+
+    # Take PCA of quality metrics
+    pca = TruncatedSVD(n_components=1)
+    qc_metrics = ['EFC_MAG', 'FWHM_MAG', 'QI1_MAG', ]  # 'SNR_MAG', 'CNR_MAG', 'FBER_MAG'
+    pca.fit(np.array(np.asarray([df_concat[qc] for qc in qc_metrics])))
+    df_concat['QC_PCA'] = pca.components_[0, :]
+
+    pca2 = TruncatedSVD(n_components=1)
+    chi_metrics = ['Caud', 'Puta', 'Thal', 'SN', 'STN', 'RN', 'Pall']
+    pca2.fit(np.array(np.asarray([df_concat[chi] for chi in chi_metrics])))
+    df_concat['Chi_PCA'] = pca2.components_[0, :]
+
+    # Calc striatal daa
+    for subject in df_concat.index:
+        df_concat.ix[subject, 'L_Caud_Puta'] = (df_concat.loc['%s' % subject]['L_Caud'] + df_concat.loc['%s' % subject]['L_Puta']) / 2.
+        df_concat.ix[subject, 'R_Caud_Puta'] = (df_concat.loc['%s' % subject]['R_Caud'] + df_concat.loc['%s' % subject]['R_Puta']) / 2.
+        df_concat.ix[subject, 'Caud_Puta'] = (df_concat.loc['%s' % subject]['L_Caud_Puta'] + df_concat.loc['%s' % subject]['R_Caud_Puta']) / 2.
+
     df_concat.to_csv(os.path.join(phenotypic_dir, '%s.csv'%popname))
 
 

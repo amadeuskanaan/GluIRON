@@ -57,8 +57,18 @@ def transform_atlas_roi(population, workspace_dir):
                 roi_image = os.path.join(atlas_dir, 'STR', '%s.nii.gz' %roi_name)
                 applyAntsTransform(roi_image, roi_name, thr = 0.7)
 
+        #########################################################################################
+        # transform THA rois
+        tha_rois = ['THA7_0', 'THA7_1', 'THA7_2', 'THA7_3', 'THA7_4', 'THA7_5', 'THA7_6', 'THA7_7',]
+        for roi_name in tha_rois:
+            if not os.path.isfile('%s.nii.gz' % roi_name):
+                print roi_name
+                roi_image = os.path.join(atlas_dir, 'THA', '%s.nii.gz' % roi_name)
+                applyAntsTransform(roi_image, roi_name, thr=0.5)
 
-# transform_atlas_roi(['GSNT'], workspace_iron)
-# transform_atlas_roi(controls_a, workspace_iron)
-# transform_atlas_roi(patients_a, workspace_iron)
+
+
+# transform_atlas_roi(['WSKT'], workspace_iron)
+transform_atlas_roi(controls_a, workspace_iron)
+transform_atlas_roi(patients_a, workspace_iron)
 transform_atlas_roi(lemon_population, workspace_iron)

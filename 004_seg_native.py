@@ -71,9 +71,13 @@ def run_first(population, workspace):
         ######################################################
         # Combine Basal Ganglia Masks
         if not os.path.isfile('L_BG.nii.gz'):
-                os.system('fslmaths L_Accu.nii.gz -add L_Caud -add L_Puta -add L_Pall L_BG')
-                os.system('fslmaths R_Accu.nii.gz -add R_Caud -add R_Puta -add R_Pall R_BG')
+            os.system('fslmaths L_Accu.nii.gz -add L_Caud -add L_Puta -add L_Pall L_BG')
+            os.system('fslmaths R_Accu.nii.gz -add R_Caud -add R_Puta -add R_Pall R_BG')
 
+        if not os.path.isfile('Caud_Puta.nii.gz'):
+            os.system('fslmaths L_Caud -add L_Puta -add L_Accu L_Caud_Puta')
+            os.system('fslmaths R_Caud -add R_Puta -add R_Accu R_Caud_Puta')
+            os.system('fslmaths R_Caud_Puta -add L_Caud_Puta Caud_Puta')
 
         ######################################################
         # Optimize Tissue class masks
@@ -83,5 +87,7 @@ def run_first(population, workspace):
             os.system('fslmaths %s/FLASH/FLASH_WM -sub L_BG -sub R_BG %s/FLASH_WM_opt'%(reg_dir,reg_dir))
             os.system('fslmaths %s/FLASH/FLASH_CSF -sub L_BG -sub R_BG %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
 
+
 pop = controls_a + patients_a + lemon_population
 run_first(pop, workspace_iron)
+# run_first(['GSNT'], workspace_iron)

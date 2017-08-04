@@ -138,6 +138,6 @@ def make_reg(population, workspace_dir):
 
 
 pop = controls_a + patients_a + lemon_population
-make_reg(pop, workspace_iron)
-# make_reg(['EC9T'], workspace_iron)
+# make_reg(pop, workspace_iron)
+make_reg(['RJJT'], workspace_iron)
 
