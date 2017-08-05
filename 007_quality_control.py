@@ -95,8 +95,8 @@ def extract_quality_metrics(population, workspace_dir):
             df.to_csv(os.path.join(qc_dir, 'QC.csv'))
 
 
-extract_quality_metrics(controls_a, workspace_iron)
-# extract_quality_metrics(patients_a, workspace_iron)
+# extract_quality_metrics(controls_a, workspace_iron)
+extract_quality_metrics(patients_a, workspace_iron)
 # extract_quality_metrics(lemon_population[0:25], workspace_iron)
 # extract_quality_metrics(lemon_population[25:50], workspace_iron)
 # extract_quality_metrics(lemon_population[50:75], workspace_iron)
