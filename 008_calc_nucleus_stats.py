@@ -62,8 +62,6 @@ def calc_nucleus_stats(population, workspace_dir):
                 print roi, med
                 stats_df.loc[subject][roi] = med
 
-
-
             for roi in ['Caud', 'Puta', 'Pall', 'Amyg', 'Hipp', 'Accu', 'Thal',
                         'SN', 'STN', 'RN', 'DN', 'GPi', 'GPe', 'BG',  'BS']:
                 med = ((stats_df.loc['%s' % subject]['R_%s'%roi] + stats_df.loc['%s' % subject]['L_%s'%roi])) / 2.
