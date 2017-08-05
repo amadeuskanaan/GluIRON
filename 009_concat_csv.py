@@ -65,12 +65,6 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     pca2.fit(np.array(np.asarray([df_concat[chi] for chi in chi_metrics])))
     df_concat['Chi_PCA'] = pca2.components_[0, :]
 
-    # Calc striatal daa
-    for subject in df_concat.index:
-        df_concat.ix[subject, 'L_Caud_Puta'] = (df_concat.loc['%s' % subject]['L_Caud'] + df_concat.loc['%s' % subject]['L_Puta']) / 2.
-        df_concat.ix[subject, 'R_Caud_Puta'] = (df_concat.loc['%s' % subject]['R_Caud'] + df_concat.loc['%s' % subject]['R_Puta']) / 2.
-        df_concat.ix[subject, 'Caud_Puta'] = (df_concat.loc['%s' % subject]['L_Caud_Puta'] + df_concat.loc['%s' % subject]['R_Caud_Puta']) / 2.
-
     df_concat.to_csv(os.path.join(phenotypic_dir, '%s.csv'%popname))
 
 

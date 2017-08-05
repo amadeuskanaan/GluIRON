@@ -70,7 +70,10 @@ def calc_nucleus_stats(population, workspace_dir):
                 print roi, med
                 stats_df.ix[subject, roi]  = med
 
-            stats_df.ix[subject, 'ALL'] = ((stats_df.loc['%s' % subject]['BG'] + stats_df.loc['%s' % subject]['BS'])) / 2.
+            stats_df.ix[subject, 'L_Caud_Puta'] = (stats_df.loc['%s' % subject]['L_Caud'] + stats_df.loc['%s' % subject]['L_Puta']) / 2.
+            stats_df.ix[subject, 'R_Caud_Puta'] = (stats_df.loc['%s' % subject]['R_Caud'] + stats_df.loc['%s' % subject]['R_Puta']) / 2.
+            stats_df.ix[subject, 'Caud_Puta']   = (stats_df.loc['%s' % subject]['L_Caud_Puta'] + stats_df.loc['%s' % subject]['R_Caud_Puta']) / 2.
+            stats_df.ix[subject, 'ALL']         = ((stats_df.loc['%s' % subject]['BG'] + stats_df.loc['%s' % subject]['BS'])) / 2.
             stats_df.to_csv(stats_fname)
 
 calc_nucleus_stats(controls_a, workspace_iron)
