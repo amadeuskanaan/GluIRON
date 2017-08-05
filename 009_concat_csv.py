@@ -46,7 +46,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
 
 
         subject_dir = os.path.join(workspace_iron, subject)
-        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug03.csv'), index_col = 0)
+        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug05.csv'), index_col = 0)
         df_qc    = pd.read_csv(os.path.join(subject_dir, 'QUALITY_CONTROL', 'QC.csv'), index_col = 0)
 
         df_subject = pd.concat([df_pheno, df_qc, df_stats], axis  = 1)
