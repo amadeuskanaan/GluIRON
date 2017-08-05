@@ -69,7 +69,7 @@ def extract_quality_metrics(population, workspace_dir):
 
             return qc_cnr, qc_snr, qc_fwhm[3], qc_efc, qc_fber, qc_qi1
 
-        if not os.path.isfile(os.path.join(qc_dir, 'QC.csv')):
+        if not os.path.isfile(os.path.join(qc_dir, 'QCx.csv')):
 
             #uni_qc_cnr, uni_qc_snr, uni_qc_fwhm, uni_qc_efc, uni_qc_fber, uni_qc_qi1 = calc_spatial_metrics(mp2rage_uni, mp2rage_mas, mp2rage_gm, mp2rage_wm, mp2rage_cm)
             mag_qc_cnr, mag_qc_snr, mag_qc_fwhm, mag_qc_efc, mag_qc_fber, mag_qc_qi1 = calc_spatial_metrics(flash_mag, flash_mas, flash_gm, flash_wm, flash_cm)
