@@ -36,7 +36,7 @@ def calc_nucleus_stats(population, workspace_dir):
                 med = np.nan
             return med
 
-        stats_fname = os.path.join(stats_dir, 'nucleus_stats_aug03.csv')
+        stats_fname = os.path.join(stats_dir, 'nucleus_stats_aug05.csv')
 
         if not os.path.isfile(stats_fname):
 
@@ -75,6 +75,6 @@ def calc_nucleus_stats(population, workspace_dir):
 
 calc_nucleus_stats(controls_a, workspace_iron)
 calc_nucleus_stats(patients_a, workspace_iron)
-calc_nucleus_stats(lemon_population[0:50], workspace_iron)
-calc_nucleus_stats(lemon_population[50:], workspace_iron)
+#calc_nucleus_stats(lemon_population[0:50], workspace_iron)
+#calc_nucleus_stats(lemon_population[50:], workspace_iron)
 
