@@ -10,9 +10,9 @@ os.chdir(ahba_dir)
 qc_outliers_c  = []
 qc_outliers_p  = ['LA9P', 'NL2P', 'HSPP', 'STDP', 'DF2P']
 
-def get_dfs(workspace):
-    dfc = pd.read_csv(os.path.join(workspace, 'phenotypic/df_raw_controls.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
-    dfp = pd.read_csv(os.path.join(workspace, 'phenotypic/df_raw_patients.csv'), index_col = 0).drop(qc_outliers_p, axis = 0)
+def get_dfs():
+    dfc = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_controls.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
+    dfp = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_patients.csv'), index_col = 0).drop(qc_outliers_p, axis = 0)
     dfc['Controls'] = 1
     dfc['Patients'] = 0
     dfp['Controls'] = 0
@@ -58,7 +58,6 @@ def make_nuclei_group_average(population,workspace):
     rois = first_rois + atlas_rois
     rois = ['L_BG']
 
-    ahba_dir = mkdir_path(os.path.join(workspace, 'AHBA'))
     os.chdir(ahba_dir)
 
     for roi in rois:
@@ -67,7 +66,7 @@ def make_nuclei_group_average(population,workspace):
         os.system('fslmaths concat_%s -Tmean -bin MEAN_%s_%s.nii.gz' % (roi, popname, roi))
         os.system('rm -rf concat*')
 
-df_controls, df_patients = get_dfs(workspace_iron)
+df_controls, df_patients = get_dfs()
 
 transform_nuclei(controls_a, workspace_iron)
 transform_nuclei(patients_a, workspace_iron)
