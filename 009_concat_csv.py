@@ -14,14 +14,14 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     df_subjects = []
     for subject_id in population:
 
-        if popname[-5:] == 'lemon':
+        if popname[-8:] == 'lemon':
             subject = subject_id[9:]
             dicom_dir = os.path.join(afs_dir, subject_id, 'MRI', 'DICOMS', 't1')
         else:
             subject = subject_id
             dicom_dir = os.path.join(afs_dir, subject_id, 'DICOM')
 
-        if popname == 'LEMON' or popname == 'controls':
+        if popname[-8:] == 'lemon' or popname[-8] == 'controls':
             group = 'Controls'
         else:
             group = 'Patients'
@@ -36,6 +36,8 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
             sex = '1'
         elif reader.PatientSex is 'M':
             sex = '0'
+        elif subject == is 'CF1P':
+            sex = '1'
 
         print sex
 
@@ -46,7 +48,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
 
 
         subject_dir = os.path.join(workspace_iron, subject)
-        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug05.csv'), index_col = 0)
+        df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug06.csv'), index_col = 0)
         df_qc    = pd.read_csv(os.path.join(subject_dir, 'QUALITY_CONTROL', 'QC.csv'), index_col = 0)
 
         df_subject = pd.concat([df_pheno, df_qc, df_stats], axis  = 1)
