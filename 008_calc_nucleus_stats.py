@@ -61,7 +61,7 @@ def calc_nucleus_stats(population, workspace_dir):
                 stats_df.loc[subject][roi] = med
 
             for roi in mrsc_rois:
-                med = return_median_vals('SEGMENTATION/MRS/%s/%s_Mask_RPI_flash_bin_constricted.nii.gz' % (roi[4:],roi[4:])) * 1000
+                med = return_median_vals('SEGMENTATION/MRS/%s/%s_Mask_RPI_flash_bin_constricted.nii.gz' % (roi[5:],roi[5:])) * 1000
                 print roi, med
                 stats_df.loc[subject][roi] = med
 
