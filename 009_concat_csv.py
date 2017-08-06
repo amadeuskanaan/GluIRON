@@ -36,16 +36,14 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
             sex = '1'
         elif reader.PatientSex is 'M':
             sex = '0'
-        elif subject  is 'CF1P':
+        elif subject == 'CF1P':
             sex = '1'
 
-        print sex
+        print subject, sex
 
         df_pheno['Age'] = int(age)
         df_pheno['Gender'] = sex
         df_pheno['Group'] = group
-
-
 
         subject_dir = os.path.join(workspace_iron, subject)
         df_stats = pd.read_csv(os.path.join(subject_dir, 'NUCLEUS_STATS', 'nucleus_stats_aug06.csv'), index_col = 0)
