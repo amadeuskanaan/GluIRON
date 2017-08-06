@@ -7,9 +7,12 @@ from variables.variables import *
 ahba_dir= mkdir_path(os.path.join(workspace_iron, 'ahba_dir'))
 os.chdir(ahba_dir)
 
+qc_outliers_c  = []
+qc_outliers_p  = ['LA9P', 'NL2P', 'HSPP', 'STDP', 'DF2P']
+
 def get_dfs(workspace):
-    dfc = pd.read_csv(os.path.join(workspace, 'phenotypic/controls_qc.csv'), index_col = 0)
-    dfp = pd.read_csv(os.path.join(workspace, 'phenotypic/patients_qc.csv'), index_col = 0)
+    dfc = pd.read_csv(os.path.join(workspace, 'phenotypic/df_raw_controls.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
+    dfp = pd.read_csv(os.path.join(workspace, 'phenotypic/df_raw_patients.csv'), index_col = 0).drop(qc_outliers_p, axis = 0)
     dfc['Controls'] = 1
     dfc['Patients'] = 0
     dfp['Controls'] = 0
