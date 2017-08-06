@@ -21,7 +21,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
             subject = subject_id
             dicom_dir = os.path.join(afs_dir, subject_id, 'DICOM')
 
-        if popname[-8:] == 'lemon' or popname[-8] == 'controls':
+        if popname[-8:] == 'lemon' or popname[-8:] == 'controls':
             group = 'Controls'
         else:
             group = 'Patients'
