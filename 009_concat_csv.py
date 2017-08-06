@@ -36,7 +36,8 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
             sex = '1'
         elif reader.PatientSex is 'M':
             sex = '0'
-        elif subject == 'CF1P':
+
+        if subject == 'CF1P':
             sex = '1'
 
         print subject, sex
