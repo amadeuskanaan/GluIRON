@@ -17,7 +17,7 @@ def get_dfs():
     dfc['Patients'] = 0
     dfp['Controls'] = 0
     dfp['Patients'] = 1
-    df = pd.concat([df_controls, df_patients], axis =0)
+    df = pd.concat([dfc, dfp], axis =0)
     return dfc,dfp
 
 def transform_nuclei(population, workspace):
