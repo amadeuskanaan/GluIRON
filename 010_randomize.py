@@ -26,6 +26,8 @@ def transform_nuclei(population, workspace):
     rois = first_rois + atlas_rois
 
     for subject in population:
+        print '####################################'
+        print 'Transforming nuclei for subject', subject
 
         subject_dir = os.path.join(workspace, subject)
         qsm_dir     = os.path.join(subject_dir, 'QSM')
@@ -39,7 +41,7 @@ def transform_nuclei(population, workspace):
         os.chdir(qsm_dir)
 
         for roi in rois:
-            if not os.path.isfile('QSMnorm_MNI1mm_%s'%roi):
+            if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz'%roi):
                 if roi in first_rois:
                     nuc = os.path.join(subject_dir, 'SEGMENTATION/FIRST/%s.nii.gz'%roi)
                 elif roi in atlas_rois:
@@ -49,7 +51,8 @@ def transform_nuclei(population, workspace):
                           '-t %s %s'%(roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
                 os.system('fslmaths %s2MNI -thr 0.2 -bin -mul %s QSMnorm_MNI1mm_%s' %(roi, qsm, roi ))
                 os.system('rm -rf %s2MP2RAGE* %s2MNI*'%(roi, roi))
-
+            else:
+                print '...completed roi', roi
 
 
 def make_nuclei_group_average(population,workspace):
@@ -68,8 +71,10 @@ def make_nuclei_group_average(population,workspace):
 
 df_controls, df_patients = get_dfs()
 
+# transform_nuclei(['GSNT'], workspace_iron)
 transform_nuclei(controls_a, workspace_iron)
 transform_nuclei(patients_a, workspace_iron)
-
+transform_nuclei(lemon_population, workspace_iron)
+#
 # make_nuclei_group_average(df_controls,workspace_iron)
 # make_nuclei_group_average(df_patients,workspace_iron)

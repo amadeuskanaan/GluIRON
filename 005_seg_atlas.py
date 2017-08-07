@@ -66,6 +66,12 @@ def transform_atlas_roi(population, workspace_dir):
                 roi_image = os.path.join(atlas_dir, 'THA', '%s.nii.gz' % roi_name)
                 applyAntsTransform(roi_image, roi_name, thr=0.5)
 
+        ######################################################
+        # Combine Brainstem Masks
+        if not os.path.isfile('L_BG.nii.gz'):
+            os.system('fslmaths R_RN -add R_SN -add R_STN R_BS')
+            os.system('fslmaths L_RN -add L_SN -add L_STN L_BS')
+            os.system('fslmaths R_BS -add L_BS BS')
 
 
 # transform_atlas_roi(['WSKT'], workspace_iron)

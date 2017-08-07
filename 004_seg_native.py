@@ -71,8 +71,11 @@ def run_first(population, workspace):
         ######################################################
         # Combine Basal Ganglia Masks
         if not os.path.isfile('L_BG.nii.gz'):
-            os.system('fslmaths L_Accu.nii.gz -add L_Caud -add L_Puta -add L_Pall L_BG')
-            os.system('fslmaths R_Accu.nii.gz -add R_Caud -add R_Puta -add R_Pall R_BG')
+            os.system('fslmaths L_Accu -add L_Caud -add L_Puta -add L_Pall L_BG')
+            os.system('fslmaths R_Accu -add R_Caud -add R_Puta -add R_Pall R_BG')
+
+        if not os.path.isfile('BG.nii.gz'):
+            os.system('fslmaths L_BG -add R_BG BG')
 
         if not os.path.isfile('Caud_Puta.nii.gz'):
             os.system('fslmaths L_Caud -add L_Puta -add L_Accu L_Caud_Puta')
