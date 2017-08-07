@@ -4,8 +4,12 @@ import pandas as pd
 from utils.utils import mkdir_path
 from variables.variables import *
 
-ahba_dir= mkdir_path(os.path.join(workspace_iron, 'ahba_dir'))
+ahba_dir= mkdir_path(ahba_dir)
 os.chdir(ahba_dir)
+
+first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta', 'L_BG', 'R_BG', 'BG']
+atlas_rois = ['L_BS', 'R_BS', 'BS', 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC', 'SUBCORTICAL']
+rois = first_rois + atlas_rois
 
 qc_outliers_c  = []
 qc_outliers_p  = ['LA9P', 'NL2P', 'HSPP', 'STDP', 'DF2P']
@@ -17,13 +21,10 @@ def get_dfs():
     dfc['Patients'] = 0
     dfp['Controls'] = 0
     dfp['Patients'] = 1
-    df = pd.concat([dfc, dfp], axis =0)
-    return dfc,dfp
+    df_cp = pd.concat([dfc, dfp], axis =1)
+    return dfc, dfp, df_cp
 
 def transform_nuclei(population, workspace):
-    first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',  'L_BG', 'R_BG', 'BG']
-    atlas_rois = ['L_BS', 'R_BS', 'BS', 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC']
-    rois = first_rois + atlas_rois
 
     for subject in population:
         print '####################################'
@@ -55,26 +56,88 @@ def transform_nuclei(population, workspace):
                 print '...completed roi', roi
 
 
-def make_nuclei_group_average(population,workspace):
-    first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta', 'L_BG', 'R_BG', 'BG']
-    atlas_rois = ['L_BS', 'R_BS', 'BS', 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC']
-    rois = first_rois + atlas_rois
-    rois = ['L_BG']
-
-    os.chdir(ahba_dir)
-
+def make_nuclei_group_average(population,workspace, popname):
+    average_dir = mkdir_path(os.path.join(ahba_dir, 'QSM_MEAN'))
+    os.chdir(average_dir)
+    print '#############################'
+    print 'Creating average images for ', popname
     for roi in rois:
-        qsm_list = [os.path.join(workspace, 'study_a', subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
-        os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
-        os.system('fslmaths concat_%s -Tmean -bin MEAN_%s_%s.nii.gz' % (roi, popname, roi))
-        os.system('rm -rf concat*')
+        print '......',roi
+        if not os.path.isfile('MEAN_%s_%s.nii.gz' % (popname, roi)):
+            qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
+            os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
+            os.system('fslmaths concat_%s -Tmean MEAN_%s_%s.nii.gz' % (roi, popname, roi))
+            os.system('rm -rf concat*')
 
-df_controls, df_patients = get_dfs()
 
-# transform_nuclei(['GSNT'], workspace_iron)
-transform_nuclei(controls_a, workspace_iron)
-transform_nuclei(patients_a, workspace_iron)
-transform_nuclei(lemon_population, workspace_iron)
-#
-# make_nuclei_group_average(df_controls,workspace_iron)
-# make_nuclei_group_average(df_patients,workspace_iron)
+
+def prep_fsl_glm(df):
+
+    stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
+    os.chdir(stats_dir)
+
+    population = df.index
+    print len(population)
+
+    NumWaves = len(['Controls', 'Patients', 'Age', 'Gender', 'EFC_MAG', 'QI1_MAG'])
+    con = open('design.con', 'w')
+    con.write('/ContrastName1\tC>P\n')
+    con.write('/ContrastName1\tP>C\n')
+    con.write('/NumWaves\t%s\n' % NumWaves)
+    con.write('/NumContrasts\t2\n')
+    con.write('\n')
+    con.write('/Matrix\n')
+    con.write('1 -1 0 0 0 0\n')
+    con.write('-1 1 0 0 0 0\n')
+    con.close()
+
+    # Create a Design Matrix  ... same as Glm_gui
+    mat = open('design.mat', 'w')
+    mat.write('/NumWaves\t%s\n' % NumWaves)
+    mat.write('/NumPoints\t%s\n' % len(df.index))
+    mat.write('/Matrix\n')
+    for subject in df.index:
+        constant = 1
+        control = df.loc[subject]['Controls']
+        patient = df.loc[subject]['Patients']
+        age = df.loc[subject]['Age']
+        sex = df.loc[subject]['Gender']
+        efc = df.loc[subject]['EFC_MAG']
+        qi1 = df.loc[subject]['QI1_MAG']
+        mat.write('%s\t%s\t%s\t%s\t%s\t%s\n'
+                  % (control, patient, age, sex, efc, qi1))
+    mat.close()
+
+
+# def run_randomise(population, workspace):
+#     rois = ['SUBCORTICAL']
+#     for roi in rois:
+#         print '######################################'
+#         print 'Running randomiseof roi:', roi
+#         qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
+#         print qsm_list
+#         stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
+#         os.chdir(stats_dir)
+#         #os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
+#         os.system('randomise -i concat_%s -o randomise_%s -d design.mat -t design.con -R'% (roi, roi))
+
+
+##### Grab patient/control QC dataframes
+df_controls, df_patients, df_cp = get_dfs()
+
+##### Transform intereting ROIs to MNI space
+# transform_nuclei(controls_a, workspace_iron)
+# transform_nuclei(patients_a, workspace_iron)
+# transform_nuclei(lemon_population, workspace_iron)
+
+##### Create Group average maps of ROIs
+# pop = list(df_controls.index) + list(df_patients.index) + lemon_population
+# make_nuclei_group_average(df_controls.index,workspace_iron, 'controls')
+# make_nuclei_group_average(df_patients.index,workspace_iron, 'patients')
+# make_nuclei_group_average(lemon_population,workspace_iron, 'lemon')
+# make_nuclei_group_average(pop, workspace_iron, 'all')
+
+# print pop
+##### Run randomise to create patient/control t-stat map
+prep_fsl_glm(df_cp)
+run_randomise(df_cp.index, workspace_iron)
