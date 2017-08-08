@@ -110,7 +110,6 @@ def prep_fsl_glm(df):
 
 
 def run_randomise(population, workspace):
-    rois = ['SUBCORTICAL']
     for roi in rois:
         print '######################################'
         print 'Running randomiseof roi:', roi
