@@ -109,17 +109,17 @@ def prep_fsl_glm(df):
     mat.close()
 
 
-# def run_randomise(population, workspace):
-#     rois = ['SUBCORTICAL']
-#     for roi in rois:
-#         print '######################################'
-#         print 'Running randomiseof roi:', roi
-#         qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
-#         print qsm_list
-#         stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
-#         os.chdir(stats_dir)
-#         #os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
-#         os.system('randomise -i concat_%s -o randomise_%s -d design.mat -t design.con -R'% (roi, roi))
+def run_randomise(population, workspace):
+    rois = ['SUBCORTICAL']
+    for roi in rois:
+        print '######################################'
+        print 'Running randomiseof roi:', roi
+        qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
+        print qsm_list
+        stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
+        os.chdir(stats_dir)
+        #os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
+        os.system('randomise -i concat_%s -o randomise_%s -d design.mat -t design.con -R'% (roi, roi))
 
 
 ##### Grab patient/control QC dataframes
