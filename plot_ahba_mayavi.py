@@ -74,8 +74,6 @@ tubePos = mlab.pipeline.tube(ptsPos, tube_radius=0.5)
 mlab.pipeline.surface(tubePos, color=(1,0,0))
 
 
-
-
 constructSurf(lhsurf)
 constructSurf(rhsurf)
 mlab.view(azimuth=-180, elevation=90)
