@@ -27,7 +27,7 @@ rois = ['SUBCORTICAL']
 "randomise_CP_SUBCORTICAL_tstat4.nii.gz"
 "randomise_LE_SUBCORTICAL_tstat1.nii.gz"
 
-package = '/Users/kanaan/SCR/Github/alleninf/alleninf'
+package = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
 df                = pd.read_csv(os.path.join(package, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
 df['mni_coords'] = list(zip(mni.corrected_mni_x,mni.corrected_mni_y,mni.corrected_mni_z))
 
