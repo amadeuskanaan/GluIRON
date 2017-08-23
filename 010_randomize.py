@@ -202,9 +202,9 @@ df_lemon['Controls'] = 1
 
 ######################################################
 ##### Transform intereting ROIs to MNI space
-# transform_nuclei(controls_a, workspace_iron)
-# transform_nuclei(patients_a, workspace_iron)
-# transform_nuclei(lemon_population, workspace_iron)
+transform_nuclei(controls_a, workspace_iron)
+transform_nuclei(patients_a, workspace_iron)
+transform_nuclei(lemon_population, workspace_iron)
 
 ######################################################
 ##### Create Group average maps of ROIs
