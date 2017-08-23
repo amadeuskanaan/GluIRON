@@ -77,9 +77,12 @@ def randomize_two_sample(df):
     os.chdir(stats_dir)
 
     population = df.index
+
+    print '#######################################################'
+    print 'Running Randomize Two Sample ttest'
     print 'N population=', len(population)
     print ''
-
+    print 'creating design matrix'
 
     if not os.path.isfile('design_twosample.con'):
 
