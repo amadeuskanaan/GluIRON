@@ -183,7 +183,7 @@ def randomize_one_sample(df):
     for roi in rois:
         print '######################################'
         print 'Running randomise for roi:', roi
-        qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in
+        qsm_list = [os.path.join(workspace_iron, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in
                     population]
         # print qsm_list
         stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
