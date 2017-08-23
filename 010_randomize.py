@@ -169,7 +169,7 @@ def randomize_one_sample(df):
         mat.write('/Matrix\n')
         for subject in df.index:
             subject = str(subject)
-            control =  df.loc[subject]['Control']
+            control =  df.loc[subject]['Controls']
             age = df.loc[subject]['Age']
             sex = df.loc[subject]['Gender']
             efc = df.loc[subject]['EFC_MAG']
