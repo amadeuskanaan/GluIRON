@@ -44,7 +44,7 @@ def extract_nifti_gene_expreesion(df, rois):
         tstat4 = os.path.join(ahba_dir, 'randomise_CP_%s_tstat4.nii.gz'%roi)
         tstat5 = os.path.join(ahba_dir, 'randomise_LE_%s_tstat1.nii.gz'%roi)
 
-        df['%s_CP'%roi] = get_values_at_locations(nifti_file = nifti_img,locations  = df.mni_coords,radius = 2,verbose = True)
+        df['%s_CP'%roi] = get_values_at_locations(nifti_file = tstat1,locations  = df.mni_coords,radius = 2,verbose = True)
         # nifti2 = get_values_at_locations(nifti_file = nifti_img,locations  = df.mni_coords,radius = 2,verbose = True)
         # nifti3 = get_values_at_locations(nifti_file = nifti_img,locations  = df.mni_coords,radius = 2,verbose = True)
         # nifti4 = get_values_at_locations(nifti_file = nifti_img,locations  = df.mni_coords,radius = 2,verbose = True)
