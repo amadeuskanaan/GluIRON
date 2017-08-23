@@ -52,8 +52,8 @@ def transform_nuclei(population, workspace):
                           '-t %s %s'%(roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
                 os.system('fslmaths %s2MNI -thr 0.2 -bin -mul %s QSMnorm_MNI1mm_%s' %(roi, qsm, roi ))
                 os.system('rm -rf %s2MP2RAGE* %s2MNI*'%(roi, roi))
-            else:
-                print '...completed roi', roi
+            #else:
+            #    print '...completed roi', roi
 
 
 def make_nuclei_group_average(population,workspace, popname):
@@ -212,6 +212,6 @@ transform_nuclei(lemon_population, workspace_iron)
 ######################################################
 ##### Run randomise to T-stat maps
 randomize_two_sample(df_cp.index,    workspace_iron)
-randomize_one_sample(df_lemon.index, workspace_iron)
+# randomize_one_sample(df_lemon.index, workspace_iron)
 
 
