@@ -14,7 +14,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     df_subjects = []
     for subject_id in population:
 
-        if popname[-8:] == 'lemon':
+        if popname[-5:] == 'lemon':
             subject = subject_id[9:]
             dicom_dir = os.path.join(afs_dir, subject_id, 'MRI', 'DICOMS', 't1')
         else:
@@ -69,7 +69,7 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
     df_concat.to_csv(os.path.join(phenotypic_dir, '%s.csv'%popname))
 
 
-extract_demographics(controls_a, afs_controls, phenotypic_dir, 'df_raw_controls')
-#extract_demographics(lemon_population_key, afs_lemon, phenotypic_dir, 'df_raw_lemon')
-extract_demographics(patients_a, afs_patients, phenotypic_dir, 'df_raw_patients')
+# extract_demographics(controls_a, afs_controls, phenotypic_dir, 'df_raw_controls')
+extract_demographics(lemon_population_key, afs_lemon, phenotypic_dir, 'df_raw_lemon')
+# extract_demographics(patients_a, afs_patients, phenotypic_dir, 'df_raw_patients')
 
