@@ -82,7 +82,8 @@ def randomize_two_sample(df):
     print 'Running Randomize Two Sample ttest'
     print 'N population=', len(population)
     print ''
-    print 'creating design matrix'
+    print '.........creating design matrix'
+    print ''
 
     if not os.path.isfile('design_twosample.con'):
 
@@ -109,7 +110,7 @@ def randomize_two_sample(df):
         mat.write('/Matrix\n')
         for subject in df.index:
             subject = str(subject)
-            control =  df.loc[subject]['Control']
+            control =  df.loc[subject]['Controls']
             patient = df.loc[subject]['Patients']
             age = df.loc[subject]['Age']
             sex = df.loc[subject]['Gender']
