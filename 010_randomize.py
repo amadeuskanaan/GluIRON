@@ -85,16 +85,18 @@ def randomize_two_sample(df):
 
         NumWaves = len(['Controls', 'Patients', 'Age', 'Gender', 'EFC_MAG', 'QI1_MAG'])
         con = open('design_twosample.con', 'w')
-        con.write('/ContrastName1\tC>P\n')
-        con.write('/ContrastName1\tP>C\n')
+        con.write('/ContrastName1\tCP\n')
+        con.write('/ContrastName2\tPC\n')
+        con.write('/ContrastName3\tC_Mean\n')
+        con.write('/ContrastName4\tP_Mean\n')
         con.write('/NumWaves\t%s\n' % NumWaves)
-        con.write('/NumContrasts\t2\n')
+        con.write('/NumContrasts\t4\n')
         con.write('\n')
         con.write('/Matrix\n')
         con.write('1 -1 0 0 0 0\n')
         con.write('-1 1 0 0 0 0\n')
-        # con.write('1 0 0 0 0 0\n')
-        # con.write('0 1 0 0 0 0\n')
+        con.write('1 0 0 0 0 0\n')
+        con.write('0 1 0 0 0 0\n')
         con.close()
 
         # Create a Design Matrix  ... same as Glm_gui
@@ -127,15 +129,6 @@ def randomize_two_sample(df):
     #     os.system('randomise -i concat_%s -o randomise_%s -d design_twosample.mat -t design_twosample.con -R'% (roi, roi))
     #     os.system('rm -rf *concat*')
 
-
-# /NumWaves	5
-# /NumPoints	3
-# /PPheights		1.000000e+00	7.000000e+00	1.000000e+00	6.000000e+00	4.000000e+00
-#
-# /Matrix
-# 1.000000e+00	2.000000e+00	1.000000e+00	6.000000e+00	1.000000e+00
-# 1.000000e+00	2.000000e+00	0.000000e+00	4.000000e+00	1.000000e+00
-# 1.000000e+00	7.000000e+00	1.000000e+00	4.000000e+00	4.000000e+00
 
 def randomize_one_sample(df):
 
