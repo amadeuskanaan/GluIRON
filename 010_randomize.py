@@ -145,6 +145,8 @@ def randomize_one_sample(df):
     os.chdir(stats_dir)
 
     population = df.index
+    print '#######################################################'
+    print 'Running Randomize ONE Sample ttest'
     print 'N population=', len(population)
     print ''
 
@@ -177,18 +179,18 @@ def randomize_one_sample(df):
                       % (control,age, sex, efc, qi1))
         mat.close()
 
-    # # Run Randomize
-    # for roi in rois:
-    #     print '######################################'
-    #     print 'Running randomise for roi:', roi
-    #     qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in
-    #                 population]
-    #     # print qsm_list
-    #     stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
-    #     os.chdir(stats_dir)
-    #     os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
-    #     os.system('randomise -i concat_%s -o randomise_%s -d design_onesample.mat -t design_onesample.con -R' % (roi, roi))
-    #     os.system('rm -rf *concat*')
+    # Run Randomize
+    for roi in rois:
+        print '######################################'
+        print 'Running randomise for roi:', roi
+        qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in
+                    population]
+        # print qsm_list
+        stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
+        os.chdir(stats_dir)
+        os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
+        os.system('randomise -i concat_%s -o randomise_%s -d design_onesample.mat -t design_onesample.con -R' % (roi, roi))
+        os.system('rm -rf *concat*')
 
 
 ######################################################
