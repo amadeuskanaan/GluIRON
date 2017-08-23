@@ -37,7 +37,7 @@ rois  = ['SUBCORTICAL']
 def extract_nifti_gene_expreesion(df, rois):
 
     for roi in rois:
-        print 'Extracting Nifti Values for', roi
+        print 'Extracting Nifti Values for roi = ', roi
 
         tstat1 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat1.nii.gz'%roi)
         tstat2 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat2.nii.gz'%roi)
@@ -56,6 +56,6 @@ def extract_nifti_gene_expreesion(df, rois):
         # print '........ Lemon Mean'
         # df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = 2,verbose = True)
 
-    df.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv')).drop(['mni_coords'],axis=1)
+    df.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv').drop(['mni_coords'],axis=1))
 
 extract_nifti_gene_expreesion(df, rois)
