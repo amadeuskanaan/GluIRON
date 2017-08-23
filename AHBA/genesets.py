@@ -197,5 +197,5 @@ HRE      = ['HFE']
 HRE2     = ['HFE2']
 SLC25    = ['SLC25A37']
 SLC40    = ['SLC40A1']
-BIOBANK  = transferrin + ferriting_H + hemochro + slc25
+BIOBANK  = TF + FTH + HRE + SLC25
 
