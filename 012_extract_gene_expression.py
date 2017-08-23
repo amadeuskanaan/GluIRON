@@ -56,6 +56,7 @@ def extract_nifti_gene_expreesion(df, rois):
         # print '........ Lemon Mean'
         # df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = 2,verbose = True)
 
-    df.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv').drop(['mni_coords'],axis=1))
+    dfx = df.drop(['mni_coords'],axis=1)
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv'))
 
 extract_nifti_gene_expreesion(df, rois)
