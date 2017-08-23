@@ -109,14 +109,13 @@ def randomize_two_sample(df):
         mat.write('/NumPoints\t%s\n' % len(df.index))
         mat.write('/Matrix\n')
         for subject in df.index:
-            subject = str(subject)
             control =  df.loc[subject]['Controls']
             patient = df.loc[subject]['Patients']
             age = df.loc[subject]['Age']
             sex = df.loc[subject]['Gender']
             efc = df.loc[subject]['EFC_MAG']
             qi1 = df.loc[subject]['QI1_MAG']
-            #print subject, control, patient, age, sex, efc, qi1
+            print subject, control, patient, age, sex, efc, qi1
             mat.write('%s\t%s\t%s\t%s\t%s\t%s\n'
                       % (control, patient, age, sex, efc, qi1))
         mat.close()
