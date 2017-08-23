@@ -7,8 +7,12 @@ from variables.variables import *
 ahba_dir= mkdir_path(ahba_dir)
 os.chdir(ahba_dir)
 
-first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta', 'L_BG', 'R_BG', 'BG']
-atlas_rois = ['L_BS', 'R_BS', 'BS', 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC', 'SUBCORTICAL']
+first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',
+              'L_Pall', 'R_Pall', 'Pall',
+              'L_BG', 'R_BG', 'BG']
+atlas_rois = ['L_BS', 'R_BS', 'BS',
+              'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
+              'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL']
 rois = first_rois + atlas_rois
 
 qc_outliers_c  = []
@@ -120,17 +124,18 @@ def randomize_two_sample(df):
                       % (control, patient, age, sex, efc, qi1))
         mat.close()
 
-    # # Run Randomize
-    # for roi in rois:
-    #     print '######################################'
-    #     print 'Running randomise for roi:', roi
-    #     qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
-    #     #print qsm_list
-    #     stats_dir = mkdir_path(os.path.join(ahba_dir,  'RANDOMISE'))
-    #     os.chdir(stats_dir)
-    #     os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
-    #     os.system('randomise -i concat_%s -o randomise_%s -d design_twosample.mat -t design_twosample.con -R'% (roi, roi))
-    #     os.system('rm -rf *concat*')
+    rois = ['SUBCORTICAL']
+    # Run Randomize
+    for roi in rois:
+        print '######################################'
+        print 'Running randomise for roi:', roi
+        qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
+        #print qsm_list
+        stats_dir = mkdir_path(os.path.join(ahba_dir,  'RANDOMISE'))
+        os.chdir(stats_dir)
+        os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
+        os.system('randomise -i concat_%s -o randomise_%s -d design_twosample.mat -t design_twosample.con -R'% (roi, roi))
+        os.system('rm -rf *concat*')
 
 
 def randomize_one_sample(df):
