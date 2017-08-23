@@ -31,8 +31,7 @@ def get_dfs():
 def transform_nuclei(population, workspace):
 
     for subject in population:
-        print '####################################'
-        print 'Transforming nuclei for subject', subject
+
 
         subject_dir = os.path.join(workspace, subject)
         qsm_dir     = os.path.join(subject_dir, 'QSM')
@@ -47,6 +46,7 @@ def transform_nuclei(population, workspace):
 
         for roi in rois:
             if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz'%roi):
+                print '...Transforming nuclei for subject', subject
                 if roi in first_rois:
                     nuc = os.path.join(subject_dir, 'SEGMENTATION/FIRST/%s.nii.gz'%roi)
                 elif roi in atlas_rois:
