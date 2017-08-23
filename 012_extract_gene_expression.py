@@ -28,15 +28,18 @@ rois = ['SUBCORTICAL']
 "randomise_LE_SUBCORTICAL_tstat1.nii.gz"
 
 package = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
-df                = pd.read_csv(os.path.join(package, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
-df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_mni_z))
+mni                = pd.read_csv(os.path.join(package, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
+mni['mni_coords'] = list(zip(mno.corrected_mni_x,mni.corrected_mni_y,mni.corrected_mni_z))
 
 
 rois  = ['SUBCORTICAL']
 
 def extract_nifti_gene_expreesion(df, rois):
 
+    df  = pd.Dataframe()
+
     for roi in rois:
+        print 'Extracting Nifti Values for', roi
 
         tstat1 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat1.nii.gz'%roi)
         tstat2 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat2.nii.gz'%roi)
@@ -44,12 +47,17 @@ def extract_nifti_gene_expreesion(df, rois):
         tstat4 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat4.nii.gz'%roi)
         tstat5 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_LE_%s_tstat1.nii.gz'%roi)
 
+        print '........ C > P'
         df['%s_CP'%roi] = get_values_at_locations(nifti_file = tstat1,locations  = df.mni_coords,radius = 2,verbose = True)
-        # nifti2 = get_values_at_locations(nifti_file = nifti_img,locations  = df.mni_coords,radius = 2,verbose = True)
-        # nifti3 = get_values_at_locations(nifti_file = nifti_img,locations  = df.mni_coords,radius = 2,verbose = True)
-        # nifti4 = get_values_at_locations(nifti_file = nifti_img,locations  = df.mni_coords,radius = 2,verbose = True)
-        # nifti5 = get_values_at_locations(nifti_file = nifti_img,locations  = df.mni_coords,radius = 2,verbose = True)
+        # print '........ P < C'
+        # df['%s_PC'%roi] = get_values_at_locations(nifti_file = tstat2,locations  = df.mni_coords,radius = 2,verbose = True)
+        # print '........ Controls Mean'
+        # df['%s_C'%roi] = get_values_at_locations(nifti_file = tstat3,locations  = df.mni_coords,radius = 2,verbose = True)
+        # print '........ Patients Mean'
+        # df['%s_P'%roi] = get_values_at_locations(nifti_file = tstat4,locations  = df.mni_coords,radius = 2,verbose = True)
+        # print '........ Lemon Mean'
+        # df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = 2,verbose = True)
 
-    df.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv'))
+    df.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv')).drop(['mni_coords'],axis=1)
 
 extract_nifti_gene_expreesion(df, rois)
