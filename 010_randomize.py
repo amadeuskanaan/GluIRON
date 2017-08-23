@@ -124,7 +124,6 @@ def randomize_two_sample(df):
                       % (control, patient, age, sex, efc, qi1))
         mat.close()
 
-    rois = ['SUBCORTICAL']
     # Run Randomize
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
@@ -179,7 +178,6 @@ def randomize_one_sample(df):
                       % (control,age, sex, efc, qi1))
         mat.close()
 
-    rois = ['SUBCORTICAL']
     # Run Randomize
     for roi in rois:
         if not os.path.isfile('randomise_LE_%s_tstat1.nii.gz' % roi):
@@ -193,6 +191,7 @@ def randomize_one_sample(df):
             os.system('fslmerge -t concat_LE_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
             os.system('randomise -i concat_LE_%s -o randomise_LE_%s -d design_onesample.mat -t design_onesample.con -R' % (roi, roi))
             os.system('rm -rf *concat*')
+
 
 
 ######################################################
