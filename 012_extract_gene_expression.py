@@ -28,15 +28,13 @@ rois = ['SUBCORTICAL']
 "randomise_LE_SUBCORTICAL_tstat1.nii.gz"
 
 package = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
-mni                = pd.read_csv(os.path.join(package, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
-mni['mni_coords'] = list(zip(mni.corrected_mni_x,mni.corrected_mni_y,mni.corrected_mni_z))
+df                = pd.read_csv(os.path.join(package, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
+df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_mni_z))
 
 
 rois  = ['SUBCORTICAL']
 
 def extract_nifti_gene_expreesion(df, rois):
-
-    df  = pd.Dataframe()
 
     for roi in rois:
         print 'Extracting Nifti Values for', roi
