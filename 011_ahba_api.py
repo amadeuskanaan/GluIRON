@@ -82,8 +82,8 @@ def get_expression_df(genes, geneset_name):
     for gene in genes:
         gene_probes[gene] = get_probes_from_genes(gene)
 
-    df = return_probe_expression(gene_probes, geneset_name)
-    return df
+    return_probe_expression(gene_probes, geneset_name)
+    #return df
 
 
 get_expression_df(IRON.keys()           , 'IRON')
