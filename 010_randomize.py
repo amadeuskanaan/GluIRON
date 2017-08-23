@@ -82,7 +82,7 @@ def randomize_two_sample(df):
 
     population = df.index
 
-    print '#######################################################'
+    print '############################################################################################################'
     print 'Running Randomize Two Sample ttest'
     print 'N population=', len(population)
     print ''
@@ -145,7 +145,7 @@ def randomize_one_sample(df):
     os.chdir(stats_dir)
 
     population = df.index
-    print '#######################################################'
+    print '############################################################################################################'
     print 'Running Randomize ONE Sample ttest'
     print 'N population=', len(population)
     print ''
@@ -163,7 +163,7 @@ def randomize_one_sample(df):
         con.close()
 
         # Create a Design Matrix  ... same as Glm_gui
-        mat = open('design_lemon.mat', 'w')
+        mat = open('design_onesample.mat', 'w')
         mat.write('/NumWaves\t%s\n' % NumWaves)
         mat.write('/NumPoints\t%s\n' % len(df.index))
         mat.write('/Matrix\n')
