@@ -207,7 +207,7 @@ df_lemon['Controls'] = 1
 
 ######################################################
 ##### Run randomise to T-stat maps
-randomize_two_sample(df_cp.index,    workspace_iron)
-# randomize_one_sample(df_lemon.index, workspace_iron)
+randomize_two_sample(df_cp.index)
+# randomize_one_sample(df_lemon.index)
 
 
