@@ -21,7 +21,7 @@ def get_dfs():
     dfc['Patients'] = 0
     dfp['Controls'] = 0
     dfp['Patients'] = 1
-    df_cp = pd.concat([dfc, dfp], axis =1)
+    df_cp = pd.concat([dfc, dfp], axis =0)
     return dfc, dfp, df_cp
 
 def transform_nuclei(population, workspace):
@@ -77,7 +77,8 @@ def prep_fsl_glm(df):
     os.chdir(stats_dir)
 
     population = df.index
-    print len(population)
+    print 'N population=', len(population)
+    print ''
 
     NumWaves = len(['Controls', 'Patients', 'Age', 'Gender', 'EFC_MAG', 'QI1_MAG'])
     con = open('design.con', 'w')
@@ -89,6 +90,8 @@ def prep_fsl_glm(df):
     con.write('/Matrix\n')
     con.write('1 -1 0 0 0 0\n')
     con.write('-1 1 0 0 0 0\n')
+    # con.write('1 0 0 0 0 0\n')
+    # con.write('0 1 0 0 0 0\n')
     con.close()
 
     # Create a Design Matrix  ... same as Glm_gui
@@ -97,27 +100,30 @@ def prep_fsl_glm(df):
     mat.write('/NumPoints\t%s\n' % len(df.index))
     mat.write('/Matrix\n')
     for subject in df.index:
-        constant = 1
-        control = df.loc[subject]['Controls']
+        subject = str(subject)
+        control =  df.loc[subject]['Age']
         patient = df.loc[subject]['Patients']
         age = df.loc[subject]['Age']
         sex = df.loc[subject]['Gender']
         efc = df.loc[subject]['EFC_MAG']
         qi1 = df.loc[subject]['QI1_MAG']
+        #print subject, control, patient, age, sex, efc, qi1
         mat.write('%s\t%s\t%s\t%s\t%s\t%s\n'
                   % (control, patient, age, sex, efc, qi1))
     mat.close()
 
-
+first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta', 'L_BG', 'R_BG', 'BG']
+atlas_rois = ['L_BS', 'R_BS', 'BS', 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC', 'SUBCORTICAL']
+rois = first_rois + atlas_rois
 def run_randomise(population, workspace):
     for roi in rois:
         print '######################################'
-        print 'Running randomiseof roi:', roi
+        print 'Running randomise for roi:', roi
         qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
-        print qsm_list
-        stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
+        #print qsm_list
+        stats_dir = mkdir_path(os.path.join(ahba_dir,  'RANDOMISE'))
         os.chdir(stats_dir)
-        #os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
+        os.system('fslmerge -t concat_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
         os.system('randomise -i concat_%s -o randomise_%s -d design.mat -t design.con -R'% (roi, roi))
 
 
@@ -127,7 +133,7 @@ df_controls, df_patients, df_cp = get_dfs()
 ##### Transform intereting ROIs to MNI space
 # transform_nuclei(controls_a, workspace_iron)
 # transform_nuclei(patients_a, workspace_iron)
-# transform_nuclei(lemon_population, workspace_iron)
+transform_nuclei(lemon_population, workspace_iron)
 
 ##### Create Group average maps of ROIs
 # pop = list(df_controls.index) + list(df_patients.index) + lemon_population
@@ -138,5 +144,51 @@ df_controls, df_patients, df_cp = get_dfs()
 
 # print pop
 ##### Run randomise to create patient/control t-stat map
-prep_fsl_glm(df_cp)
-run_randomise(df_cp.index, workspace_iron)
+# prep_fsl_glm(df_cp)
+# run_randomise(df_cp.index, workspace_iron)
+
+
+
+dfl = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_lemon.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
+
+
+def prep_fsl_glm_lemon(df):
+
+    stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
+    os.chdir(stats_dir)
+
+    population = df.index
+    print 'N population=', len(population)
+    print ''
+
+    NumWaves = len(['Controls','Age', 'Gender', 'EFC_MAG', 'QI1_MAG'])
+    con = open('design_lemon.con', 'w')
+    con.write('/ContrastName1\tMean\n')
+    con.write('/NumWaves\t%s\n' % NumWaves)
+    con.write('/NumContrasts\t2\n')
+    con.write('\n')
+    con.write('/Matrix\n')
+    con.write('1 -1 0 0 0 0\n')
+    con.write('-1 1 0 0 0 0\n')
+    # con.write('1 0 0 0 0 0\n')
+    # con.write('0 1 0 0 0 0\n')
+    con.close()
+
+    # Create a Design Matrix  ... same as Glm_gui
+    mat = open('design_lemon.mat', 'w')
+    mat.write('/NumWaves\t%s\n' % NumWaves)
+    mat.write('/NumPoints\t%s\n' % len(df.index))
+    mat.write('/Matrix\n')
+    for subject in df.index:
+        subject = str(subject)
+        control =  df.loc[subject]['Age']
+        patient = df.loc[subject]['Patients']
+        age = df.loc[subject]['Age']
+        sex = df.loc[subject]['Gender']
+        efc = df.loc[subject]['EFC_MAG']
+        qi1 = df.loc[subject]['QI1_MAG']
+        #print subject, control, patient, age, sex, efc, qi1
+        mat.write('%s\t%s\t%s\t%s\t%s\t%s\n'
+                  % (age, sex, efc, qi1))
+    mat.close()
+
