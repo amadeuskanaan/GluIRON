@@ -74,7 +74,7 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         mni.index = mni.index.map(unicode)
         df_concat = pd.concat([df, mni], axis=1).to_csv(os.path.join(ahba_dir, 'AHBA_%s.csv' % geneset_name))
 
-    return df_concat
+        return df_concat
     #return pd.read_csv(os.path.join(ahba_dir, 'AHBA_%s.csv' % geneset_name), index_col=0)
 
 def get_expression_df(genes, geneset_name):
