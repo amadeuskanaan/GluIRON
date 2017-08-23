@@ -29,7 +29,7 @@ rois = ['SUBCORTICAL']
 
 package = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
 mni                = pd.read_csv(os.path.join(package, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
-mni['mni_coords'] = list(zip(mno.corrected_mni_x,mni.corrected_mni_y,mni.corrected_mni_z))
+mni['mni_coords'] = list(zip(mni.corrected_mni_x,mni.corrected_mni_y,mni.corrected_mni_z))
 
 
 rois  = ['SUBCORTICAL']
