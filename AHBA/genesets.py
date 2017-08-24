@@ -114,6 +114,10 @@ DA_tranmission = [  # http://genesetdb.auckland.ac.nz/genesearch2.php
     # http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=GO_DOPAMINE_RECEPTOR_SIGNALING_PATHWAY&keywords=dopamine
     'CDK5', 'CRH', 'CRHBP', 'DRD1', 'DRD2', 'DRD3', 'DRD4', 'DRD5', 'RASD2', 'TH']
 
+DA_jellen = ['SLC4A1', 'ALAS2', 'HBB', 'CXCL12', 'RSAD2', 'TFRC', 'GYPA', 'ACER2', 'AHSP', 'C10orf10', 'E2F2', 'UBE2L6'
+                # missing 'APOL11B'
+                ]
+
 ##################################################################################################
 # GLUGABA
 ##################################################################################################
