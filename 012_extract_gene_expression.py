@@ -19,8 +19,6 @@ atlas_rois = ['L_BS', 'R_BS', 'BS',
               'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL']
 rois = first_rois + atlas_rois
 
-rois = ['STR3_MOTOR', 'SUBCORTICAL']
-
 package = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
 df                = pd.read_csv(os.path.join(package, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
 df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_mni_z))
