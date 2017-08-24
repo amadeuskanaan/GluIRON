@@ -12,7 +12,7 @@ from variables.variables import *
 api_url = "http://api.brain-map.org/api/v2/data/query.json"
 
 first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',
-              'L_Pall', 'R_Pall', 'Pall',
+              'L_Pall', 'R_Pall', # 'Pall',
               'L_BG', 'R_BG', 'BG']
 atlas_rois = ['L_BS', 'R_BS', 'BS',
               'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
@@ -46,6 +46,6 @@ def extract_nifti_gene_expreesion(df, rois):
         df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = 2,verbose = True)
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv'))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NI   FTI_VALUES.csv'))
 
 extract_nifti_gene_expreesion(df, rois)
