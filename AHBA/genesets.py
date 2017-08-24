@@ -204,3 +204,45 @@ SLC25    = ['SLC25A37']
 SLC40    = ['SLC40A1']
 BIOBANK  = TF + FTH + HRE + SLC25
 
+### HOSEKEEPING
+
+HOUSEKEEPING = ['AAMP', 'AARS', 'ABLIM1', 'ACTB', 'ACTG1', 'AES', 'AGPAT1', 'ALDOA', 'ANP32B', 'ANXA11', 'ANXA2',
+                'AP3S1', 'APEX1', 'APLP2', 'ARAF', 'ARF1', 'ARF3', 'ARF4', 'ARHGAP1', 'ARHGDIB', 'ARL6IP1', 'ARPC2',
+                'ATF4', 'ATIC', 'ATOX1', 'ATP5A1', 'ATP5B', 'ATP5C1', 'ATP5F1', 'ATP5G1', 'ATP5G2', 'ATP5G3', 'ATP5O',
+                'ATP6V1F', 'B2M', 'BCAP31', 'BCLAF1', 'BECN1', 'BRD2', 'BTG2', 'BUD31', 'C1QBP', 'CALM2', 'CANX',
+                'CAP1', 'CAPN2', 'CAPNS1', 'CAPZA1', 'CASC3', 'CAST', 'CCND2', 'CCNI', 'CCR9', 'CCT4', 'CD151',
+                'CD164', 'CD34', 'CD3E', 'CD63', 'CD74', 'CD81', 'CES2', 'CETN2', 'CFL1', 'CHI3L2', 'CHKB', 'CIRBP',
+                'CLIC1', 'CLTA', 'CLTC', 'CLU', 'COMT', 'COPA', 'COPS6', 'COX10', 'COX4I1', 'COX6A1', 'COX6B1',
+                'COX6C', 'COX7A2', 'COX7C', 'COX8A', 'CSNK2B', 'CST3', 'CSTB', 'CTDSP2', 'CTNNB1', 'CYB5R3', 'DARC',
+                'DAZAP2', 'DCTN2', 'DDB1', 'DDT', 'DDX39B', 'DDX5', 'DHPS', 'DSTN', 'DUSP1', 'DVL3', 'DYNLL1',
+                'ECHS1', 'EEF1A1', 'EEF1B2', 'EEF1D', 'EEF1G', 'EEF2', 'EIF1', 'EIF3E', 'EIF3F', 'EIF4A1', 'EIF4A2',
+                'EIF4A3', 'EIF4G2', 'EIF4H', 'ENO1', 'ERH', 'ESD', 'EZR', 'FAM193A', 'FAS', 'FBL', 'FCGRT', 'FHL1',
+                'FKBP1A', 'FKBP4', 'FLNA', 'FMOD', 'FNTA', 'FTH1', 'FTL', 'FUCA1', 'FUS', 'FYN', 'GAPDH', 'GDI2',
+                'GLUL', 'GNAS', 'GNB1', 'GNB2L1', 'GPS1', 'GPS2', 'GPX1', 'GPX4', 'GSTO1', 'GSTP1', 'GUSB', 'H2AFZ',
+                'H3F3B', 'HDAC1', 'HINT1', 'HLA-A', 'HLA-DOA', 'HLA-DPA1', 'HLA-DQB1', 'HLA-DRA', 'HLA-E', 'HMGB1',
+                'HMGN2', 'HNRNPA1', 'HNRNPC', 'HNRNPF', 'HNRNPK', 'HNRNPL', 'HSP90AA1', 'HSP90AB1', 'HSPB1', 'HSPD1',
+                'HTRA1', 'HYAL2', 'IFITM1', 'ILK', 'IQGAP1', 'IRAK1', 'ISG20', 'ITGB1', 'ITPK1', 'JOSD1', 'JUNB',
+                'JUND', 'KARS', 'KAT6A', 'LAMP1', 'LASP1', 'LDHA', 'LDHB', 'LGALS1', 'LGALS3', 'LTA4H', 'MARCKS',
+                'MAZ', 'MDH1', 'MGP', 'MGST2', 'MLF2', 'MLH1', 'MORF4L2', 'MPRIP', 'MSN', 'MT2A', 'MTRNR2L8', 'MYH9',
+                'NACA', 'NAP1L1', 'NCL', 'NCOR2', 'NCSTN', 'NDRG1', 'NDUFA12', 'NDUFA4', 'NDUFV2', 'NEDD8', 'NEFL',
+                'NFIB', 'NFKBIA', 'NONO', 'NPC2', 'NPM1', 'OAZ1', 'OS9', 'PABPC1', 'PARP1', 'PAX6', 'PCBP2', 'PDLIM1',
+                'PEBP1', 'PFDN5', 'PFN1', 'PGAM1', 'PGK1', 'PHB2', 'PI4KA', 'PIM1', 'PLP2', 'POLR2L', 'PPIA', 'PRDX1',
+                'PRDX6', 'PSAP', 'PSD', 'PSEN1', 'PSMB2', 'PSMB3', 'PSMB4', 'PSMB5', 'PSMB6', 'PSMC1', 'PSMD2', 'PSMD7',
+                'PSMD8', 'PSME1', 'PTDSS1', 'PTMA', 'PTP4A2', 'PTPN6', 'QARS', 'RAC1', 'RBPMS', 'RER1', 'RFTN1',
+                'RHOA', 'RPA2', 'RPL10A', 'RPL11', 'RPL12', 'RPL13', 'RPL13A', 'RPL14', 'RPL17', 'RPL18', 'RPL18A',
+                'RPL19', 'RPL21', 'RPL23', 'RPL24', 'RPL27', 'RPL27A', 'RPL28', 'RPL29', 'RPL3', 'RPL31', 'RPL32',
+                'RPL34', 'RPL35', 'RPL35A', 'RPL36A', 'RPL36AL', 'RPL37A', 'RPL38', 'RPL39', 'RPL4', 'RPL41', 'RPL6',
+                'RPL7', 'RPL7A', 'RPL8', 'RPL9', 'RPLP0', 'RPLP1', 'RPLP2', 'RPN2', 'RPS10', 'RPS11', 'RPS14', 'RPS15',
+                'RPS15A', 'RPS16', 'RPS17', 'RPS18', 'RPS19', 'RPS2', 'RPS21', 'RPS23', 'RPS25', 'RPS26', 'RPS27A',
+                'RPS28', 'RPS29', 'RPS3', 'RPS3A', 'RPS5', 'RPS6', 'RPS7', 'RPS8', 'RPS9', 'RPSA', 'S100A10', 'SARS',
+                'SCN1B', 'SEC61B', 'SEPT2', 'SEPW1', 'SERPINA3', 'SERPINB6', 'SET', 'SF1', 'SF3B2', 'SLC25A3',
+                'SLC25A5', 'SLC25A6', 'SLC6A8', 'SNRNP70', 'SNRPD2', 'SOD1', 'SON', 'SPTBN1', 'SQSTM1', 'SRP14',
+                'SSB', 'SSR2', 'STAT3', 'STMN1', 'STOM', 'SURF1', 'TAGLN2', 'TAX1BP1', 'TCEA1', 'TMBIM6', 'TMED10',
+                'TMSB10', 'TMSB4X', 'TPR', 'TPT1', 'TRAF4', 'TRIM28', 'TUBB', 'TXN', 'TXNIP', 'UBA1', 'UBA52', 'UBB',
+                'UBC', 'UBE2C', 'UBE2D3', 'UQCRB', 'UQCRH', 'USP11', 'VDAC2', 'VIM', 'VPS72', 'WARS', 'XBP1', 'XPO1',
+                'YBX1', 'YWHAB', 'YWHAH', 'YWHAQ', 'YWHAZ', 'ZFP36', 'ZNF91']
+
+
+
+
+
