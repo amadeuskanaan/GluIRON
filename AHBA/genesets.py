@@ -117,6 +117,7 @@ DA_tranmission = [  # http://genesetdb.auckland.ac.nz/genesearch2.php
 DA_jellen = ['SLC4A1', 'ALAS2', 'HBB', 'CXCL12', 'RSAD2', 'TFRC', 'GYPA', 'ACER2', 'AHSP', 'C10orf10', 'E2F2', 'UBE2L6'
                 # missing 'APOL11B'
                 ]
+DA_jellen2 = ['HBB', 'CXCL12']
 
 ##################################################################################################
 # GLUGABA
