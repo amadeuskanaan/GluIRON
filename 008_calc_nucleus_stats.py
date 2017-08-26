@@ -12,7 +12,10 @@ atlas_rois   = ['R_RN', 'R_SN', 'R_STN', 'R_DN', 'R_GPi', 'R_GPe',
                 'L_RN', 'L_SN', 'L_STN', 'L_DN', 'L_GPi', 'L_GPe',
                 'L_BS', 'R_BS',
                 'THA7_0', 'THA7_1', 'THA7_2', 'THA7_3', 'THA7_4', 'THA7_5', 'THA7_6', 'THA7_7',
-                'STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC']
+                'STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC'
+                'STR7_MOTOR_C', 'STR7_MOTOR_R', 'STR7_LIMBIC', 'STR7_EXECUTIVE',
+                'STR7_PARIETAL', 'STR7_OCCIPITAL', 'STR7_TEMPORAL'
+                ]
 mrs_rois     = ['MRS_ACC', 'MRS_THA', 'MRS_STR']
 mrsc_rois    = ['MRSc_ACC', 'MRSc_THA', 'MRSc_STR']
 
@@ -39,7 +42,7 @@ def calc_nucleus_stats(population, workspace_dir):
                 med = np.nan
             return med
 
-        stats_fname = os.path.join(stats_dir, 'nucleus_stats_aug06.csv')
+        stats_fname = os.path.join(stats_dir, 'nucleus_stats_aug26.csv')
 
         if not os.path.isfile(stats_fname):
 
@@ -82,8 +85,8 @@ def calc_nucleus_stats(population, workspace_dir):
             stats_df.ix[subject, 'ALL']         = ((stats_df.loc['%s' % subject]['BG'] + stats_df.loc['%s' % subject]['BS'])) / 2.
             stats_df.to_csv(stats_fname)
 
-# calc_nucleus_stats(controls_a, workspace_iron)
+calc_nucleus_stats(controls_a, workspace_iron)
 # calc_nucleus_stats(patients_a, workspace_iron)
-calc_nucleus_stats(lemon_population[0:50], workspace_iron)
-calc_nucleus_stats(lemon_population[50:], workspace_iron)
+# calc_nucleus_stats(lemon_population[0:50], workspace_iron)
+# calc_nucleus_stats(lemon_population[50:], workspace_iron)
 
