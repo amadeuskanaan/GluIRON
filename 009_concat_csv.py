@@ -70,6 +70,6 @@ def extract_demographics(population, afs_dir, phenotypic_dir, popname):
 
 
 extract_demographics(controls_a, afs_controls, phenotypic_dir, 'df_raw_controls')
-# extract_demographics(lemon_population_key, afs_lemon, phenotypic_dir, 'df_raw_lemon')
+extract_demographics(lemon_population_key, afs_lemon, phenotypic_dir, 'df_raw_lemon')
 extract_demographics(patients_a, afs_patients, phenotypic_dir, 'df_raw_patients')
 

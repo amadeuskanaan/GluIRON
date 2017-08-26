@@ -198,14 +198,14 @@ def randomize_one_sample(df):
 ######################################################
 ##### Grab  QC dataframes
 df_controls, df_patients, df_cp = get_dfs()
-# df_lemon = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_lemon.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
-# df_lemon['Controls'] = 1
+df_lemon = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_lemon.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
+df_lemon['Controls'] = 1
 
 ######################################################
 ##### Transform intereting ROIs to MNI space
 transform_nuclei(controls_a, workspace_iron)
 transform_nuclei(patients_a, workspace_iron)
-# transform_nuclei(lemon_population, workspace_iron)
+transform_nuclei(lemon_population, workspace_iron)
 
 ######################################################
 ##### Create Group average maps of ROIs....... not needed since we get this with covariates with randomise
@@ -218,6 +218,6 @@ transform_nuclei(patients_a, workspace_iron)
 ######################################################
 ##### Run randomise to T-stat maps
 randomize_two_sample(df_cp)
-# randomize_one_sample(df_lemon)
+randomize_one_sample(df_lemon)
 
 
