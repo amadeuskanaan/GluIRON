@@ -61,11 +61,15 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         df['Mean'] = df[all_probes].mean(axis=1)
         df['Median'] = df[all_probes].median(axis=1)
 
-        from sklearn.decomposition import TruncatedSVD
-        pca = TruncatedSVD(n_components=1)
+        from sklearn.decomposition import TruncatedSVD, PCA
+        pca = PCA(n_components=5)
         pca.fit(np.array(np.asarray([df[probe] for probe in all_probes])))
-        df['PCA'] = pca.components_[0, :]
-        print 'PC1 explained variance:', pca.explained_variance_ratio_
+        df['PC1'] = pca.components_[0, :]
+        df['PC2'] = pca.components_[1, :]
+        df['PC3'] = pca.components_[2, :]
+        df['PC4'] = pca.components_[3, :]
+        df['PC5'] = pca.components_[4, :]
+        print 'PC explained variance:', pca.explained_variance_ratio_
 
         #package_directory = '/Users/kanaan/SCR/Github/alleninf/alleninf'
         package_directory = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
@@ -85,27 +89,27 @@ def get_expression_df(genes, geneset_name):
     return_probe_expression(gene_probes, geneset_name)
     #return df
 
-#
-# get_expression_df(IRON.keys()           , 'IRON')
-# get_expression_df(IRON_D.keys()         , 'IRON_D')
-# get_expression_df(DA_jellen             , 'DA_jellen')
-# get_expression_df(DA_jellen2            , 'DA_jellen2')
-# get_expression_df(DA_metabolism.keys()  , 'DA_metabolism')
-# get_expression_df(DA_receptor_bind      , 'DA_receptor')
-# get_expression_df(DA_receptor_sig       , 'DA_receptor_sig')
-# get_expression_df(DA_tranmission        , 'DA_tranmission')
-# get_expression_df(DA_transport          , 'DA_transport')
-# get_expression_df(ANMC                  , 'ANMC')
-# get_expression_df(GLU_metabolism        , 'GLU')
-# get_expression_df(GABA_metabolism       , 'GABA')
-# get_expression_df(GLU_GABA              , 'GLU_GABA')
-# get_expression_df(TF                    , 'TF')
-# get_expression_df(FTH                   , 'FTH')
-# get_expression_df(FTL                   , 'FTL')
-# get_expression_df(HRE                   , 'HRE')
-# get_expression_df(HRE2                  , 'HRE2')
-# get_expression_df(SLC25                 , 'SLC25')
-# get_expression_df(SLC40                 , 'SLC40')
-# get_expression_df(BIOBANK               , 'BIOBANK')
+
+get_expression_df(IRON.keys()           , 'IRON')
+get_expression_df(IRON_D.keys()         , 'IRON_D')
+get_expression_df(DA_jellen             , 'DA_jellen')
+get_expression_df(DA_jellen2            , 'DA_jellen2')
+get_expression_df(DA_metabolism.keys()  , 'DA_metabolism')
+get_expression_df(DA_receptor_bind      , 'DA_receptor')
+get_expression_df(DA_receptor_sig       , 'DA_receptor_sig')
+get_expression_df(DA_tranmission        , 'DA_tranmission')
+get_expression_df(DA_transport          , 'DA_transport')
+get_expression_df(ANMC                  , 'ANMC')
+get_expression_df(GLU_metabolism        , 'GLU')
+get_expression_df(GABA_metabolism       , 'GABA')
+get_expression_df(GLU_GABA              , 'GLU_GABA')
+get_expression_df(TF                    , 'TF')
+get_expression_df(FTH                   , 'FTH')
+get_expression_df(FTL                   , 'FTL')
+get_expression_df(HRE                   , 'HRE')
+get_expression_df(HRE2                  , 'HRE2')
+get_expression_df(SLC25                 , 'SLC25')
+get_expression_df(SLC40                 , 'SLC40')
+get_expression_df(BIOBANK               , 'BIOBANK')
 get_expression_df(HOUSEKEEPING          , 'HOUSEKEEPING')
 
