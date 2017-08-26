@@ -50,7 +50,9 @@ def transform_atlas_roi(population, workspace_dir):
 
         #########################################################################################
         # transform STR rois
-        str_rois = ['STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC']
+        str_rois = ['STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC',
+                    'STR7_MOTOR_C', 'STR7_MOTOR_R', 'STR7_LIMBIC', 'STR7_EXECUTIVE',
+                    'STR7_PARIETAL', 'STR7_OCCIPITAL', 'STR7_TEMPORAL']
         for roi_name in str_rois:
             if not os.path.isfile('%s.nii.gz'%roi_name):
                 print roi_name
