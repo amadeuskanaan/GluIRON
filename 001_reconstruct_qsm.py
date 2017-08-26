@@ -111,6 +111,9 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
                 line = pydicom.read_file(dcm)[0x0051, 0x100e].value
                 nodding_angle = line[line.index('(') + 1:line.index(')', line.index('('))]
 
+
+        print nodding_angle
+
         print '##########################################'
         print 'QSM Reconsutruction for subject:', subject
         print '.....Nodding Angle=', nodding_angle
@@ -127,10 +130,11 @@ def reconstruct_qsm(population, afsdir, workspace, popname):
 
         if not os.path.isfile('QSM.nii'):
             print '.....Calculating Quantitative Susceptibility map'
-            os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
+            # os.system('/scr/malta1/Github/GluIRON/qsm_recon/qsm_recon.sh %s %s' %(recon_dir,nodding_angle))
 
 
-reconstruct_qsm(controls_a, afs_controls, workspace_iron, 'GTS')
-reconstruct_qsm(patients_a, afs_patients, workspace_iron, 'GTS')
-reconstruct_qsm(lemon_population_key[:50], afs_lemon, workspace_iron, 'LEMON')
-reconstruct_qsm(lemon_population_key[50:], afs_lemon, workspace_iron, 'LEMON')
+
+# reconstruct_qsm(controls_a, afs_controls, workspace_iron, 'GTS')
+reconstruct_qsm(['LA9P'], afs_patients, workspace_iron, 'GTS')
+# reconstruct_qsm(lemon_population_key[:50], afs_lemon, workspace_iron, 'LEMON')
+# reconstruct_qsm(lemon_population_key[50:], afs_lemon, workspace_iron, 'LEMON')
