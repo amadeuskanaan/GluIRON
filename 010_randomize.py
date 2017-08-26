@@ -12,6 +12,8 @@ first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',
               'L_BG', 'R_BG', 'BG']
 atlas_rois = ['L_BS', 'R_BS', 'BS',
               'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
+              'STR7_MOTOR_C', 'STR7_MOTOR_R', 'STR7_LIMBIC', 'STR7_EXECUTIVE',
+              'STR7_PARIETAL', 'STR7_OCCIPITAL', 'STR7_TEMPORAL',
               'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL']
 rois = first_rois + atlas_rois
 
@@ -31,7 +33,6 @@ def get_dfs():
 def transform_nuclei(population, workspace):
 
     for subject in population:
-
 
         subject_dir = os.path.join(workspace, subject)
         qsm_dir     = os.path.join(subject_dir, 'QSM')
@@ -207,7 +208,7 @@ transform_nuclei(patients_a, workspace_iron)
 transform_nuclei(lemon_population, workspace_iron)
 
 ######################################################
-##### Create Group average maps of ROIs
+##### Create Group average maps of ROIs....... not needed since we get this with covariates with randomise
 # pop = list(df_controls.index) + list(df_patients.index) + lemon_population
 # make_nuclei_group_average(df_controls.index,workspace_iron, 'controls')
 # make_nuclei_group_average(df_patients.index,workspace_iron, 'patients')
