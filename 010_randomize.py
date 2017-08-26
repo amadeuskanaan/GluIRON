@@ -132,10 +132,12 @@ def randomize_two_sample(df):
             print 'Running randomise for roi:', roi
             qsm_list = [os.path.join(workspace_iron, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in population]
             #print qsm_list
-            stats_dir = mkdir_path(os.path.join(ahba_dir,  'RANDOMISE'))
+            stats_dir = mkdir_path(os.path.join(ahba_dir,  'RANDOMISE2'))
             os.chdir(stats_dir)
             os.system('fslmerge -t concat_CP_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
-            os.system('randomise -i concat_CP_%s -o randomise_CP_%s -d design_twosample.mat -t design_twosample.con -R'% (roi, roi))
+            os.system('randomise -i concat_CP_%s -o randomise_CP_%s -d design_twosample.mat -t design_twosample.con -R --uncorrp '
+                      '-T -n 5000 -x'
+                      % (roi, roi))
             os.system('rm -rf *concat*')
 
 
@@ -218,6 +220,6 @@ transform_nuclei(lemon_population, workspace_iron)
 ######################################################
 ##### Run randomise to T-stat maps
 randomize_two_sample(df_cp)
-randomize_one_sample(df_lemon)
+# randomize_one_sample(df_lemon)
 
 
