@@ -62,12 +62,11 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         df['Median'] = df[all_probes].median(axis=1)
 
         from sklearn.decomposition import TruncatedSVD, PCA
-        pca = PCA(n_components=5)
+        pca = PCA(n_components=4)
         pca.fit(np.array(np.asarray([df[probe] for probe in all_probes])))
         df['PC1'] = pca.components_[0, :]
         df['PC2'] = pca.components_[1, :]
         df['PC3'] = pca.components_[2, :]
-        df['PC4'] = pca.components_[3, :]
         df['PC_EV'] = pca.explained_variance_ratio_
         print 'PC explained variance:', pca.explained_variance_ratio_
 
