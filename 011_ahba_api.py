@@ -109,7 +109,7 @@ get_expression_df(FTL                   , 'FTL')
 get_expression_df(HRE                   , 'HRE')
 get_expression_df(HRE2                  , 'HRE2')
 get_expression_df(SLC25                 , 'SLC25')
-get_expression_df(SLC40                 , 'SLC40')
+# get_expression_df(SLC40                 , 'SLC40')
 get_expression_df(BIOBANK               , 'BIOBANK')
 get_expression_df(HOUSEKEEPING          , 'HOUSEKEEPING')
 
