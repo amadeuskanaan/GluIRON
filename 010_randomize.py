@@ -223,6 +223,6 @@ transform_nuclei(lemon_population, workspace_iron)
 ######################################################
 ##### Run randomise to T-stat maps
 randomize_two_sample(df_cp)
-# randomize_one_sample(df_lemon)
+randomize_one_sample(df_lemon)
 
 
