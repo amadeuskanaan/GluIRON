@@ -88,6 +88,7 @@ def get_expression_df(genes, geneset_name):
     return_probe_expression(gene_probes, geneset_name)
     #return df
 
+get_expression_df(FTH                   , 'FTH')
 
 get_expression_df(IRON.keys()           , 'IRON')
 get_expression_df(IRON_D.keys()         , 'IRON_D')
@@ -103,7 +104,6 @@ get_expression_df(GLU_metabolism        , 'GLU')
 get_expression_df(GABA_metabolism       , 'GABA')
 get_expression_df(GLU_GABA              , 'GLU_GABA')
 get_expression_df(TF                    , 'TF')
-get_expression_df(FTH                   , 'FTH')
 get_expression_df(FTL                   , 'FTL')
 get_expression_df(HRE                   , 'HRE')
 get_expression_df(HRE2                  , 'HRE2')
