@@ -67,7 +67,6 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         df['PC1'] = pca.components_[0, :]
         df['PC2'] = pca.components_[1, :]
         df['PC3'] = pca.components_[2, :]
-        df['PC3'] = pca.components_[3, :]
         df['PC_EV'] = list(pca.explained_variance_ratio_)
         print 'PC explained variance:', pca.explained_variance_ratio_
 
