@@ -39,7 +39,7 @@ def extract_nifti_gene_expreesion(df, rois):
         tstat5 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_LE_%s_tstat1.nii.gz'%roi)
 
 
-        radius = 1
+        radius = 2
 
         print '........ C > P'
         df['%s_CP'%roi] = get_values_at_locations(nifti_file = tstat1,locations  = df.mni_coords,radius = radius,verbose = True)
@@ -53,6 +53,6 @@ def extract_nifti_gene_expreesion(df, rois):
         df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = radius,verbose = True)
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_1mm.csv'))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_2mm.csv'))
 
 extract_nifti_gene_expreesion(df, rois)
