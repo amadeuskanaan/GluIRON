@@ -38,16 +38,19 @@ def extract_nifti_gene_expreesion(df, rois):
         tstat4 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_tstat4.nii.gz'%roi)
         tstat5 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_LE_%s_tstat1.nii.gz'%roi)
 
+
+        radius = 1
+
         print '........ C > P'
-        df['%s_CP'%roi] = get_values_at_locations(nifti_file = tstat1,locations  = df.mni_coords,radius = 2,verbose = True)
+        df['%s_CP'%roi] = get_values_at_locations(nifti_file = tstat1,locations  = df.mni_coords,radius = radius,verbose = True)
         print '........ P > C'
-        df['%s_PC'%roi] = get_values_at_locations(nifti_file = tstat2,locations  = df.mni_coords,radius = 2,verbose = True)
+        df['%s_PC'%roi] = get_values_at_locations(nifti_file = tstat2,locations  = df.mni_coords,radius = radius,verbose = True)
         print '........ Controls Mean'
-        df['%s_C'%roi] = get_values_at_locations(nifti_file = tstat3,locations  = df.mni_coords,radius = 2,verbose = True)
+        df['%s_C'%roi] = get_values_at_locations(nifti_file = tstat3,locations  = df.mni_coords,radius = radius,verbose = True)
         print '........ Patients Mean'
-        df['%s_P'%roi] = get_values_at_locations(nifti_file = tstat4,locations  = df.mni_coords,radius = 2,verbose = True)
+        df['%s_P'%roi] = get_values_at_locations(nifti_file = tstat4,locations  = df.mni_coords,radius = radius,verbose = True)
         print '........ Lemon Mean'
-        df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = 2,verbose = True)
+        df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = radius,verbose = True)
 
     dfx = df.drop(['mni_coords'],axis=1)
     dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv'))
