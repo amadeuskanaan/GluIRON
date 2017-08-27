@@ -67,8 +67,8 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         df['PC1'] = pca.components_[0, :]
         df['PC2'] = pca.components_[1, :]
         df['PC3'] = pca.components_[2, :]
-        df['PC_EV'] = list(pca.explained_variance_ratio_)
         print 'PC explained variance:', pca.explained_variance_ratio_
+        df['PC_EV'] = pca.explained_variance_ratio_[0], pca.explained_variance_ratio_[1], pca.explained_variance_ratio_[2],
 
         #package_directory = '/Users/kanaan/SCR/Github/alleninf/alleninf'
         package_directory = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
