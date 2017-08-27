@@ -30,11 +30,13 @@ def extract_nifti_gene_expreesion(df, rois):
     for roi in rois:
         print 'Extracting Nifti Values for roi = ', roi
 
-        tstat1 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat1.nii.gz'%roi)
-        tstat2 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat2.nii.gz'%roi)
-        tstat3 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat3.nii.gz'%roi)
-        tstat4 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_CP_%s_tstat4.nii.gz'%roi)
-        tstat5 = os.path.join(ahba_dir, 'RANDOMISE', 'randomise_LE_%s_tstat1.nii.gz'%roi)
+        permutation = '0'
+
+        tstat1 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_tstat1.nii.gz'%roi)
+        tstat2 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_tstat2.nii.gz'%roi)
+        tstat3 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_tstat3.nii.gz'%roi)
+        tstat4 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_tstat4.nii.gz'%roi)
+        tstat5 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_LE_%s_tstat1.nii.gz'%roi)
 
         print '........ C > P'
         df['%s_CP'%roi] = get_values_at_locations(nifti_file = tstat1,locations  = df.mni_coords,radius = 2,verbose = True)
