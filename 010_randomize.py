@@ -145,9 +145,10 @@ def randomize_two_sample(df):
 
 
 def randomize_one_sample(df):
-
-    stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
+    permutation = '0'
+    stats_dir = mkdir_path(os.path.join(ahba_dir,'RANDOMISE_%s'%permutation))
     os.chdir(stats_dir)
+
 
     population = df.index
     print '############################################################################################################'
@@ -192,12 +193,13 @@ def randomize_one_sample(df):
             qsm_list = [os.path.join(workspace_iron, subject, 'QSM/QSMnorm_MNI1mm_%s.nii.gz' % roi) for subject in
                     population]
             # print qsm_list
-            stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE'))
+            stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
             os.chdir(stats_dir)
             os.system('fslmerge -t concat_LE_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
-            os.system('randomise -i concat_LE_%s -o randomise_LE_%s -d design_onesample.mat -t design_onesample.con -R' % (roi, roi))
+            os.system('randomise -i concat_LE_%s -o randomise_LE_%s -d design_onesample.mat -t design_onesample.con -R --uncorrp '
+                      #'-T -n 20000 -x'
+                      % (roi, roi))
             os.system('rm -rf *concat*')
-
 
 
 ######################################################
