@@ -67,6 +67,7 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         df['PC1'] = pca.components_[0, :]
         if  pca.components_[1, :]:
             df['PC2'] = pca.components_[1, :]
+        if pca.components_[2, :]:
             df['PC3'] = pca.components_[2, :]
         print 'PC explained variance:', pca.explained_variance_ratio_
         #df['PC_EV'] = pca.explained_variance_ratio_[0]#, pca.explained_variance_ratio_[1], pca.explained_variance_ratio_[2],
@@ -90,7 +91,6 @@ def get_expression_df(genes, geneset_name):
     #return df
 
 get_expression_df(FTH                   , 'FTH')
-
 get_expression_df(IRON.keys()           , 'IRON')
 get_expression_df(IRON_D.keys()         , 'IRON_D')
 get_expression_df(DA_jellen             , 'DA_jellen')
