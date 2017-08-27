@@ -126,7 +126,7 @@ def randomize_two_sample(df):
         mat.close()
 
     # Run Randomize
-    rois = ['STR3_MOTOR']
+    #rois = ['STR3_MOTOR']
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
             print '######################################'
