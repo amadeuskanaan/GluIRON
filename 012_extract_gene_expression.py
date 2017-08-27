@@ -16,6 +16,8 @@ first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',
               'L_BG', 'R_BG', 'BG']
 atlas_rois = ['L_BS', 'R_BS', 'BS',
               'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
+              'STR7_MOTOR_C', 'STR7_MOTOR_R', 'STR7_LIMBIC', 'STR7_EXECUTIVE',
+              'STR7_PARIETAL', 'STR7_OCCIPITAL', 'STR7_TEMPORAL',
               'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL']
 rois = first_rois + atlas_rois
 
@@ -46,6 +48,6 @@ def extract_nifti_gene_expreesion(df, rois):
         df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = 2,verbose = True)
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_V2.csv'))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES.csv'))
 
 extract_nifti_gene_expreesion(df, rois)
