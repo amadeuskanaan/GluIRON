@@ -82,14 +82,6 @@ def run_first(population, workspace):
             os.system('fslmaths R_Caud -add R_Puta -add R_Accu R_Caud_Puta')
             os.system('fslmaths R_Caud_Puta -add L_Caud_Puta Caud_Puta')
 
-        ######################################################
-        # Optimize Tissue class masks
-        reg_dir = os.path.join(subject_dir, 'REGISTRATION')
-        if not os.path.isfile(os.path.join(reg_dir, 'FLASH_GM_opt.nii.gz')):
-            os.system('fslmaths %s/FLASH/FLASH_GM -add L_BG -add R_BG %s/FLASH_GM_opt'%(reg_dir,reg_dir))
-            os.system('fslmaths %s/FLASH/FLASH_WM -sub L_BG -sub R_BG %s/FLASH_WM_opt'%(reg_dir,reg_dir))
-            os.system('fslmaths %s/FLASH/FLASH_CSF -sub L_BG -sub R_BG %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
-
 
 pop = controls_a + patients_a + lemon_population
 run_first(pop, workspace_iron)
