@@ -45,21 +45,22 @@ def transform_nuclei(population, workspace):
 
         os.chdir(qsm_dir)
 
-        for roi in rois:
+        for roi in rois + ['GM']:
             if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz'%roi):
                 print '...Transforming nuclei for subject', subject
                 if roi in first_rois:
                     nuc = os.path.join(subject_dir, 'SEGMENTATION/FIRST/%s.nii.gz'%roi)
                 elif roi in atlas_rois:
                     nuc = os.path.join(subject_dir, 'SEGMENTATION/ATLAS/%s.nii.gz'%roi)
-                os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
-                os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
-                          '-t %s %s'%(roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
-                os.system('fslmaths %s2MNI -thr 0.2 -bin -mul %s QSMnorm_MNI1mm_%s' %(roi, qsm, roi ))
-                os.system('rm -rf %s2MP2RAGE* %s2MNI*'%(roi, roi))
-            #else:
-            #    print '...completed roi', roi
-
+                elif roi == 'GM':
+                    nuc = os.path.join(subject_dir, 'REGISTRATION/FLASH_GM_opt')
+                    os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
+                    os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
+                              '-t %s %s'%(roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
+                    os.system('fslmaths %s2MNI -thr 0.2 -bin -mul %s QSMnorm_MNI1mm_%s' %(roi, qsm, roi ))
+                    os.system('rm -rf %s2MP2RAGE* %s2MNI*'%(roi, roi))
+            # else:
+            #     print '...completed roi', roi
 
 def make_nuclei_group_average(population,workspace, popname):
     average_dir = mkdir_path(os.path.join(ahba_dir, 'QSM_MEAN'))
@@ -75,14 +76,11 @@ def make_nuclei_group_average(population,workspace, popname):
             os.system('rm -rf concat*')
 
 
-
 def randomize_two_sample(df):
 
     permutation = '20k'
-
     stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
     os.chdir(stats_dir)
-
     population = df.index
 
     print '############################################################################################################'
@@ -128,7 +126,7 @@ def randomize_two_sample(df):
         mat.close()
 
     # Run Randomize
-    rois = ['STR3_MOTOR']
+    rois = ['STR3_MOTOR', 'GM', 'STR3_EXEC', 'STR3_LIMBIC', 'Caud_Puta', 'SUBCORTICAL']
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
             print '######################################'
