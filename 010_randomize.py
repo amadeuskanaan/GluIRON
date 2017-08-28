@@ -128,7 +128,7 @@ def randomize_two_sample(df):
         mat.close()
 
     # Run Randomize
-    #rois = ['STR3_MOTOR']
+    rois = ['STR3_MOTOR']
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
             print '######################################'
@@ -139,7 +139,7 @@ def randomize_two_sample(df):
             os.chdir(stats_dir)
             os.system('fslmerge -t concat_CP_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
             os.system('randomise -i concat_CP_%s -o randomise_CP_%s -d design_twosample.mat -t design_twosample.con -R --uncorrp '
-                      #'-T -n 20000 -x'
+                      '-T -n 20000 -x'
                       % (roi, roi))
             os.system('rm -rf *concat*')
 
@@ -225,6 +225,6 @@ transform_nuclei(lemon_population, workspace_iron)
 ######################################################
 ##### Run randomise to T-stat maps
 randomize_two_sample(df_cp)
-randomize_one_sample(df_lemon)
+# randomize_one_sample(df_lemon)
 
 
