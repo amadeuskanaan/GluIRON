@@ -78,7 +78,7 @@ def make_nuclei_group_average(population,workspace, popname):
 
 def randomize_two_sample(df):
 
-    permutation = '0'
+    permutation = '20k'
 
     stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
     os.chdir(stats_dir)
