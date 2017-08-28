@@ -82,6 +82,17 @@ def transform_atlas_roi(population, workspace_dir):
             os.system('fslmaths R_BS -add ../FIRST/R_BG R_SUBCORTICAL')
             os.system('fslmaths L_SUBCORTICAL -add R_SUBCORTICAL SUBCORTICAL')
 
+        ######################################################
+        # Optimize Tissue class masks
+        reg_dir = os.path.join(subject_dir, 'REGISTRATION')
+        if not os.path.isfile(os.path.join(reg_dir, 'FLASH_GM_opt.nii.gz')):
+            print 'optimizing tissue classes'
+            os.system('fslmaths %s/FLASH/FLASH_GM -add SUBCORTICAL %s/FLASH_GM_opt'%(reg_dir,reg_dir))
+            os.system('fslmaths %s/FLASH/FLASH_WM -sub SUBCORTICAL %s/FLASH_WM_opt'%(reg_dir,reg_dir))
+            os.system('fslmaths %s/FLASH/FLASH_CSF -sub SUBCORTICAL %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
+
+
+
 # transform_atlas_roi(['WSKT'], workspace_iron)
 transform_atlas_roi(controls_a, workspace_iron)
 transform_atlas_roi(patients_a, workspace_iron)
