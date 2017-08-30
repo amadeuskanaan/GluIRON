@@ -44,7 +44,7 @@ def extract_nifti_gene_expreesion(df, rois):
         tstat5 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_%s.nii.gz'%(roi,stat_type))
 
 
-        radius = 2
+        radius = 1
 
         print '........ C > P'
         df['%s_CP'%roi] = get_values_at_locations(nifti_file = tstat1,locations  = df.mni_coords,radius = radius,verbose = True)
