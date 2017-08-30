@@ -61,6 +61,6 @@ def extract_nifti_gene_expreesion(df, rois):
         # df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = radius,verbose = True)
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%s_%s.csv'%(radius, permutation)))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%s_%s_masked.csv'%(radius, permutation)))
 
 extract_nifti_gene_expreesion(df, rois)
