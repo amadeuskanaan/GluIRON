@@ -27,7 +27,9 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 
 def extract_nifti_gene_expreesion(df, rois):
 
-    rois = ['STR3_MOTOR', 'GM']
+    rois = ['STR3_MOTOR'
+           #, 'GM'
+            ]
 
     for roi in rois:
         print 'Extracting Nifti Values for roi = ', roi
