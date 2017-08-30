@@ -27,12 +27,12 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 
 def extract_nifti_gene_expreesion(df, rois):
 
-    rois = ['GM']
+    rois = ['STR3_MOTOR', 'GM']
 
     for roi in rois:
         print 'Extracting Nifti Values for roi = ', roi
 
-        permutation = '20k'
+        permutation = '10k'
         stat_type = 'tfce_corrp_tstat'
 
         tstat1 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_%s1.nii.gz'%(roi,stat_type))
