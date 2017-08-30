@@ -45,7 +45,7 @@ def extract_nifti_gene_expreesion(df, rois):
 
         os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_MOTOR %s_masked '%(tstat1,tstat1))
 
-        radius = 1
+        radius = 2
 
         tstat1 = os.path.join(ahba_dir, 'RANDOMISE_%s' % permutation, 'randomise_CP_%s_%s1_masked.nii.gz' % (roi, stat_type))
 
