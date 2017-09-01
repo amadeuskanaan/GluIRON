@@ -38,7 +38,7 @@ def extract_nifti_gene_expreesion(df, rois):
         stat_types = {'CP': '1', 'PC':'2',  'C':'3', 'P':'4', 'L':'5'}
 
         for stat_type in stat_types.keys():
-            val = stat_types[tstat]
+            val = stat_types[stat_type]
             tstat = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_%s_tfce_corrp_tstat_%s%s'%(roi, stat_type, val))
 
             if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
