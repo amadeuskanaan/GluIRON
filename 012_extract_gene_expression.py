@@ -35,7 +35,9 @@ def extract_nifti_gene_expreesion(df, rois):
 
         radius = 2
         permutation = '10k'
-        stat_types = {'CP': '1', 'PC':'2',  'C':'3', 'P':'4', 'L':'5'}
+        stat_types = {'CP': '1', 'PC':'2',  'C':'3', 'P':'4',
+                      #'L':'5'
+                      }
         randomise_dir = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation)
 
         print 'Extracting Nifti Values for roi/permutation/radius = ', roi, permutation, radius
@@ -43,7 +45,7 @@ def extract_nifti_gene_expreesion(df, rois):
 
         for stat_type in stat_types.keys():
             val = stat_types[stat_type]
-            tstat = os.path.join(randomise_dir, 'randomise_%s_%s_tfce_corrp_tstat%s'%(stat_type,roi,val ))
+            tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_corrp_tstat%s'%(roi, val))
 
             print tstat
 
