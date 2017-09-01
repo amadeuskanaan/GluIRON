@@ -27,23 +27,30 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 
 def extract_nifti_gene_expreesion(df, rois):
 
-    rois = ['STR3_MOTOR', 'GM', 'SUBCORTICAL', 'Caud_Puta', 'STR3_EXEC', 'STR3_LIMBIC']
-    radius = 2
+    rois = ['STR3_MOTOR',
+            #'GM', 'SUBCORTICAL', 'Caud_Puta', 'STR3_EXEC', 'STR3_LIMBIC'
+            ]
 
     for roi in rois:
 
+        radius = 2
         permutation = '10k'
+        stat_types = {'CP': '1', 'PC':'2',  'C':'3', 'P':'4', 'L':'5'}
+        randomise_dir = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation)
+
         print 'Extracting Nifti Values for roi/permutation/radius = ', roi, permutation, radius
 
-        stat_types = {'CP': '1', 'PC':'2',  'C':'3', 'P':'4', 'L':'5'}
 
         for stat_type in stat_types.keys():
             val = stat_types[stat_type]
-            tstat = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_%s_tfce_corrp_tstat%s'%(roi, val))
+            tstat = os.path.join(randomise_dir, 'randomise_%s_tfce_corrp_tstat%s'%(roi, val))
+
+            print tstat
 
             if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
                 print '..................', stat_type
-                os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (roi, tstat, tstat))
+                os.chdir()
+                os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (tstat, roi, tstat))
                 df['%s_CP' % roi] = get_values_at_locations(nifti_file='%s_masked.nii.gz'%tstat,
                                                             locations=df.mni_coords, radius=radius, verbose=True)
             else:
