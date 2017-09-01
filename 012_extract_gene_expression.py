@@ -49,7 +49,7 @@ def extract_nifti_gene_expreesion(df, rois):
 
             if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
                 print '..................', stat_type
-                os.chdir()
+                os.chdir(randomise_dir)
                 os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (tstat, roi, tstat))
                 df['%s_CP' % roi] = get_values_at_locations(nifti_file='%s_masked.nii.gz'%tstat,
                                                             locations=df.mni_coords, radius=radius, verbose=True)
