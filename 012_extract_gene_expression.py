@@ -27,40 +27,31 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 
 def extract_nifti_gene_expreesion(df, rois):
 
-    rois = ['STR3_MOTOR'
-           #, 'GM'
-            ]
+    rois = ['STR3_MOTOR', 'GM', 'SUBCORTICAL', 'Caud_Puta', 'STR3_EXEC', 'STR3_LIMBIC']
+    radius = 2
 
     for roi in rois:
-        print 'Extracting Nifti Values for roi = ', roi
 
         permutation = '10k'
-        stat_type = 'tfce_corrp_tstat'
+        print 'Extracting Nifti Values for roi/permutation/radius = ', roi, permutation, radius
 
-        tstat1 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_%s1'%(roi,stat_type))
-        tstat2 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_%s2.nii.gz'%(roi,stat_type))
-        tstat3 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_%s3.nii.gz'%(roi,stat_type))
-        tstat4 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_%s4.nii.gz'%(roi,stat_type))
-        tstat5 = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_CP_%s_%s.nii.gz'%(roi,stat_type))
+        stat_types = {'CP': '1', 'PC':'2',  'C':'3', 'P':'4', 'L':'5'}
 
-        os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_MOTOR %s_masked '%(tstat1,tstat1))
+        for stat_type in stat_types.keys():
+            val = stat_types[tstat]
+            tstat = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_%s_tfce_corrp_tstat_%s%s'%(roi, stat_type, val))
 
-        radius = 2
-
-        tstat1 = os.path.join(ahba_dir, 'RANDOMISE_%s' % permutation, 'randomise_CP_%s_%s1_masked.nii.gz' % (roi, stat_type))
-
-        print '........ C > P'
-        df['%s_CP'%roi] = get_values_at_locations(nifti_file = tstat1,locations  = df.mni_coords,radius = radius,verbose = True)
-        # print '........ P > C'
-        # df['%s_PC'%roi] = get_values_at_locations(nifti_file = tstat2,locations  = df.mni_coords,radius = radius,verbose = True)
-        # print '........ Controls Mean'
-        # df['%s_C'%roi] = get_values_at_locations(nifti_file = tstat3,locations  = df.mni_coords,radius = radius,verbose = True)
-        # print '........ Patients Mean'
-        # df['%s_P'%roi] = get_values_at_locations(nifti_file = tstat4,locations  = df.mni_coords,radius = radius,verbose = True)
-        # print '........ Lemon Mean'
-        # df['%s_L'%roi] = get_values_at_locations(nifti_file = tstat5,locations  = df.mni_coords,radius = radius,verbose = True)
+            if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
+                print '..................', stat_type
+                os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (roi, tstat, tstat))
+                df['%s_CP' % roi] = get_values_at_locations(nifti_file='%s_masked'%tstat,
+                                                            locations=df.mni_coords, radius=radius, verbose=True)
+            else:
+                print '..................', stat_type
+                df['%s_PC' % roi] = get_values_at_locations(nifti_file=tstat, locations=df.mni_coords, radius=radius,
+                                                            verbose=True)
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%s_%s_masked.csv'%(radius, permutation)))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%s_%s_masked2.csv'%(radius, permutation)))
 
 extract_nifti_gene_expreesion(df, rois)
