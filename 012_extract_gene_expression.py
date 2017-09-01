@@ -39,17 +39,17 @@ def extract_nifti_gene_expreesion(df, rois):
 
         for stat_type in stat_types.keys():
             val = stat_types[stat_type]
-            tstat = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_%s_tfce_corrp_tstat_%s%s'%(roi, stat_type, val))
+            tstat = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation, 'randomise_%s_tfce_corrp_tstat%s'%(roi, val))
 
             if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
                 print '..................', stat_type
                 os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (roi, tstat, tstat))
-                df['%s_CP' % roi] = get_values_at_locations(nifti_file='%s_masked'%tstat,
+                df['%s_CP' % roi] = get_values_at_locations(nifti_file='%s_masked.nii.gz'%tstat,
                                                             locations=df.mni_coords, radius=radius, verbose=True)
             else:
                 print '..................', stat_type
-                df['%s_PC' % roi] = get_values_at_locations(nifti_file=tstat, locations=df.mni_coords, radius=radius,
-                                                            verbose=True)
+                df['%s_PC' % roi] = get_values_at_locations(nifti_file='%s.nii.gz'%tstat,
+                                                            locations=df.mni_coords, radius=radius,verbose=True)
 
     dfx = df.drop(['mni_coords'],axis=1)
     dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%s_%s_masked2.csv'%(radius, permutation)))
