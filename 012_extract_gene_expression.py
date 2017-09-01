@@ -43,7 +43,7 @@ def extract_nifti_gene_expreesion(df, rois):
 
         for stat_type in stat_types.keys():
             val = stat_types[stat_type]
-            tstat = os.path.join(randomise_dir, 'randomise_%s_tfce_corrp_tstat%s'%(roi, val))
+            tstat = os.path.join(randomise_dir, 'randomise_%s_%s_tfce_corrp_tstat%s'%(stat_type,roi,val ))
 
             print tstat
 
@@ -51,11 +51,11 @@ def extract_nifti_gene_expreesion(df, rois):
                 print '..................', stat_type
                 os.chdir(randomise_dir)
                 os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (tstat, roi, tstat))
-                df['%s_CP' % roi] = get_values_at_locations(nifti_file='%s_masked.nii.gz'%tstat,
+                df['%s_%s' % (roi,stat_type)] = get_values_at_locations(nifti_file='%s_masked.nii.gz'%tstat,
                                                             locations=df.mni_coords, radius=radius, verbose=True)
             else:
                 print '..................', stat_type
-                df['%s_PC' % roi] = get_values_at_locations(nifti_file='%s.nii.gz'%tstat,
+                df['%s_%s' % (roi, stat_type)] = get_values_at_locations(nifti_file='%s.nii.gz'%tstat,
                                                             locations=df.mni_coords, radius=radius,verbose=True)
 
     dfx = df.drop(['mni_coords'],axis=1)
