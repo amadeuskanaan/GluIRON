@@ -28,8 +28,8 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 def extract_nifti_gene_expreesion(df, rois):
 
     rois = ['STR3_MOTOR', 'SUBCORTICAL', 'Caud_Puta',
-            #'STR3_EXEC', 'STR3_LIMBIC', 'GM',
-            ]
+            'STR3_EXEC', 'STR3_LIMBIC', 'GM',
+           ]
 
     for roi in rois:
 
