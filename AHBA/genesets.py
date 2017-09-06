@@ -201,11 +201,11 @@ FTH_ALL  = ['FTH1', 'FTH1P14', 'FTH1P20', 'FTHL17' ]
 FTL_ALL  = ['FTL', 'FTLP17']
 FERRITIN = FTH_ALL + FTL_ALL + ['FTMT']
 TF       = ['TF']
-HRE      = ['HFE']
-HRE2     = ['HFE2']
+HFE      = ['HFE']
+HFE2     = ['HFE2']
 SLC25    = ['SLC25A37']
 SLC40    = ['SLC40A1']
-BIOBANK  = TF + FTH + HRE + SLC25
+BIOBANK  = TF + FTH + HFE + SLC25
 
 ### HOSEKEEPING
 
