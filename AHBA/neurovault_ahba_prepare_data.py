@@ -12,11 +12,12 @@ ahba_dir          = '/scr/malta3/workspace/project_iron/AHBA'
 
 # Downloading microarray data
 urls = ["http://human.brain-map.org/api/v2/well_known_file_download/178238387",
-        "http://human.brain-map.org/api/v2/well_known_file_download/178238373",
-        "http://human.brain-map.org/api/v2/well_known_file_download/178238359",
-        "http://human.brain-map.org/api/v2/well_known_file_download/178238316",
-        "http://human.brain-map.org/api/v2/well_known_file_download/178238266",
-        "http://human.brain-map.org/api/v2/well_known_file_download/178236545"]
+        # "http://human.brain-map.org/api/v2/well_known_file_download/178238373",
+        # "http://human.brain-map.org/api/v2/well_known_file_download/178238359",
+        # "http://human.brain-map.org/api/v2/well_known_file_download/178238316",
+        # "http://human.brain-map.org/api/v2/well_known_file_download/178238266",
+        # "http://human.brain-map.org/api/v2/well_known_file_download/178236545"
+        ]
 
 donor_ids = [""]
 download_dir = os.path.join(ahba_dir, 'ahba_data')
