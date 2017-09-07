@@ -131,6 +131,7 @@ genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_re
 # get_expression_df(FTL_ALL               , 'FTL_ALL')
 # get_expression_df(FERRITIN              , 'FERRITIN')
 # get_expression_df(AHBA_GENELIST         , 'GENELIST')
-# get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
-for gene in AHBA_GENELIST_FRENCH:
-    print gene
+
+print len(AHBA_GENELIST_FRENCH)
+get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
+
