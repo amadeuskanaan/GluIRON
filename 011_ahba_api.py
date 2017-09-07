@@ -38,7 +38,7 @@ def get_probes_from_genes(gene_names):
     d = {probe['id']: probe['name'] for probe in data['msg']}
 
     if not d:
-        print 'Gene %s no available'%gene_name#
+        print 'Gene %s not available'%gene_name#
         # raise Exception("Could not find any probes for %s gene. Check "
         #                "http://help.brain-map.org/download/attachments/2818165/HBA_ISH_GeneList.pdf?version=1&modificationDate=1348783035873 "
         #                "for list of available genes." % gene_name)
@@ -127,6 +127,8 @@ def get_expression_df(genes, geneset_name):
         probes  = get_probes_from_genes(gene)
         if probes:
             gene_probes[gene] = probes
+        else:
+            print 'Gene %s has no probes' %gene
 
     return_probe_expression(gene_probes, geneset_name)
     #return df
@@ -163,6 +165,5 @@ genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_re
 # get_expression_df(AHBA_GENELIST         , 'GENELIST')
 
 # print len(AHBA_GENELIST_FRENCH)
-# get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
-get_expression_df(['FTH1', 'XXXXXXXXX']    , 'TEST')
+get_expression_df(AHBA_GENELIST_FRENCH[0:30]    , 'GENELIST_FRENCH')
 
