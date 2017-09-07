@@ -6,7 +6,9 @@ import nibabel as nb
 import numpy.linalg as npl
 import pandas as pd
 from pybraincompare.mr.datasets import get_standard_mask
-from variables.variables import ahba_dir
+
+
+ahba_dir          = '/scr/malta3/workspace/project_iron/AHBA'
 
 # Downloading microarray data
 urls = ["http://human.brain-map.org/api/v2/well_known_file_download/178238387",
