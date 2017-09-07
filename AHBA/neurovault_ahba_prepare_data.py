@@ -23,9 +23,14 @@ download_dir = os.path.join(ahba_dir, 'ahba_data')
 os.makedirs(download_dir)
 
 for i, url in enumerate(urls):
-    print "Downloading %s" % url
-    urllib.urlretrieve(url, os.path.join(download_dir, "donor%d.zip" % (i + 1)))
-    zipfile.ZipFile(os.path.join(download_dir, "donor%d.zip" % (i + 1)))
+    print '--------------------------------------------------------------------'
+    print 'Donor ID =' %(i+1)
+    if os.path.isdir(os.path.join(download_dir, "donor%d.zip" % (i + 1))):
+        print 'Donor %s downloaded'% (i + 1)
+    else:
+        print "Downloading %s" % url
+        urllib.urlretrieve(url, os.path.join(download_dir, "donor%d.zip" % (i + 1)))
+        zipfile.ZipFile(os.path.join(download_dir, "donor%d.zip" % (i + 1)))
 
 # Dowloading MNI coordinates
 urllib.urlretrieve(
@@ -120,5 +125,5 @@ with pd.HDFStore(os.path.join(download_dir, 'store_max1_reduced.h5'), 'w') as st
         store.append(donor_id.replace(".", "_"), expression_data[donor_id])
 
 # Removing downloaded files
-for i, url in enumerate(urls):
-    os.remove(os.path.join(download_dir, "donor%d.zip" % (i + 1)))
+#for i, url in enumerate(urls):
+#    os.remove(os.path.join(download_dir, "donor%d.zip" % (i + 1)))
