@@ -259,3 +259,7 @@ HOUSEKEEPING = ['AAMP', 'AARS', 'ABLIM1', 'ACTB', 'ACTG1', 'AES', 'AGPAT1', 'ALD
 
 rich = pd.read_excel(os.path.join('/scr/malta1/Github/GluIRON/AHBA/Richiardi_Data_File_S2.xlsx'))
 AHBA_GENELIST = list(rich.gene_symbol)
+
+
+french = pd.read_table(os.path.join('/scr/malta1/Github/GluIRON/AHBA/AHBA_French2015.tsv'),index_col = 0)
+AHBA_GENELIST_FRENCH = list(french.index)
