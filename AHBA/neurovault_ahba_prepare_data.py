@@ -6,6 +6,7 @@ import nibabel as nb
 import numpy.linalg as npl
 import pandas as pd
 from pybraincompare.mr.datasets import get_standard_mask
+from variables.variables import ahba_dir
 
 # Downloading microarray data
 urls = ["http://human.brain-map.org/api/v2/well_known_file_download/178238387",
@@ -16,7 +17,7 @@ urls = ["http://human.brain-map.org/api/v2/well_known_file_download/178238387",
         "http://human.brain-map.org/api/v2/well_known_file_download/178236545"]
 
 donor_ids = [""]
-download_dir = "/ahba_data"
+download_dir = os.path.join(ahba_dir, 'ahba_data')
 os.makedirs(download_dir)
 
 for i, url in enumerate(urls):
