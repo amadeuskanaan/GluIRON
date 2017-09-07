@@ -2,7 +2,8 @@
 
 import os
 import pandas as pd
-
+import urllib2
+import json
 
 ##################################################################################################
 # Iron
@@ -258,8 +259,10 @@ HOUSEKEEPING = ['AAMP', 'AARS', 'ABLIM1', 'ACTB', 'ACTG1', 'AES', 'AGPAT1', 'ALD
 
 
 rich = pd.read_excel(os.path.join('/scr/malta1/Github/GluIRON/AHBA/Richiardi_Data_File_S2.xlsx'))
-AHBA_GENELIST = list(rich.gene_symbol)
+#AHBA_GENELIST = list(rich.gene_symbol)
 
+url ='http://api.brain-map.org/api/v2/data/Gene/query.json?criteria=products[abbreviation$eq%27HumanMA%27]&only=id,acronym,entrez_id,homologene_id&num_rows=all&order=id'
 
-french = pd.read_table(os.path.join('/scr/malta1/Github/GluIRON/AHBA/AHBA_French2015.tsv'),index_col = 0)
-AHBA_GENELIST_FRENCH = list(french.index)
+#ahba_all = json.load(urllib2.urlopen(url))
+#ahba20k = [i['acronym'] for i in ahba_all['msg'] if i['entrez_id']]
+

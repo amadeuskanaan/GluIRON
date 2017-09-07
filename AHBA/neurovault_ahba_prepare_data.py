@@ -66,6 +66,7 @@ urllib.urlretrieve(
 
 donors = ["H0351.2001", "H0351.2002", "H0351.1009", "H0351.1012", "H0351.1015", "H0351.1016"]
 
+
 with zipfile.ZipFile(os.path.join(download_dir, "donor1.zip")) as z:
     with z.open("Probes.csv") as f:
         probe_info_df = pd.read_csv(f, index_col=0)
@@ -125,7 +126,3 @@ assert (expression_data.shape == (20787, 3072))
 with pd.HDFStore(os.path.join(download_dir, 'store_max1_reduced.h5'), 'w') as store:
     for donor_id in donors:
         store.append(donor_id.replace(".", "_"), expression_data[donor_id])
-
-# Removing downloaded files
-#for i, url in enumerate(urls):
-#    os.remove(os.path.join(download_dir, "donor%d.zip" % (i + 1)))
