@@ -7,7 +7,7 @@ import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn import preprocessing
-from alleninf.api import get_probes_from_genes
+#from alleninf.api import get_probes_from_genes
 from alleninf.data import get_values_at_locations
 from alleninf.api import get_mni_coordinates_from_wells#
 from alleninf.analysis import fixed_effects, approximate_random_effects, bayesian_random_effects
@@ -17,6 +17,34 @@ from variables.variables import *
 from AHBA.genesets import *
 from sklearn.decomposition import TruncatedSVD, PCA
 api_url        = "http://api.brain-map.org/api/v2/data/query.json"
+
+
+
+
+def get_probes_from_genes(gene_names):
+    if not isinstance(gene_names, list):
+        gene_names = [gene_names]
+    # in case there are white spaces in gene names
+    gene_names = ["'%s'" % gene_name for gene_name in gene_names]
+
+    api_query = "?criteria=model::Probe"
+    api_query += ",rma::criteria,[probe_type$eq'DNA']"
+    api_query += ",products[abbreviation$eq'HumanMA']"
+    api_query += ",gene[acronym$eq%s]" % (','.join(gene_names))
+    api_query += ",rma::options[only$eq'probes.id','name']"
+
+    data = json.load(urllib2.urlopen(api_url + api_query))
+
+    d = {probe['id']: probe['name'] for probe in data['msg']}
+
+    if not d:
+        print 'Gene %s no available'%gene_name#
+        # raise Exception("Could not find any probes for %s gene. Check "
+        #                "http://help.brain-map.org/download/attachments/2818165/HBA_ISH_GeneList.pdf?version=1&modificationDate=1348783035873 "
+        #                "for list of available genes." % gene_name)
+        pass
+    else:
+        return d
 
 
 def return_probe_expression(gene_probes_dict, geneset_name):
@@ -132,6 +160,7 @@ genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_re
 # get_expression_df(FERRITIN              , 'FERRITIN')
 # get_expression_df(AHBA_GENELIST         , 'GENELIST')
 
-print len(AHBA_GENELIST_FRENCH)
-get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
+# print len(AHBA_GENELIST_FRENCH)
+# get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
+get_expression_df(['FTH', 'XXXXXXXXX']    , 'TEST')
 
