@@ -21,7 +21,8 @@ urls = ["http://human.brain-map.org/api/v2/well_known_file_download/178238387",
 
 donor_ids = [""]
 download_dir = os.path.join(ahba_dir, 'ahba_data')
-os.makedirs(download_dir)
+if not os.path.isdir(download_dir):
+    os.makedirs(download_dir)
 
 for i, url in enumerate(urls):
     print '--------------------------------------------------------------------'
