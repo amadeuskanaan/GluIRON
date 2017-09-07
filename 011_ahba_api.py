@@ -128,7 +128,7 @@ def get_expression_df(genes, geneset_name):
         if probes:
             gene_probes[gene] = probes
         else:
-            print 'Gene %s has no probes' %gene
+            pass #print 'Gene %s has no probes' %gene
 
     return_probe_expression(gene_probes, geneset_name)
     #return df
