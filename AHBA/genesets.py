@@ -270,4 +270,4 @@ AHBA_GENELIST = list(rich.gene_symbol)
 
 
 french = pd.read_table(os.path.join('/scr/malta1/Github/GluIRON/AHBA/AHBA_French2015.tsv'),index_col = 0)
-AHBA_GENELIST_FRENCH = [gene for gene in list(french.index) if '.' not in gene]
+AHBA_GENELIST_FRENCH = [gene for gene in list(french.index)]
