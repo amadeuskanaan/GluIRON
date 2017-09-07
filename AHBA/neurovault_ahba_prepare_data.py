@@ -27,7 +27,7 @@ if not os.path.isdir(download_dir):
 for i, url in enumerate(urls):
     print '--------------------------------------------------------------------'
     print 'Donor ID =', (i+1)
-    if os.path.isdir(os.path.join(download_dir, "donor%d.zip" % (i + 1))):
+    if os.path.isfile(os.path.join(download_dir, "donor%d.zip" % (i + 1))):
         print 'Donor %d downloaded'% (i + 1)
     else:
         print "Downloading %s" % url
