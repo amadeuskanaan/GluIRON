@@ -124,7 +124,9 @@ def return_probe_expression(gene_probes_dict, geneset_name):
 def get_expression_df(genes, geneset_name):
     gene_probes = {}
     for gene in genes:
-        gene_probes[gene] = get_probes_from_genes(gene)
+        probes  = get_probes_from_genes(gene)
+        if probes:
+            gene_probes[gene] = probes
 
     return_probe_expression(gene_probes, geneset_name)
     #return df
@@ -162,5 +164,5 @@ genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_re
 
 # print len(AHBA_GENELIST_FRENCH)
 # get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
-get_expression_df(['FTH', 'XXXXXXXXX']    , 'TEST')
+get_expression_df(['FTH1', 'XXXXXXXXX']    , 'TEST')
 
