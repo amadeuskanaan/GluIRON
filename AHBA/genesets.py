@@ -257,5 +257,5 @@ HOUSEKEEPING = ['AAMP', 'AARS', 'ABLIM1', 'ACTB', 'ACTG1', 'AES', 'AGPAT1', 'ALD
 # SHORT_HOUSEKEEPING = ['ACTB','ALDOA', 'G6PD', 'GAPDH', 'B2M', 'PFKP', 'PGK1', 'PGAM1', 'TUBA1A', 'VIM', 'LDHA'] #  'HRPT',
 
 
-rich = pd.read_csv(os.path.join('/scr/malta1/Github/GluIRON/AHBA/Richiardi_Data_File_S2.xlsx'))
-AHBA_GENELIST = rich.gene_symbol
+rich = pd.read_excel(os.path.join('/scr/malta1/Github/GluIRON/AHBA/Richiardi_Data_File_S2.xlsx'))
+AHBA_GENELIST = list(rich.gene_symbol)
