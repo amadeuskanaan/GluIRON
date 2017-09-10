@@ -78,7 +78,7 @@ def make_nuclei_group_average(population,workspace, popname):
 
 def randomize_two_sample(df):
 
-    permutation = '10k'
+    permutation = '1k'
     stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
     os.chdir(stats_dir)
     population = df.index
@@ -126,7 +126,8 @@ def randomize_two_sample(df):
         mat.close()
 
     # Run Randomize
-    rois = ['STR3_MOTOR', 'GM','SUBCORTICAL', 'Caud_Puta',  'STR3_EXEC', 'STR3_LIMBIC']
+    rois = ['STR3_MOTOR', 'GM', 'SUBCORTICAL', 'Caud_Puta',  'STR3_EXEC', 'STR3_LIMBIC', ]
+    rois = ['L_Caud', 'L_Puta', 'R_Cuad', 'R_Puta']
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
             print '######################################'
@@ -137,7 +138,7 @@ def randomize_two_sample(df):
             os.chdir(stats_dir)
             os.system('fslmerge -t concat_CP_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
             os.system('randomise -i concat_CP_%s -o randomise_CP_%s -d design_twosample.mat -t design_twosample.con -R --uncorrp '
-                      '-T -n 10000 -x'
+                      '-T -n 1000 -x'
                       % (roi, roi))
             os.system('rm -rf *concat*')
         print '#########################################################################################################'
