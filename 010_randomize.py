@@ -22,7 +22,7 @@ qc_outliers_c  = []
 qc_outliers_p  = ['NL2P', 'HSPP', 'STDP', 'DF2P'] # 'LA9P'
 
 
-rois = ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta']
+rois = ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'L_Pall', 'R_Pall']
 
 def get_dfs():
     dfc = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_controls.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
@@ -83,7 +83,7 @@ def make_nuclei_group_average(population,workspace, popname):
 
 def randomize_two_sample(df):
 
-    permutation = '1k'
+    permutation = '10k_SEPT10'
     stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
     os.chdir(stats_dir)
     population = df.index
@@ -131,8 +131,7 @@ def randomize_two_sample(df):
         mat.close()
 
     # Run Randomize
-    rois = ['STR3_MOTOR', 'GM', 'SUBCORTICAL', 'Caud_Puta',  'STR3_EXEC', 'STR3_LIMBIC', ]
-    rois = ['L_Caud', 'L_Puta', 'L_Pall']
+    rois = ['L_Caud', 'L_Puta', 'L_Pall''STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC', ]
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
             print '######################################'
