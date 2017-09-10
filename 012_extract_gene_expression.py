@@ -57,7 +57,7 @@ def extract_nifti_gene_expreesion(df, rois):
             elif roi in ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'L_Pall', 'R_Pall']:
                 print '..................', stat_type
                 os.chdir(randomise_dir)
-                os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/FIRST-%s_first_uthr %s_masked'
+                os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-%s_first_uthr %s_masked'
                           % (tstat, roi, tstat))
                 df['%s_%s' % (roi, stat_type)] = get_values_at_locations(nifti_file='%s.nii.gz'%tstat,
                                                             locations=df.mni_coords, radius=radius,verbose=True)
