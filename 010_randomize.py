@@ -21,6 +21,9 @@ rois = first_rois + atlas_rois
 qc_outliers_c  = []
 qc_outliers_p  = ['NL2P', 'HSPP', 'STDP', 'DF2P'] # 'LA9P'
 
+
+rois = ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta']
+
 def get_dfs():
     dfc = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_controls.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
     dfp = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_patients.csv'), index_col = 0).drop(qc_outliers_p, axis = 0)
