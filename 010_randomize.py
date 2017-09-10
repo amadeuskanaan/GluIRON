@@ -8,6 +8,7 @@ ahba_dir= mkdir_path(ahba_dir)
 os.chdir(ahba_dir)
 
 first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',
+              'L_Caud', 'L_Puta', 'R_Caud', 'R_Puta'
               'L_Pall', 'R_Pall', #'Pall',
               'L_BG', 'R_BG', 'BG']
 atlas_rois = ['L_BS', 'R_BS', 'BS',
@@ -127,7 +128,7 @@ def randomize_two_sample(df):
 
     # Run Randomize
     rois = ['STR3_MOTOR', 'GM', 'SUBCORTICAL', 'Caud_Puta',  'STR3_EXEC', 'STR3_LIMBIC', ]
-    rois = ['L_Caud', 'L_Puta']
+    rois = ['L_Caud', 'L_Puta', 'L_Pall']
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
             print '######################################'
