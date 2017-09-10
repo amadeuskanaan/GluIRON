@@ -100,10 +100,10 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         if len(set(probes_unique)) > 1:
             df['Mean'] = df[list(set(probes_unique))].mean(axis=1)
             df['Median'] = df[list(set(probes_unique))].median(axis=1)
-            pca = PCA(n_components=3)
+            pca = TruncatedSVD()
             pca.fit(np.array(np.asarray([df[gene] for gene in genes])))
             df['PC1'] = pca.components_[0, :]
-            if  pca.components_[1, :].any():
+            if  len(genes) > 3:
                 df['PC2'] = pca.components_[1, :]
             if len(genes) > 3:
                 df['PC3'] = pca.components_[2, :]
@@ -138,32 +138,31 @@ genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_re
             'ANMC', 'GLU', 'GABA', 'FTH', 'TF','FTH_ALL', 'FTL_ALL', 'FERRITIN']
 
 
-# get_expression_df(IRON.keys()           , 'IRON')
-# get_expression_df(IRON_D.keys()         , 'IRON_D')
-# get_expression_df(DA_jellen             , 'DA_jellen')
-# get_expression_df(DA_jellen2            , 'DA_jellen2')
-# get_expression_df(DA_metabolism.keys()  , 'DA_metabolism')
-# get_expression_df(DA_receptor_bind      , 'DA_receptor')
-# get_expression_df(DA_receptor_sig       , 'DA_receptor_sig')
-# get_expression_df(DA_tranmission        , 'DA_tranmission')
-# get_expression_df(DA_transport          , 'DA_transport')
-# get_expression_df(ANMC                  , 'ANMC')
-# get_expression_df(GLU_metabolism        , 'GLU')
-# get_expression_df(GABA_metabolism       , 'GABA')
-# get_expression_df(GLU_GABA              , 'GLU_GABA')
-# get_expression_df(TF                    , 'TF')
-# get_expression_df(FTH                   , 'FTH')
-# get_expression_df(FTL                   , 'FTL')
-# get_expression_df(HFE                   , 'HFE')
-# get_expression_df(HFE2                  , 'HFE2')
-# get_expression_df(SLC25                 , 'SLC25')
-# get_expression_df(BIOBANK               , 'BIOBANK')
-# get_expression_df(HOUSEKEEPING          , 'HOUSEKEEPING')
-# get_expression_df(FTH_ALL               , 'FTH_ALL')
-# get_expression_df(FTL_ALL               , 'FTL_ALL')
-# get_expression_df(FERRITIN              , 'FERRITIN')
-# get_expression_df(AHBA_GENELIST         , 'GENELIST')
+get_expression_df(IRON.keys()           , 'IRON')
+get_expression_df(IRON_D.keys()         , 'IRON_D')
+get_expression_df(DA_jellen             , 'DA_jellen')
+get_expression_df(DA_jellen2            , 'DA_jellen2')
+get_expression_df(DA_metabolism.keys()  , 'DA_metabolism')
+get_expression_df(DA_receptor_bind      , 'DA_receptor')
+get_expression_df(DA_receptor_sig       , 'DA_receptor_sig')
+get_expression_df(DA_tranmission        , 'DA_tranmission')
+get_expression_df(DA_transport          , 'DA_transport')
+get_expression_df(ANMC                  , 'ANMC')
+get_expression_df(GLU_metabolism        , 'GLU')
+get_expression_df(GABA_metabolism       , 'GABA')
+get_expression_df(GLU_GABA              , 'GLU_GABA')
+get_expression_df(TF                    , 'TF')
+get_expression_df(FTH                   , 'FTH')
+get_expression_df(FTL                   , 'FTL')
+get_expression_df(HFE                   , 'HFE')
+get_expression_df(HFE2                  , 'HFE2')
+get_expression_df(SLC25                 , 'SLC25')
+get_expression_df(BIOBANK               , 'BIOBANK')
+get_expression_df(HOUSEKEEPING          , 'HOUSEKEEPING')
+get_expression_df(FTH_ALL               , 'FTH_ALL')
+get_expression_df(FTL_ALL               , 'FTL_ALL')
+get_expression_df(FERRITIN              , 'FERRITIN')
 
 # print len(AHBA_GENELIST_FRENCH)
-get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
+# get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
 
