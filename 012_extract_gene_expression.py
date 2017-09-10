@@ -28,13 +28,13 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 def extract_nifti_gene_expreesion(df, rois):
 
     #rois = ['STR3_MOTOR', 'SUBCORTICAL', 'STR3_EXEC', 'STR3_LIMBIC', 'GM',]
-    rois = ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta']
+    rois = ['L_Caud', 'L_Puta', 'L_Pall']
 
     for roi in rois:
 
         radius = 2
         permutation = '1k'
-        stat_types = {'CP': '1', 'PC':'2',  'C':'3', 'P':'4',
+        stat_types = {'CP': '1', #'PC':'2',  'C':'3', 'P':'4',
                       #'L':'5'
                       }
         randomise_dir = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation)
