@@ -233,7 +233,7 @@ transform_nuclei(patients_a, workspace_iron)
 
 ######################################################
 ##### Run randomise to T-stat maps
-# randomize_two_sample(df_cp)
+randomize_two_sample(df_cp)
 # randomize_one_sample(df_lemon)
 
 
