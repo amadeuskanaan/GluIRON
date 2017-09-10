@@ -142,7 +142,7 @@ def randomize_two_sample(df):
             os.chdir(stats_dir)
             os.system('fslmerge -t concat_CP_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
             os.system('randomise -i concat_CP_%s -o randomise_CP_%s -d design_twosample.mat -t design_twosample.con -R --uncorrp '
-                      '-T -n 1000 -x'
+                      '-T -n 10000 -x'
                       % (roi, roi))
             os.system('rm -rf *concat*')
         print '#########################################################################################################'
