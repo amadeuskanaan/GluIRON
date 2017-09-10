@@ -27,7 +27,7 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 
 def extract_nifti_gene_expreesion(df, rois):
 
-    rois = ['STR3_MOTOR', 'SUBCORTICAL', 'STR3_EXEC', 'STR3_LIMBIC', 'GM',]
+    #rois = ['STR3_MOTOR', 'SUBCORTICAL', 'STR3_EXEC', 'STR3_LIMBIC', 'GM',]
     rois = ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta']
 
     for roi in rois:
@@ -64,6 +64,6 @@ def extract_nifti_gene_expreesion(df, rois):
 
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%s_%s_masked2.csv'%(radius, permutation)))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%smm_%s_masked_Caud_puta_only_setp10.csv'%(radius, permutation)))
 
 extract_nifti_gene_expreesion(df, rois)
