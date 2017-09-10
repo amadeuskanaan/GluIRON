@@ -50,6 +50,7 @@ def transform_nuclei(population, workspace):
         os.chdir(qsm_dir)
 
         for roi in rois + ['GM']:
+            print roi
             if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz'%roi):
                 print '...Transforming nuclei for subject', subject
                 if roi in first_rois:
