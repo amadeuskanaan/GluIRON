@@ -100,14 +100,14 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         if len(set(probes_unique)) > 1:
             df['Mean'] = df[list(set(probes_unique))].mean(axis=1)
             df['Median'] = df[list(set(probes_unique))].median(axis=1)
-            pca = TruncatedSVD()
-            pca.fit(np.array(np.asarray([df[gene] for gene in genes])))
-            df['PC1'] = pca.components_[0, :]
-            if  len(genes) > 3:
-                df['PC2'] = pca.components_[1, :]
-            if len(genes) > 3:
-                df['PC3'] = pca.components_[2, :]
-            print 'PC explained variance:', pca.explained_variance_ratio_
+            #pca = TruncatedSVD()
+            #pca.fit(np.array(np.asarray([df[gene] for gene in genes])))
+            #df['PC1'] = pca.components_[0, :]
+            #if  pca.components_[1, :].any():
+            #    df['PC2'] = pca.components_[1, :]
+            #if len(genes) > 3:
+            #    df['PC3'] = pca.components_[2, :]
+            #print 'PC explained variance:', pca.explained_variance_ratio_
             #df['PC_EV'] = pca.explained_variance_ratio_[0]#, pca.explained_variance_ratio_[1], pca.explained_variance_ratio_[2],
 
 
