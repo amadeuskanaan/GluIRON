@@ -8,7 +8,7 @@ ahba_dir= mkdir_path(ahba_dir)
 os.chdir(ahba_dir)
 
 first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',
-              'L_Caud', 'L_Puta', 'R_Caud', 'R_Puta'
+              'L_Caud', 'L_Puta', 'R_Caud', 'R_Puta',
               'L_Pall', 'R_Pall', #'Pall',
               'L_BG', 'R_BG', 'BG']
 atlas_rois = ['L_BS', 'R_BS', 'BS',
