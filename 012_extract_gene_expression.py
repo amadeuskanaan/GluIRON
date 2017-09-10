@@ -39,7 +39,7 @@ def extract_nifti_gene_expreesion(df, rois):
                       }
         randomise_dir = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation)
 
-        print 'Extracting Nifti Values for roi/permutation/radius = ', roi, permutation, radius
+        print 'Extracting Nifti Values for roi=%s, permutations=%s, radius=%smm' %(roi, permutation, radius)
 
 
         for stat_type in stat_types.keys():
