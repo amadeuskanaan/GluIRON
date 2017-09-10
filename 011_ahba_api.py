@@ -102,12 +102,19 @@ def return_probe_expression(gene_probes_dict, geneset_name):
             df['Median'] = df[list(set(probes_unique))].median(axis=1)
             pca = TruncatedSVD()
             pca.fit(np.array(np.asarray([df[gene] for gene in genes])))
-            if len(genes) > 1:
+            try:
                 df['SVD1'] = pca.components_[0, :]
-            if len(genes) > 2:
+            except:
+                print 'No SVD1'
+            try:
                 df['SVD2'] = pca.components_[1, :]
-            if len(genes) > 3:
+            except:
+                print 'No SVD2'
+            try:
                 df['SVD3'] = pca.components_[2, :]
+            except:
+                print 'No SVD3'
+
             print 'PC explained variance:', pca.explained_variance_ratio_
             #df['PC_EV'] = pca.explained_variance_ratio_[0]#, pca.explained_variance_ratio_[1], pca.explained_variance_ratio_[2],
 
@@ -138,7 +145,7 @@ def get_expression_df(genes, geneset_name):
 genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_receptor', 'DA_receptor_sig', 'DA_tranmission', 'DA_transport',
             'ANMC', 'GLU', 'GABA', 'FTH', 'TF','FTH_ALL', 'FTL_ALL', 'FERRITIN']
 
-# #
+#
 # get_expression_df(IRON.keys()           , 'IRON')
 # get_expression_df(IRON_D.keys()         , 'IRON_D')
 # get_expression_df(DA_jellen             , 'DA_jellen')
@@ -156,11 +163,11 @@ genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_re
 # get_expression_df(FTH                   , 'FTH')
 # get_expression_df(FTL                   , 'FTL')
 # get_expression_df(HFE                   , 'HFE')
-get_expression_df(HFE2                  , 'HFE2')
-get_expression_df(SLC25                 , 'SLC25')
+# get_expression_df(HFE2                  , 'HFE2')
+# get_expression_df(SLC25                 , 'SLC25')
 # get_expression_df(BIOBANK               , 'BIOBANK')
 # get_expression_df(FTH_ALL               , 'FTH_ALL')
-get_expression_df(FTL_ALL               , 'FTL_ALL')
+# get_expression_df(FTL_ALL               , 'FTL_ALL')
 get_expression_df(FERRITIN              , 'FERRITIN')
 
 # print len(AHBA_GENELIST_FRENCH)
