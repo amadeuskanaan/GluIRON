@@ -134,8 +134,8 @@ def randomize_two_sample(df):
     rois = [
            #'L_Caud', 'L_Puta', 'L_Pall',
            #'R_Caud', 'R_Puta', 'R_Pall',
-           'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC'
-           #'Caud',
+           #'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC'
+           'Caud',
            #'Puta',
            # 'Pall',
            #'STR',
