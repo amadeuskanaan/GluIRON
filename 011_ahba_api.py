@@ -170,6 +170,10 @@ genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_re
 # get_expression_df(FTL_ALL               , 'FTL_ALL')
 # get_expression_df(FERRITIN              , 'FERRITIN')
 get_expression_df(BTBD9                 , 'BTBD9')
+get_expression_df(TCA                   , 'TCA')
+get_expression_df(ACO1                  , 'ACO1')
+get_expression_df(ACO2                  , 'ACO2')
+get_expression_df(ACO                   , 'ACO')
 get_expression_df(HOUSEKEEPING          , 'HOUSEKEEPING')
 get_expression_df(HOUSEKEEPING_EISENBERG, 'HOUSEKEEPING_EISENBERG')
 
