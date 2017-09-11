@@ -212,6 +212,8 @@ SLC25    = ['SLC25A37']
 SLC40    = ['SLC40A1']
 BIOBANK  = TF + FTH + HFE + SLC25
 
+BTBD9 = ['BTBD9']
+
 ### HOSEKEEPING
 
 HOUSEKEEPING = ['AAMP', 'AARS', 'ABLIM1', 'ACTB', 'ACTG1', 'AES', 'AGPAT1', 'ALDOA', 'ANP32B', 'ANXA11', 'ANXA2',
@@ -253,7 +255,8 @@ HOUSEKEEPING = ['AAMP', 'AARS', 'ABLIM1', 'ACTB', 'ACTG1', 'AES', 'AGPAT1', 'ALD
                 #housekeeping genes not in AHBA
                 # 'DARC', 'MTRNR2L8',  'RPL18A', 'RPL41', 'UBB',
 
-# HOUSEKEEPING = ['C1orf43', 'CHMP2A', 'EMC7', 'GPI', 'PSMB2', 'PSMB4', 'RAB7A', 'REEP5', 'SNRPD3', 'VCP', 'VPS29']
+#Eisenberg E, Levanon EY. Human housekeeping genes, revisited. Trends Genet 2013; 29: 569–574.
+HOUSEKEEPING_EISENBERG = ['C1orf43', 'CHMP2A', 'EMC7', 'GPI', 'PSMB2', 'PSMB4', 'RAB7A', 'REEP5', 'SNRPD3', 'VCP', 'VPS29']
 # SHORT_HOUSEKEEPING = ['ACTB','GAPDH', 'HPRT1', 'B2M']
 # SHORT_HOUSEKEEPING = ['ACTB','ALDOA', 'G6PD', 'GAPDH', 'B2M', 'PFKP', 'PGK1', 'PGAM1', 'TUBA1A', 'VIM', 'LDHA'] #  'HRPT',
 
