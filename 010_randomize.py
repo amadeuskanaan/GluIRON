@@ -142,8 +142,8 @@ def randomize_two_sample(df):
            # 'Caud',
            # 'Puta',
            # 'Pall',
-           'STR',
-           #'L_STR', 'R_STR',
+           # 'STR',
+           'L_STR', 'R_STR',
            ''
            ]
     for roi in rois:
