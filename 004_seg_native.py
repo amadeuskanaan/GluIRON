@@ -82,7 +82,7 @@ def run_first(population, workspace):
             os.system('fslmaths R_Caud -add R_Puta -add R_Accu R_Caud_Puta')
             os.system('fslmaths R_Caud_Puta -add L_Caud_Puta Caud_Puta')
 
-        if not os.path.isfile('STR.nii.gz'):
+        if not os.path.isfile('Pall.nii.gz'):
             os.system('fslmaths L_Caud -add R_Caud Caud')
             os.system('fslmaths L_Puta -add R_Puta Puta')
             os.system('fslmaths L_Pall -add L_Pall Pall')
