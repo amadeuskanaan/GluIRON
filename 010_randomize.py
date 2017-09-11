@@ -22,7 +22,7 @@ qc_outliers_c  = []
 qc_outliers_p  = ['NL2P', 'HSPP', 'STDP', 'DF2P'] # 'LA9P'
 
 
-rois = ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'L_Pall', 'R_Pall'
+rois = ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'L_Pall', 'R_Pall',
         'Caud', 'Puta', 'Pall',
         'L_STR', 'R_STR', 'STR'
         ]
