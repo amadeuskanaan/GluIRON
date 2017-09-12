@@ -28,15 +28,15 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 def extract_nifti_gene_expreesion(df, rois):
 
     #rois = ['STR3_MOTOR', 'SUBCORTICAL', 'STR3_EXEC', 'STR3_LIMBIC', 'GM',]
-    rois = ['STR3_MOTOR',# 'STR', , 'STR3_EXEC', 'STR3_LIMBIC',
-            #'Puta', 'Pall', 'Caud',
-            #'L_Caud', 'L_Puta', ''
-            #'L_STR', 'L_Puta', 'L_Pall', 'L_Caud',
-            #'R_Caud',
+    rois = ['STR3_MOTOR', 'STR', , 'STR3_EXEC', 'STR3_LIMBIC',
+            'Puta', 'Pall', 'Caud',
+            'L_Caud', 'L_Puta', ''
+            'L_STR', 'L_Puta', 'L_Pall', 'L_Caud',
+            'R_Caud',
             ]
 
     for roi in rois:
-        for radius in [2]:
+        for radius in [1,2,3]:
             permutation = '10k_SEPT10'
             stat_types = {'CP': '1', #'PC':'2',  'C':'3', 'P':'4',
                           #'L':'5'
@@ -50,23 +50,23 @@ def extract_nifti_gene_expreesion(df, rois):
                 val = stat_types[stat_type]
 
                 #for stat in  ["tstat", "vox_p_tstat",  "vox_corrp_tstat", "tfce_tstat", "tfce_corrp_tstat", "tfce_p_tstat"]:
-                for stat in  ["vox_corrp_tstat"]:
-                    tstat = os.path.join(randomise_dir, 'randomise_CP_%s_%s%s'%(roi, stat, val))
+                # for stat in  ["vox_corrp_tstat"]:
+                tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_corrp_tstat%s'%(roi, stat, val))
 
-                    if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
-                        os.chdir(randomise_dir)
-                        os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (tstat, roi, tstat))
-                        df['%s_%s_%s_%s' % (roi, stat, stat_type, radius)] = get_values_at_locations(nifti_file='%s_masked.nii.gz' % tstat,
-                                                                                                    locations=df.mni_coords,radius=radius, verbose=True)
+                if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
+                    os.chdir(randomise_dir)
+                    os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (tstat, roi, tstat))
+                    #df['%s_%s_%s_%s' % (roi, stat, stat_type, radius)] = get_values_at_locations(nifti_file='%s_masked.nii.gz' % tstat,locations=df.mni_coords,radius=radius, verbose=True)
+                    df['%s_%s_%s' % (roi, stat_type, radius)] = get_values_at_locations(nifti_file='%s_masked.nii.gz' % tstat,locations=df.mni_coords,radius=radius, verbose=True)
 
-                    elif roi in ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'L_Pall', 'R_Pall', 'Caud', 'Puta', 'STR', 'L_STR', 'R_STR']:
-                        os.chdir(randomise_dir)
-                        os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-%s_first_uthr %s_masked'
-                                  % (tstat, roi, tstat))
-                        df['%s_%s_%s_%s' % (roi, stat, stat_type, radius)] = get_values_at_locations(nifti_file='%s_masked.nii.gz' % tstat,
-                                                                                                     locations=df.mni_coords, radius=radius, verbose=True)
+                elif roi in ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'L_Pall', 'R_Pall', 'Caud', 'Puta', 'STR', 'L_STR', 'R_STR']:
+                    os.chdir(randomise_dir)
+                    os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-%s_first_uthr %s_masked'
+                              % (tstat, roi, tstat))
+                    #df['%s_%s_%s_%s' % (roi, stat, stat_type, radius)] = get_values_at_locations(nifti_file='%s_masked.nii.gz' % tstat,locations=df.mni_coords, radius=radius, verbose=True)
+                    df['%s_%s_%s' % (roi, stat_type, radius)] = get_values_at_locations(nifti_file='%s_masked.nii.gz' % tstat,locations=df.mni_coords,radius=radius, verbose=True)
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_permute_10K_SEPT10_VCORP.csv'))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_permute_10K_SEPT10_TFCE.csv'))
 
 extract_nifti_gene_expreesion(df, rois)
