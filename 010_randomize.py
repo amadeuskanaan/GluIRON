@@ -141,8 +141,8 @@ def randomize_two_sample(df):
            #'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC'
            # 'Caud',
            # 'Puta',
-           'Pall',
-           # 'STR',
+           # 'Pall',
+           'STR',
            # 'L_STR', 'R_STR',
            ''
            ]
@@ -246,5 +246,5 @@ transform_nuclei(patients_a, workspace_iron)
 
 ######################################################
 ##### Run randomise to T-stat maps
-# randomize_two_sample(df_cp)
+randomize_two_sample(df_cp)
 # randomize_one_sample(df_lemon)
