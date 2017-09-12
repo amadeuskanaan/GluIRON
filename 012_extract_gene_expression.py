@@ -50,7 +50,7 @@ def extract_nifti_gene_expreesion(df, rois):
                 val = stat_types[stat_type]
 
                 #for stat in  ["tstat", "vox_p_tstat",  "vox_corrp_tstat", "tfce_tstat", "tfce_corrp_tstat", "tfce_p_tstat"]:
-                for stat in  ["vox_p_tstat"]:
+                for stat in  ["vox_corrp_tstat"]:
                     tstat = os.path.join(randomise_dir, 'randomise_CP_%s_%s%s'%(roi, stat, val))
 
                     if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
@@ -67,6 +67,6 @@ def extract_nifti_gene_expreesion(df, rois):
                                                                                                      locations=df.mni_coords, radius=radius, verbose=True)
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_permute_10K_SEPT10_CUT.csv'))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_permute_10K_SEPT10_VCORP.csv'))
 
 extract_nifti_gene_expreesion(df, rois)
