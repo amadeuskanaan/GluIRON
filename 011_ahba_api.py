@@ -15,6 +15,7 @@ import statsmodels.formula.api as smf
 import math
 from variables.variables import *
 from AHBA.genesets import *
+from AHBA.genesets_iron import *
 from sklearn.decomposition import TruncatedSVD, PCA
 api_url        = "http://api.brain-map.org/api/v2/data/query.json"
 
@@ -83,11 +84,10 @@ def return_probe_expression(gene_probes_dict, geneset_name):
 
         # concat all probe expression dataframes
         df = pd.concat(dfs, axis=1).T.groupby(level=0).first().T
+        df.to_csv(os.path.join(ahba_dir, 'PROBES_%s.csv' % geneset_name))
 
         # decompose probe expression values
-        all_probes = ['%s_' % gene + str(i) for gene in gene_probes_dict.keys() for i in
-                      gene_probes_dict[gene].values()]
-
+        all_probes = ['%s_'%gene + str(i) for gene in gene_probes_dict.keys() for i in gene_probes_dict[gene].values()]
 
         # Need to simplify Dataframe by averaging all probes for every gene
         #split dataframe in probes and metadata
@@ -100,22 +100,27 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         if len(set(probes_unique)) > 1:
             df['Mean'] = df[list(set(probes_unique))].mean(axis=1)
             df['Median'] = df[list(set(probes_unique))].median(axis=1)
-            pca = PCA()
-            pca.fit(np.array(np.asarray([df[gene] for gene in genes])))
+            pca_genes = PCA()
+            pca_genes.fit(np.array(np.asarray([df[gene] for gene in genes])))
+            pca_probes = PCA()
+            pca_probes.fit(np.array(np.asarray([df_probes[probe] for probe in all_probes])))
             try:
-                df['SVD1'] = pca.components_[0, :]
+                df['SVD1g'] = pca_genes.components_[0, :]
+                df['SVD1p'] = pca_probes.components_[0, :]
             except:
                 print 'No SVD1'
             try:
-                df['SVD2'] = pca.components_[1, :]
+                df['SVD2g'] = pca_genes.components_[1, :]
+                df['SVD2p'] = pca_probes.components_[1, :]
             except:
                 print 'No SVD2'
             try:
-                df['SVD3'] = pca.components_[2, :]
+                df['SVD3g'] = pca_genes.components_[2, :]
+                df['SVD3p'] = pca_probes.components_[2, :]
             except:
                 print 'No SVD3'
 
-            print 'PC explained variance:', pca.explained_variance_ratio_
+            # print 'PC explained variance:', pca.explained_variance_ratio_
             #df['PC_EV'] = pca.explained_variance_ratio_[0]#, pca.explained_variance_ratio_[1], pca.explained_variance_ratio_[2],
 
 
@@ -131,6 +136,11 @@ def return_probe_expression(gene_probes_dict, geneset_name):
 
 def get_expression_df(genes, geneset_name):
     gene_probes = {}
+
+    print '##########################################################################################################'
+    print '##########################    Downloading AHBA for data for geneset %s      ##############################'
+    print '##########################################################################################################'
+
     for gene in genes:
         probes  = get_probes_from_genes(gene)
         if probes:
@@ -146,8 +156,14 @@ genesets = ['IRON', 'IRON_D', 'DA_jellen', 'DA_jellen2', 'DA_metabolism', 'DA_re
             'ANMC', 'GLU', 'GABA', 'FTH', 'TF','FTH_ALL', 'FTL_ALL', 'FERRITIN']
 
 
-get_expression_df(IRON.keys()           , 'IRON')
-get_expression_df(IRON_D.keys()         , 'IRON_D')
+get_expression_df(IRON_HOMEOSTASIS.keys()  , 'IRON_HOMEOSTASIS')
+get_expression_df(IRON_D.keys()            , 'IRON_D')
+get_expression_df(IRON_ION_HOMEOSTASIS     , 'IRON_ION_HOMEOSTASIS')
+get_expression_df(IRON_ION_BINDING         , 'IRON_ION_BINDING')
+get_expression_df(IRON_TRANSPORT1          , 'IRON_TRANSPORT1')
+get_expression_df(IRON_TRANSPORT2          , 'IRON_TRANSPORT2')
+get_expression_df(IRON_ION_IMPORT          , 'IRON_ION_IMPORT')
+get_expression_df(IRON_RESPONSE            , 'IRON_RESPONSE')
 get_expression_df(DA_jellen             , 'DA_jellen')
 get_expression_df(DA_jellen2            , 'DA_jellen2')
 get_expression_df(DA_metabolism.keys()  , 'DA_metabolism')

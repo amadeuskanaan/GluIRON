@@ -67,10 +67,10 @@ IRON_HOMEOSTASIS = {
 # http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=GO_CELLULAR_IRON_ION_HOMEOSTASIS&keywords=iron
 # Any process involved in the maintenance of an internal steady state of iron ions at the level of a cell.
 
-IRON_ION_HOMEOSTASIS = ['ABCB6', 'ABCB7', 'ABCG2', 'ACO1', 'ALAS2', 'BMP6', 'CP', 'CYBRD1', 'FAM132B', 'FLVCR1', 'FTH1', 'FTH1P19', 'FTHL17',
+IRON_ION_HOMEOSTASIS = ['ABCB6', 'ABCB7', 'ABCG2', 'ACO1', 'ALAS2', 'BMP6', 'CP', 'CYBRD1',  'FLVCR1', 'FTH1',  'FTHL17',
                         'FTL', 'FTMT', 'FXN', 'GDF2', 'HAMP', 'HEPH', 'HFE', 'HFE2', 'HIF1A', 'HMOX1', 'HMOX2', 'HPX', 'IREB2', 'ISCU', 'LCN2',
                         'LTF', 'MYC', 'NDFIP1', 'NUBP1', 'SCARA5', 'SLC11A1', 'SLC11A2', 'SLC22A17', 'SLC40A1', 'SLC46A1', 'SMAD4', 'SOD1',
-                        'SRI', 'TF', 'TFR2', 'TFRC', 'TMPRSS6', 'TTC7A']
+                        'SRI', 'TF', 'TFR2', 'TFRC', 'TMPRSS6', 'TTC7A'] # not available 'FAM132B', 'FTH1P19',
 
 ########################################################################################################################
 ########################################################################################################################
@@ -82,21 +82,21 @@ IRON_ION_HOMEOSTASIS = ['ABCB6', 'ABCB7', 'ABCG2', 'ACO1', 'ALAS2', 'BMP6', 'CP'
 # > Interacting selectively and non-covalently with iron (Fe) ions.
 
 IRON_ION_BINDING = ['ACO2', 'ACP5', 'AGMO', 'ALKBH1', 'ALKBH2', 'ALKBH3', 'ALKBH8', 'ALOX12', 'ALOX12B', 'ALOX15', 'ALOX15B',
-                    'ALOX5', 'ALOXE3', 'AOX1', 'BBOX1', 'C14orf169', 'C17orf101', 'C5orf4', 'CALR', 'CDO1', 'CH25H', 'CYGB',
+                    'ALOX5', 'ALOXE3', 'AOX1', 'BBOX1', 'C14orf169',  'CALR', 'CDO1', 'CH25H', 'CYGB',
                     'CYP11A1', 'CYP11B1', 'CYP11B2', 'CYP17A1', 'CYP19A1', 'CYP1A1', 'CYP1A2', 'CYP1B1', 'CYP20A1', 'CYP21A2',
                     'CYP24A1', 'CYP26A1', 'CYP26B1', 'CYP26C1', 'CYP27A1', 'CYP27B1', 'CYP27C1', 'CYP2A13', 'CYP2A6', 'CYP2A7',
-                    'CYP2B6', 'CYP2C18', 'CYP2C19', 'CYP2C8', 'CYP2C9', 'CYP2D6', 'CYP2D7P1', 'CYP2E1', 'CYP2F1', 'CYP2G1P',
+                    'CYP2B6', 'CYP2C18', 'CYP2C19', 'CYP2C8', 'CYP2C9', 'CYP2D6', 'CYP2E1', 'CYP2F1', 'CYP2G1P',
                     'CYP2J2', 'CYP2R1', 'CYP2S1', 'CYP2U1', 'CYP2W1', 'CYP39A1', 'CYP3A4', 'CYP3A43', 'CYP3A5', 'CYP3A7',
-                    'CYP46A1', 'CYP4A11', 'CYP4A22', 'CYP4B1', 'CYP4F11', 'CYP4F12', 'CYP4F2', 'CYP4F22', 'CYP4F3', 'CYP4F8',
+                    'CYP46A1', 'CYP4A11', 'CYP4A22', 'CYP4B1', 'CYP4F11', 'CYP4F12', 'CYP4F2', 'CYP4F22',  'CYP4F8',
                     'CYP4V2', 'CYP4X1', 'CYP4Z1', 'CYP4Z2P', 'CYP51A1', 'CYP7A1', 'CYP7B1', 'CYP8B1', 'DNAJC24', 'EGLN1',
-                    'EGLN2', 'EGLN3', 'ETHE1', 'FA2H', 'FBXL5', 'FDX1', 'FECH', 'FTH1', 'FTH1P19', 'FTHL17', 'FTL', 'FTMT',
+                    'EGLN2', 'EGLN3', 'ETHE1', 'FA2H', 'FBXL5', 'FDX1', 'FECH', 'FTH1',  'FTHL17', 'FTL', 'FTMT',
                     'FTO', 'FXN', 'HAAO', 'HBA1', 'HBA2', 'HBB', 'HBD', 'HBE1', 'HBG1', 'HBG2', 'HBM', 'HBQ1', 'HBZ', 'HEPH',
-                    'HIF1AN', 'ISCA1', 'ISCA2', 'ISCU', 'JHDM1D', 'JMJD6', 'KDM3A', 'LCN2', 'LEPRE1', 'LEPREL1', 'LEPREL2',
+                    'HIF1AN', 'ISCA1', 'ISCA2', 'ISCU',  'JMJD6', 'KDM3A', 'LCN2',
                     'LTF', 'MFI2', 'MIOX', 'MSMO1', 'MTRR', 'NDOR1', 'NFU1', 'NOS1', 'NOS2', 'NOS3', 'NT5E', 'OGFOD1', 'OGFOD2',
-                    'P4HA1', 'P4HA2', 'P4HA3', 'P4HTM', 'PAH', 'PDF', 'PHF2', 'PHF8', 'PLOD1', 'PLOD2', 'PLOD3', 'POR', 'PPEF1',
-                    'PPEF2', 'PTGIS', 'SC5DL', 'SCD', 'SNCA', 'TBXAS1', 'TET1', 'TET2', 'TF', 'TH', 'TMLHE', 'TPH1', 'TPH2',
+                    'P4HA1', 'P4HA2', 'P4HA3', 'P4HTM', 'PAH',  'PHF2', 'PHF8', 'PLOD1', 'PLOD2', 'PLOD3', 'POR', 'PPEF1',
+                    'PPEF2', 'PTGIS',  'SCD', 'SNCA', 'TBXAS1', 'TET1', 'TET2', 'TF', 'TH', 'TMLHE', 'TPH1', 'TPH2',
                     'TYW1', 'TYW1B', 'TYW5', 'UROD', 'XDH']
-
+#not available 'C17orf101', 'C5orf4', 'CYP2D7P1', 'CYP4F3', 'FTH1P19', 'JHDM1D', 'LEPRE1',  'LEPREL1', 'LEPREL2', 'PDF', 'SC5DL',
 
 ########################################################################################################################
 ########################################################################################################################
@@ -105,8 +105,8 @@ IRON_ION_BINDING = ['ACO2', 'ACP5', 'AGMO', 'ALKBH1', 'ALKBH2', 'ALKBH3', 'ALKBH
 # http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=GO_IRON_COORDINATION_ENTITY_TRANSPORT&keywords=iron
 #> The directed movement of an iron coordination entity into, out of or within a cell, or between cells, by means of some agent such as a transporter or pore.
 
-IRON_COORDINATION_ENTITY_TRANSPORT = ['ABCB6', 'ABCB7', 'ABCG2', 'ACCN3', 'FLVCR1', 'FLVCR2', 'HPX', 'HRG', 'LCN2',
-                                      'SLC22A17', 'SLC46A1', 'SLC48A1']
+IRON_TRANSPORT1 = ['ABCB6', 'ABCB7', 'ABCG2', 'FLVCR1', 'FLVCR2', 'HPX', 'HRG', 'LCN2',
+                   'SLC22A17', 'SLC46A1', 'SLC48A1'] # not available 'ACCN3',
 
 ########################################################################################################################
 ########################################################################################################################
@@ -143,7 +143,7 @@ IRON_RESPONSE = ['ABAT', 'ABCG2', 'ACO1', 'ALAD', 'APBB1', 'ATP7A', 'B2M', 'BCL2
 
 # http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=REACTOME_IRON_UPTAKE_AND_TRANSPORT&keywords=iron
 
-IRON_UPTAKE_AND_TRANSPORT = ['ABCG2', 'ATP6V0A2', 'ATP6V0A4', 'ATP6V0B', 'ATP6V0C', 'ATP6V0D1', 'ATP6V0D2', 'ATP6V0E1', 'ATP6V1A',
+IRON_TRANSPORT2 = ['ABCG2', 'ATP6V0A2', 'ATP6V0A4', 'ATP6V0B', 'ATP6V0C', 'ATP6V0D1', 'ATP6V0D2', 'ATP6V0E1', 'ATP6V1A',
                              'ATP6V1B1', 'ATP6V1B2', 'ATP6V1C1', 'ATP6V1C2', 'ATP6V1D', 'ATP6V1E1', 'ATP6V1E2', 'ATP6V1F', 'ATP6V1G1',
                              'ATP6V1G2', 'ATP6V1G3', 'ATP6V1H', 'CP', 'CYBRD1', 'FLVCR1', 'FTH1', 'FTL', 'HEPH', 'HMOX1', 'HMOX2',
                              'MCOLN1', 'SLC40A1', 'SLC46A1', 'STEAP3', 'TCIRG1', 'TF', 'TFRC']
