@@ -28,7 +28,7 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 def extract_nifti_gene_expreesion(df, rois):
 
     #rois = ['STR3_MOTOR', 'SUBCORTICAL', 'STR3_EXEC', 'STR3_LIMBIC', 'GM',]
-    rois = ['STR3_MOTOR', 'STR', , 'STR3_EXEC', 'STR3_LIMBIC',
+    rois = ['STR', 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
             'Puta', 'Pall', 'Caud',
             'L_Caud', 'L_Puta', ''
             'L_STR', 'L_Puta', 'L_Pall', 'L_Caud',
@@ -51,7 +51,8 @@ def extract_nifti_gene_expreesion(df, rois):
 
                 #for stat in  ["tstat", "vox_p_tstat",  "vox_corrp_tstat", "tfce_tstat", "tfce_corrp_tstat", "tfce_p_tstat"]:
                 # for stat in  ["vox_corrp_tstat"]:
-                tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_corrp_tstat%s'%(roi, stat, val))
+                # tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_corrp_tstat%s'%(roi, stat, val))
+                tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_corrp_tstat%s'%(roi, val))
 
                 if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
                     os.chdir(randomise_dir)
