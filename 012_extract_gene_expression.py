@@ -28,42 +28,44 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 def extract_nifti_gene_expreesion(df, rois):
 
     #rois = ['STR3_MOTOR', 'SUBCORTICAL', 'STR3_EXEC', 'STR3_LIMBIC', 'GM',]
-    rois = ['L_Caud', 'L_Puta', 'L_Pall']
+    rois = ['STR', 'STR3_MOTOR', 'Puta', 'Pall', 'Caud',
+            'L_STR', 'L_Puta', 'L_Pall', 'L_Caud',
+            'R_Caud', ]
 
     for roi in rois:
 
-        radius = 2
-        permutation = '1k'
-        stat_types = {'CP': '1', #'PC':'2',  'C':'3', 'P':'4',
-                      #'L':'5'
-                      }
-        randomise_dir = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation)
+        for radius in [1,2]:
+            permutation = '1k'
+            stat_types = {'CP': '1', #'PC':'2',  'C':'3', 'P':'4',
+                          #'L':'5'
+                          }
+            randomise_dir = os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation)
 
-        print 'Extracting Nifti Values for roi=%s, permutations=%s, radius=%smm' %(roi, permutation, radius)
+            print 'Extracting Nifti Values for roi=%s, permutations=%s, radius=%smm' %(roi, permutation, radius)
 
 
-        for stat_type in stat_types.keys():
-            val = stat_types[stat_type]
-            tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_corrp_tstat%s'%(roi, val))
+            for stat_type in stat_types.keys():
+                val = stat_types[stat_type]
+                tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_corrp_tstat%s'%(roi, val))
 
-            print tstat
+                print tstat
 
-            if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
-                print '..................', stat_type
-                os.chdir(randomise_dir)
-                os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (tstat, roi, tstat))
-                df['%s_%s' % (roi,stat_type)] = get_values_at_locations(nifti_file='%s_masked.nii.gz'%tstat,
-                                                            locations=df.mni_coords, radius=radius, verbose=True)
-            elif roi in ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'L_Pall', 'R_Pall']:
-                print '..................', stat_type
-                os.chdir(randomise_dir)
-                os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-%s_first_uthr %s_masked'
-                          % (tstat, roi, tstat))
-                df['%s_%s' % (roi, stat_type)] = get_values_at_locations(nifti_file='%s.nii.gz'%tstat,
-                                                            locations=df.mni_coords, radius=radius,verbose=True)
+                if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
+                    print '..................', stat_type
+                    os.chdir(randomise_dir)
+                    os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/STR/%s %s_masked ' % (tstat, roi, tstat))
+                    df['%s_%s' % (roi,stat_type)] = get_values_at_locations(nifti_file='%s_masked.nii.gz'%tstat,
+                                                                locations=df.mni_coords, radius=radius, verbose=True)
+                elif roi in ['L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'L_Pall', 'R_Pall', 'Caud', 'Puta', 'STR', 'L_STR', 'R_STR']:
+                    print '..................', stat_type
+                    os.chdir(randomise_dir)
+                    os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-%s_first_uthr %s_masked'
+                              % (tstat, roi, tstat))
+                    df['%s_%s' % (roi, stat_type)] = get_values_at_locations(nifti_file='%s.nii.gz'%tstat,
+                                                                locations=df.mni_coords, radius=radius,verbose=True)
 
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%smm_%s_masked_Caud_puta_only_setp10.csv'%(radius, permutation)))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%smm_%s_masked_sept12.csv'%(radius, permutation)))
 
 extract_nifti_gene_expreesion(df, rois)
