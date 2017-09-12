@@ -35,7 +35,7 @@ def extract_nifti_gene_expreesion(df, rois):
     for roi in rois:
 
         for radius in [1,2]:
-            permutation = '1k'
+            permutation = '10k_SEPT10'
             stat_types = {'CP': '1', #'PC':'2',  'C':'3', 'P':'4',
                           #'L':'5'
                           }
@@ -66,6 +66,6 @@ def extract_nifti_gene_expreesion(df, rois):
 
 
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%smm_%s_masked_sept12.csv'%(radius, permutation)))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%smm_%s_masked_sept10.csv'%(radius, permutation)))
 
 extract_nifti_gene_expreesion(df, rois)
