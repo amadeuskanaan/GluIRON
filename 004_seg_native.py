@@ -85,13 +85,14 @@ def run_first(population, workspace):
         if not os.path.isfile('Pall.nii.gz'):
             os.system('fslmaths L_Caud -add R_Caud Caud')
             os.system('fslmaths L_Puta -add R_Puta Puta')
-            os.system('fslmaths L_Pall -add L_Pall Pall')
 
+        os.system('fslmaths L_Pall -add R_Pall Pall')
 
         if not os.path.isfile('STR.nii.gz'):
             os.system('fslmaths L_Caud -add L_Puta L_STR')
             os.system('fslmaths R_Caud -add R_Puta R_STR')
-            os.system('fslmaths R_STR -add L_STR STR')
+
+        os.system('fslmaths R_STR -add L_STR STR')
 
 pop = controls_a + patients_a # + lemon_population
 run_first(pop, workspace_iron)
