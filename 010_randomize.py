@@ -10,7 +10,7 @@ os.chdir(ahba_dir)
 first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',
               'L_Caud', 'L_Puta', 'R_Caud', 'R_Puta', 'Caud', 'Puta',
               'L_Pall', 'R_Pall', 'Pall',
-              'L_STR','R_STR', 'STR'
+              'L_STR','R_STR', 'STR',
               'L_BG', 'R_BG', 'BG']
 atlas_rois = ['L_BS', 'R_BS', 'BS',
               'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
@@ -246,5 +246,5 @@ transform_nuclei(patients_a, workspace_iron)
 
 ######################################################
 ##### Run randomise to T-stat maps
-randomize_two_sample(df_cp)
+# randomize_two_sample(df_cp)
 # randomize_one_sample(df_lemon)
