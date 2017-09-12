@@ -100,7 +100,7 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         if len(set(probes_unique)) > 1:
             df['Mean'] = df[list(set(probes_unique))].mean(axis=1)
             df['Median'] = df[list(set(probes_unique))].median(axis=1)
-            pca = TruncatedSVD()
+            pca = PCA()
             pca.fit(np.array(np.asarray([df[gene] for gene in genes])))
             try:
                 df['SVD1'] = pca.components_[0, :]
