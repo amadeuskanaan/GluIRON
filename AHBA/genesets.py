@@ -6,57 +6,6 @@ import urllib2
 import json
 
 ##################################################################################################
-# Iron
-##################################################################################################
-
-IRON_D = {
-    # Clardy et al. (2006). Acute and chronic effects of developmental iron deficiency
-    # on mRNA expression patterns in the brain. Journal of Neural Transmission, 71, 173–96.
-    # http://www.ncbi.nlm.nih.gov/pubmed/17447428
-    'THRSP': 'thyroid hormone responsive protein',
-    'TF': 'transferrin',
-    'MAL': 'mal, T-cell differentiation protein',
-    'KLK6': 'kallikrein-related peptidase 6',
-    'HOMER1': 'homer homolog 1 (Drosophila), neuronal immediate early gene',
-    'MOBP': 'myelin-associated oligodendrocytic basic protein',
-    'APOD': 'apolipoprotein D',
-    'MOG': 'myelin oligodendrocyte glycoprotein',
-    'CRYAB': 'crystallin, alpha B',
-    'APOC1': 'apolipoprotein C-I',
-    'CA2': 'carbonic anhydrase II',
-    'RASGRP1': 'RAS guanyl releasing protein 1',
-    'STMN4': 'stathmin-like 4',
-    'LYZ': 'lysozyme',
-    'GSTM1': 'glutathione S-transferase mu 1',
-    'CTSS': 'cathepsin S',
-    'DCK': 'deoxycytidine kinase',
-    # ''          :  'Rattus norvegicus Nclone10 mRNA',
-    # 'Af6'       :  'afadin',
-    # ''           :  'Rattus norvegicus retroviral-like ovarian specific transcript 30-1 mRNA',
-    # ''          :  'Rat troponin-c mRNA'
-    # 'Rnf28'      :  'ring finger protein 28',
-    # 'LOC309574' :  'olfactory receptor',
-    # ''           :  'Rattus norvegicus similar to S-100 protein, alpha chain (LOC295214), mRNA',
-    # ''           :  'Rat PMSG-induced ovarian mRNA, 3’sequence, N1'
-}
-
-IRON = {
-    # http://amp.pharm.mssm.edu/Harmonizome/gene_set/Iron+Homeostasis(Mus+musculus)/Wikipathways+Pathways
-    'FTH1': 'ferritin heavy polypeptide 1',
-    'FTL': 'ferritin light polypeptide',
-    'HFE': 'hemochromatosis',
-    'HFE2': 'hemochromatosis type 2 (juvenile)',
-    'IL1A': 'interleukin 1, alpha',
-    'IL6': 'interleukin 6',
-    'IL6R': 'interleukin 6 receptor',
-    'IREB2': 'iron-responsive element binding protein 2',
-    'SLC40A1': 'solute carrier family 40 (iron-regulated transporter), member 1',
-    'TF': 'transferrin',
-    'TFR2': 'transferrin receptor 2',
-    'TNF': 'tumor necrosis factor',
-                            }
-
-##################################################################################################
 # Dopamine
 ##################################################################################################
 
@@ -223,8 +172,8 @@ ACO2 = ['ACO2']
 ACO =  ACO1+ ACO2
 
 
-### HOSEKEEPING
 
+### HOSEKEEPING
 HOUSEKEEPING = ['AAMP', 'AARS', 'ABLIM1', 'ACTB', 'ACTG1', 'AES', 'AGPAT1', 'ALDOA', 'ANP32B', 'ANXA11', 'ANXA2',
                 'AP3S1', 'APEX1', 'APLP2', 'ARAF', 'ARF1', 'ARF3', 'ARF4', 'ARHGAP1', 'ARHGDIB', 'ARL6IP1', 'ARPC2',
                 'ATF4', 'ATIC', 'ATOX1', 'ATP5A1', 'ATP5B', 'ATP5C1', 'ATP5F1', 'ATP5G1', 'ATP5G2', 'ATP5G3', 'ATP5O',
