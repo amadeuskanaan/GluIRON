@@ -49,9 +49,12 @@ def extract_nifti_gene_expreesion(df, rois):
             for stat_type in stat_types.keys():
                 val = stat_types[stat_type]
                 tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_corrp_tstat%s'%(roi, val))
+                tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_p_tstat%s'%(roi, val))
+                tstat = os.path.join(randomise_dir, 'randomise_CP_%s_vox_corrp_tstat%s'%(roi, val))
                 #tstat = os.path.join(randomise_dir, 'randomise_CP_%s_tfce_tstat%s'%(roi, val))
 
-                print tstat
+
+                x = ["tstat", "vox_p_tstat", "vox_corrp_tstat",  "tfce_tstat", "tfce_corrp_tstat", "tfce_p_tstat"]
 
                 if roi in ['STR3_MOTOR','STR3_EXEC','STR3_LIMBIC']:
                     os.chdir(randomise_dir)
