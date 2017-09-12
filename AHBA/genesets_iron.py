@@ -98,15 +98,6 @@ IRON_ION_BINDING = ['ACO2', 'ACP5', 'AGMO', 'ALKBH1', 'ALKBH2', 'ALKBH3', 'ALKBH
                     'TYW1', 'TYW1B', 'TYW5', 'UROD', 'XDH']
 #not available 'C17orf101', 'C5orf4', 'CYP2D7P1', 'CYP4F3', 'FTH1P19', 'JHDM1D', 'LEPRE1',  'LEPREL1', 'LEPREL2', 'PDF', 'SC5DL',
 
-########################################################################################################################
-########################################################################################################################
-
-# Gene Set: GO_IRON_COORDINATION_ENTITY_TRANSPORT
-# http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=GO_IRON_COORDINATION_ENTITY_TRANSPORT&keywords=iron
-#> The directed movement of an iron coordination entity into, out of or within a cell, or between cells, by means of some agent such as a transporter or pore.
-
-IRON_TRANSPORT1 = ['ABCB6', 'ABCB7', 'ABCG2', 'FLVCR1', 'FLVCR2', 'HPX', 'HRG', 'LCN2',
-                   'SLC22A17', 'SLC46A1', 'SLC48A1'] # not available 'ACCN3',
 
 ########################################################################################################################
 ########################################################################################################################
@@ -123,6 +114,31 @@ IRON_ION_IMPORT = ['HFE', 'MFI2', 'PICALM', 'SLC11A2', 'STEAP1', 'STEAP1B', 'STE
 ########################################################################################################################
 ########################################################################################################################
 
+# Gene Set: GO_IRON_COORDINATION_ENTITY_TRANSPORT
+# http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=GO_IRON_COORDINATION_ENTITY_TRANSPORT&keywords=iron
+#> The directed movement of an iron coordination entity into, out of or within a cell, or between cells, by means of some agent such as a transporter or pore.
+
+IRON_TRANSPORT1 = ['ABCB6', 'ABCB7', 'ABCG2', 'FLVCR1', 'FLVCR2', 'HPX', 'HRG', 'LCN2',
+                   'SLC22A17', 'SLC46A1', 'SLC48A1'] # not available 'ACCN3',
+
+
+
+########################################################################################################################
+########################################################################################################################
+
+
+
+#Gene Set: REACTOME_IRON_UPTAKE_AND_TRANSPORT
+#> Genes involved in Iron uptake and transport
+
+# http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=REACTOME_IRON_UPTAKE_AND_TRANSPORT&keywords=iron
+
+IRON_TRANSPORT2 = ['ABCG2', 'ATP6V0A2', 'ATP6V0A4', 'ATP6V0B', 'ATP6V0C', 'ATP6V0D1', 'ATP6V0D2', 'ATP6V0E1', 'ATP6V1A',
+                             'ATP6V1B1', 'ATP6V1B2', 'ATP6V1C1', 'ATP6V1C2', 'ATP6V1D', 'ATP6V1E1', 'ATP6V1E2', 'ATP6V1F', 'ATP6V1G1',
+                             'ATP6V1G2', 'ATP6V1G3', 'ATP6V1H', 'CP', 'CYBRD1', 'FLVCR1', 'FTH1', 'FTL', 'HEPH', 'HMOX1', 'HMOX2',
+                             'MCOLN1', 'SLC40A1', 'SLC46A1', 'STEAP3', 'TCIRG1', 'TF', 'TFRC']
+
+
 
 # Gene Set: GO_RESPONSE_TO_IRON_ION
 
@@ -136,15 +152,3 @@ IRON_RESPONSE = ['ABAT', 'ABCG2', 'ACO1', 'ALAD', 'APBB1', 'ATP7A', 'B2M', 'BCL2
 
 ########################################################################################################################
 ########################################################################################################################
-
-
-#Gene Set: REACTOME_IRON_UPTAKE_AND_TRANSPORT
-#> Genes involved in Iron uptake and transport
-
-# http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=REACTOME_IRON_UPTAKE_AND_TRANSPORT&keywords=iron
-
-IRON_TRANSPORT2 = ['ABCG2', 'ATP6V0A2', 'ATP6V0A4', 'ATP6V0B', 'ATP6V0C', 'ATP6V0D1', 'ATP6V0D2', 'ATP6V0E1', 'ATP6V1A',
-                             'ATP6V1B1', 'ATP6V1B2', 'ATP6V1C1', 'ATP6V1C2', 'ATP6V1D', 'ATP6V1E1', 'ATP6V1E2', 'ATP6V1F', 'ATP6V1G1',
-                             'ATP6V1G2', 'ATP6V1G3', 'ATP6V1H', 'CP', 'CYBRD1', 'FLVCR1', 'FTH1', 'FTL', 'HEPH', 'HMOX1', 'HMOX2',
-                             'MCOLN1', 'SLC40A1', 'SLC46A1', 'STEAP3', 'TCIRG1', 'TF', 'TFRC']
-
