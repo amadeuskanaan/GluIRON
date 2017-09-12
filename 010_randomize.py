@@ -141,8 +141,8 @@ def randomize_two_sample(df):
            #'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC'
            # 'Caud',
            # 'Puta',
-           # 'Pall',
-           'STR',
+           'Pall',
+           # 'STR',
            # 'L_STR', 'R_STR',
            ''
            ]
