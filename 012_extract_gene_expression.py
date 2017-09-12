@@ -28,9 +28,10 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 def extract_nifti_gene_expreesion(df, rois):
 
     #rois = ['STR3_MOTOR', 'SUBCORTICAL', 'STR3_EXEC', 'STR3_LIMBIC', 'GM',]
-    rois = ['STR', 'STR3_MOTOR', 'Puta', 'Pall', 'Caud',
-            'L_STR', 'L_Puta', 'L_Pall', 'L_Caud',
-            'R_Caud', ]
+    rois = ['STR', #'STR3_MOTOR', 'Puta', 'Pall', 'Caud',
+            #'L_STR', 'L_Puta', 'L_Pall', 'L_Caud',
+            #'R_Caud',
+            ]
 
     for roi in rois:
 
@@ -61,11 +62,10 @@ def extract_nifti_gene_expreesion(df, rois):
                     os.chdir(randomise_dir)
                     os.system('fslmaths %s -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-%s_first_uthr %s_masked'
                               % (tstat, roi, tstat))
-                    df['%s_%s' % (roi, stat_type)] = get_values_at_locations(nifti_file='%s.nii.gz'%tstat,
+                    df['%s_%s_%s' % (roi, stat_type, radius)] = get_values_at_locations(nifti_file='%s.nii.gz'%tstat,
                                                                 locations=df.mni_coords, radius=radius,verbose=True)
 
-
     dfx = df.drop(['mni_coords'],axis=1)
-    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%smm_%s_masked_sept10.csv'%(radius, permutation)))
+    dfx.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_10K_permutations_SEPT10.csv'))
 
 extract_nifti_gene_expreesion(df, rois)
