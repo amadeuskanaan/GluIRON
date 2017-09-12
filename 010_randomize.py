@@ -56,7 +56,7 @@ def transform_nuclei(population, workspace):
         for roi in rois + ['GM']:
             print roi
             if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz'%roi):
-                print '...Transforming nuclei for subject', subject
+                print '...Transforming %s for subject %s' %(roi, subject)
                 if roi in first_rois:
                     nuc = os.path.join(subject_dir, 'SEGMENTATION/FIRST/%s.nii.gz'%roi)
                     os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
@@ -153,8 +153,8 @@ def randomize_two_sample(df):
            #'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC'
            # 'Caud',
            # 'Puta',
-           'Pall',
-           # 'STR',
+           # 'Pall',
+           'STR',
            # 'L_STR', 'R_STR',
            ''
            ]
