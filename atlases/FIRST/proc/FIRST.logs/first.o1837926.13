@@ -1,0 +1,11 @@
+create shapeModel 
+done creating shapeModel 
+1.01981 -0.00216958 0.00116326 
+-0.000140865 0.980477 -0.0218809 
+0.00182389 0.0553864 0.982218 
+NEw done imodes transform
+mode  219.769
+D 
+336 1926 1926 336
+open file FIRST-R_Puta_first.vtk to save.
+succesfully opened file FIRST-R_Puta_first.vtk to save.
