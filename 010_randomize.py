@@ -151,12 +151,13 @@ def randomize_two_sample(df):
            #'L_Caud', 'L_Puta', 'L_Pall',
            #'R_Caud', 'R_Puta', 'R_Pall',
            #'STR3_MOTOR', 'STR3_EXEC',
-           'STR3_LIMBIC'
+           # 'STR3_LIMBIC'
            # 'Caud',
            # 'Puta',
            # 'Pall',
            #'STR',
            # 'L_STR', 'R_STR',
+           'SUBCORTICAL'
            ]
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
