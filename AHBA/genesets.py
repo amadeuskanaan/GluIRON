@@ -9,6 +9,19 @@ import json
 # Dopamine
 ##################################################################################################
 
+DA_allen = { #http://human.brain-map.org/microarray/search/show?exact_match=false&search_term=dopamine&search_type=gene
+            'CDNF': 'cerebral dopamine neurotrophic factor',
+            'DBH' : 'dopamine beta-hydroxylase (dopamine beta-monooxygenase)',
+            'DRD1': 'dopamine receptor D1',
+            'DRD2': 'dopamine receptor D2',
+            'DRD3': 'dopamine receptor D3',
+            'DRD4': 'dopamine receptor D4',
+            'SLC6A3': 'solute carrier family 6 (neurotransmitter transporter, dopamine), member 3'
+}
+
+DAT1 = ['SLC6A3']
+DRD_ALL = ['DRD1', 'DRD2', 'DRD3', 'DRD3']
+
 DA_metabolism = {
 # http://amp.pharm.mssm.edu/Harmonizome/gene_set/Dopamine+metabolism(Homo+sapiens)/Wikipathways+Pathways
     'COMT': 'catechol-O-methyltransferase',
