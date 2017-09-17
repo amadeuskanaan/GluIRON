@@ -20,7 +20,7 @@ DA_allen = { #http://human.brain-map.org/microarray/search/show?exact_match=fals
 }
 
 DAT1 = ['SLC6A3']
-DRD_ALL = ['DRD1', 'DRD2', 'DRD3', 'DRD3']
+DRD_ALL = ['DRD1', 'DRD2', 'DRD3', 'DRD4']
 
 DA_metabolism = {
 # http://amp.pharm.mssm.edu/Harmonizome/gene_set/Dopamine+metabolism(Homo+sapiens)/Wikipathways+Pathways
