@@ -130,6 +130,7 @@ IRON_TRANSPORT1 = ['ABCB6', 'ABCB7', 'ABCG2', 'FLVCR1', 'FLVCR2', 'HPX', 'HRG', 
 
 #Gene Set: REACTOME_IRON_UPTAKE_AND_TRANSPORT
 #> Genes involved in Iron uptake and transport
+# http://www.reactome.org/content/detail/917937
 
 # http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=REACTOME_IRON_UPTAKE_AND_TRANSPORT&keywords=iron
 

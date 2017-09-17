@@ -42,9 +42,10 @@ rhsurf = nb.freesurfer.read_geometry(rhsurfName)
 package_directory = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
 package_directory = '/Users/kanaan/SCR/Github/alleninf/alleninf'
 mni = pd.read_csv(os.path.join(package_directory, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
-#mni_sub = pd.read_csv('/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/AUG5/AHBA/AHBA_subcortical.csv',header=0, index_col=0)
-#drop_structs = [i for i in mni.index if i not in mni_sub.index]
-#mni =mni[~mni.index.isin(drop_structs)]
+mni_sub = pd.read_csv('/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/AUG5/AHBA/AHBA_subcortical.csv',header=0, index_col=0)
+mni_sub = pd.read_csv('/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/AUG5/AHBA/AHBA_str.csv',header=0, index_col=0)
+drop_structs = [i for i in mni.index if i not in mni_sub.index]
+mni =mni[~mni.index.isin(drop_structs)]
 
 coords = np.array(mni)
 #print 'mni', coords
