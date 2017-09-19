@@ -53,7 +53,7 @@ def randomize_two_sample(df, kind):
     print '.........creating design matrix'
     print ''
 
-    if not os.path.isfile('design_twosample.con'):
+    if not os.path.isfile('design_twosample_%s.mat'%kind):
 
         NumWaves = len(['Controls', 'Patients', 'Age', 'Gender', 'EFC_MAG', 'QI1_MAG'])
         con = open('design_twosample_%s.con'%kind, 'w')
