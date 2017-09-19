@@ -200,6 +200,11 @@ df_lemonx2 = pd.concat( [df_lemonx[5:10],  df_lemonx[15:25], df_lemonx[25:30],
                          df_lemonx[65:70], df_lemonx[75:]
                          ])
 
+print df_lemonx1.index
+print '---------------------------------------'
+print df_lemonx2.index
+
+
 df_lemonx1['Controls'] = 1
 df_lemonx1['Patients'] = 0
 df_lemonx2['Controls'] = 0
