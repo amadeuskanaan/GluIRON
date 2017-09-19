@@ -39,7 +39,7 @@ def get_dfs():
     return dfc, dfp, df_cp
 
 
-def randomize_two_sample(df):
+def randomize_two_sample(df, kind):
 
     permutation = '10k_SEPT10'
     stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
@@ -56,7 +56,7 @@ def randomize_two_sample(df):
     if not os.path.isfile('design_twosample.con'):
 
         NumWaves = len(['Controls', 'Patients', 'Age', 'Gender', 'EFC_MAG', 'QI1_MAG'])
-        con = open('design_twosample.con', 'w')
+        con = open('design_twosample_%s.con'%kind, 'w')
         con.write('/ContrastName1\tCP\n')
         con.write('/ContrastName2\tPC\n')
         con.write('/ContrastName3\tC_Mean\n')
@@ -72,7 +72,7 @@ def randomize_two_sample(df):
         con.close()
 
         # Create a Design Matrix  ... same as Glm_gui
-        mat = open('design_twosample.mat', 'w')
+        mat = open('design_twosample_%s.mat'%kind, 'w')
         mat.write('/NumWaves\t%s\n' % NumWaves)
         mat.write('/NumPoints\t%s\n' % len(df.index))
         mat.write('/Matrix\n')
@@ -110,9 +110,9 @@ def randomize_two_sample(df):
             stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
             os.chdir(stats_dir)
             os.system('fslmerge -t concat_CP_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
-            os.system('randomise -i concat_CP_%s -o randomise_CP_%s -d design_twosample.mat -t design_twosample.con -R --uncorrp '
+            os.system('randomise -i concat_CP_%s -o randomise_CP_%s -d design_twosample_%s.mat -t design_twosample_%s.con -R --uncorrp '
                       '-T -n 10000 -x'
-                      % (roi, roi))
+                      % (roi, roi, kind, kind))
             os.system('rm -rf *concat*')
         print '#########################################################################################################'
         print '#########################################################################################################'
@@ -125,7 +125,6 @@ def randomize_one_sample(df):
     permutation = '0'
     stats_dir = mkdir_path(os.path.join(ahba_dir,'RANDOMISE_%s'%permutation))
     os.chdir(stats_dir)
-
 
     population = df.index
     print '############################################################################################################'
@@ -177,7 +176,6 @@ def randomize_one_sample(df):
                       #'-T -n 20000 -x'
                       % (roi, roi))
             os.system('rm -rf *concat*')
-
 
 ######################################################
 ##### Grab  QC dataframes
