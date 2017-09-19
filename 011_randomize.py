@@ -190,7 +190,7 @@ def randomize_one_sample(df):
 df_lemon = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_lemon.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
 drop_age = [i for i in df_lemon.index if df_lemon.loc[i]['Age'] > 40]
 
-df_lemonx = df_lemon.drop(drop_age)
+df_lemonx = df_lemon.drop(drop_age).sort_values('Age')
 df_lemonx1 = pd.concat( [df_lemonx[0:5] ,  df_lemonx[10:15], df_lemonx[20:25],
                          df_lemonx[30:35], df_lemonx[40:45], df_lemonx[50:55] ,
                          df_lemonx[60:65], df_lemonx[70:75]
