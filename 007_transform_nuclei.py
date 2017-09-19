@@ -98,7 +98,7 @@ pop = controls_a + patients_a + lemon_population
 
 patients = [i for i in patients_a if i not in qc_outliers_p]
 
-make_nuclei_group_average(controls_a      , workspace_iron, 'CONTROLS')
-make_nuclei_group_average(patients        , workspace_iron, 'PATIENTS')
+make_nuclei_group_average(controls_a, workspace_iron, 'CONTROLS')
+make_nuclei_group_average(patients, workspace_iron, 'PATIENTS')
 make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
-# make_nuclei_group_average(pop             , workspace_iron, 'ALL')
+make_nuclei_group_average(controls_a+patients+lemon_population, workspace_iron, 'ALL')
