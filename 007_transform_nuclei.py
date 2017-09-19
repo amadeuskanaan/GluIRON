@@ -87,7 +87,7 @@ def make_nuclei_group_average(population,workspace, popname):
     for roi in ['GM']:
         print '......',roi
         if not os.path.isfile('QSM_MEAN_%s_%s.nii.gz' % (popname, roi)):
-            qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s_0.5.nii.gz' % roi) for subject in population]
+            qsm_list = [os.path.join(workspace, subject, 'QSM/QSMnorm_MNI1mm_%s_0.4.nii.gz' % roi) for subject in population]
             os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
             os.system('fslmaths concat_%s -Tmean QSM_MEAN_%s_%s.nii.gz' % (roi, popname, roi))
             os.system('rm -rf concat*')
@@ -100,5 +100,5 @@ patients = [i for i in patients_a if i not in qc_outliers_p]
 
 make_nuclei_group_average(controls_a      , workspace_iron, 'CONTROLS')
 make_nuclei_group_average(patients        , workspace_iron, 'PATIENTS')
-# make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
+make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
 # make_nuclei_group_average(pop             , workspace_iron, 'ALL')
