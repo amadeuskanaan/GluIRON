@@ -3,6 +3,7 @@ import os
 import pandas as pd
 from utils.utils import mkdir_path
 from variables.variables import *
+import random
 
 ahba_dir= mkdir_path(ahba_dir)
 os.chdir(ahba_dir)
@@ -179,10 +180,29 @@ def randomize_one_sample(df):
 
 ######################################################
 ##### Grab  QC dataframes
-df_controls, df_patients, df_cp = get_dfs()
-df_lemon = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_lemon.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
-df_lemon['Controls'] = 1
-
+# df_controls, df_patients, df_cp = get_dfs()
 ##### Run randomise to T-stat maps
-randomize_two_sample(df_cp, 'CP')
-# randomize_one_sample(df_lemon)
+# randomize_two_sample(df_cp, 'CP')
+
+
+######################################################
+df_lemon = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_lemon.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
+drop_age = [i for i in df_lemon.index if df_lemon.loc[i]['Age'] > 40]
+
+df_lemonx = df_lemon.drop(drop_age)
+df_lemonx1 = pd.concat( [df_lemonx[0:5] ,  df_lemonx[10:15], df_lemonx[20:25],
+                         df_lemonx[30:35], df_lemonx[40:45], df_lemonx[50:55] ,
+                         df_lemonx[60:65], df_lemonx[70:75]
+                         ])
+df_lemonx2 = pd.concat( [df_lemonx[5:10],  df_lemonx[15:25], df_lemonx[25:30],
+                         df_lemonx[35:40], df_lemonx[45:50], df_lemonx[55:60]
+                         df_lemonx[65:70], df_lemonx[75:]
+                         ])
+
+df_lemonx1['Controls'] = 1
+df_lemonx1['Patients'] = 0
+df_lemonx2['Controls'] = 0
+df_lemonx2['Patients'] = 1
+df_LL = pd.concat([df_lemonx1, df_lemonx2], axis=0)
+
+randomize_one_sample(df_lemon)
