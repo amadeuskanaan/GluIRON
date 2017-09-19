@@ -53,15 +53,7 @@ def make_reg(population, workspace_dir):
             os.system('flirt -in ../FLASH_MAGNITUDE_BRAIN -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../FLASH2MP2RAGE_BRAIN' %uni)
             os.system('flirt -in ../../QSM/QSM.nii -ref %s -applyxfm -init FLASH2MP2RAGE.mat -out ../QSM2MP2RAGE.nii.gz' % uni)
 
-        # Transforming Tissue classess to FLASH space
-        if not os.path.isfile('FLASH_GM.nii.gz'):
-            print '....... transforming Tissue-Classess to FLASH space'
-            dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
-            for seg_name in dict_seg.keys():
-                seg_img = os.path.join(seg_dir, '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
-                os.system('flirt -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out FLASH_%s_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
-                          %(seg_img, seg_name))
-                os.system('fslmaths FLASH_%s_prob -thr 0.5 -bin -mul ../../QSM/mask.nii.gz FLASH_%s'%(seg_name,seg_name))
+
 
         ###############################################
         # Make Non-Linear Resigistration
@@ -139,5 +131,5 @@ def make_reg(population, workspace_dir):
 
 pop = controls_a + patients_a + lemon_population
 # make_reg(pop, workspace_iron)
-make_reg(['RJJT'], workspace_iron)
+make_reg(['SULP'], workspace_iron)
 

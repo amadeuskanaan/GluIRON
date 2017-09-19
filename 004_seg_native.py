@@ -96,6 +96,20 @@ def run_first(population, workspace):
         if not os.path.isfile('STR.nii.gz'):
             os.system('fslmaths R_STR -add L_STR STR')
 
-pop = controls_a + patients_a # + lemon_population
+        if not os.path.isfile('THA.nii.gz'):
+            os.system('fslmaths L_Thal -add R_Thal Thal')
+
+        if not os.path.isfile('Hipp.nii.gz'):
+            os.system('fslmaths L_Hipp -add R_Hipp Hipp')
+
+        if not os.path.isfile('Amyg.nii.gz'):
+            os.system('fslmaths L_Amyg -add R_Amyg Amyg')
+
+
+
+
+
+
+pop = controls_a + patients_a + lemon_population
 run_first(pop, workspace_iron)
-# run_first(['GSNT'], workspace_iron)
+# run_first(['SULP'], workspace_iron)
