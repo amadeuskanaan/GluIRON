@@ -101,7 +101,7 @@ def randomize_two_sample(df, kind):
            # 'Pall',
            #'STR',
            # 'L_STR', 'R_STR',
-           'GM_0.4'
+           # 'GM_0.4'
            ]
     for roi in rois:
         if not os.path.isfile('randomise_CP_%s_tstat1.nii.gz'%roi):
