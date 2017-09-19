@@ -82,18 +82,42 @@ def transform_atlas_roi(population, workspace_dir):
             os.system('fslmaths R_BS -add ../FIRST/R_BG R_SUBCORTICAL')
             os.system('fslmaths L_SUBCORTICAL -add R_SUBCORTICAL SUBCORTICAL')
 
-        ######################################################
+        if not os.path.isfile('SUBCORTICAL_Thal.nii.gz'):
+            os.system('fslmaths SUBCORTICAL -add ../FIRST/Thal SUBCORTICAL_Thal')
+
+        # Combine Cerebrallar Masks
+        if not os.path.isfile('DR.nii.gz'):
+            os.system('fslmaths L_DN -add R_DN DN')
+
+        ###############################################################################################################
+        #  Transforming Tissue classess and optimize with FIRST masks to FLASH space
+
+        class_dir  = os.path.join(subject_dir, 'ANATOMICAL/seg')
+        lin_dir    = os.path.join(subject_dir, 'REGISTRATION/FLASH')
+        firstdir    = os.path.join(subject_dir, 'SEGMENTATION/FIRST')
+
+        os.chdir(lin_dir)
+        if not os.path.isfile('FLASH_GM_prob.nii.gz'):
+            print '....... transforming Tissue-Classess to FLASH space'
+            dict_seg = {'GM': 'c1', 'WM':'c2', 'CSF': 'c3'}
+            for seg_name in dict_seg.keys():
+                seg_img = os.path.join(class_dir, '%sMP2RAGE_UNI.nii'%dict_seg[seg_name])
+                print seg_img
+                os.system('pwd')
+                os.system('flirt -in %s -ref FLASH_MAGNITUDE_BIAS_CORR_thr -out FLASH_%s_prob -applyxfm -init MP2RAGE2FLASH.mat -dof 6'
+                          %(seg_img, seg_name))
+                os.system('fslmaths FLASH_%s_prob -thr 0.9 -bin -mul ../../QSM/mask.nii.gz FLASH_%s'%(seg_name,seg_name))
+
         # Optimize Tissue class masks
-        reg_dir = os.path.join(subject_dir, 'REGISTRATION')
-        if not os.path.isfile(os.path.join(reg_dir, 'FLASH_GM_opt.nii.gz')):
+        if not os.path.isfile('../FLASH_GM_opt.nii.gz'):
             print 'optimizing tissue classes'
-            os.system('fslmaths %s/FLASH/FLASH_GM -add SUBCORTICAL %s/FLASH_GM_opt'%(reg_dir,reg_dir))
-            os.system('fslmaths %s/FLASH/FLASH_WM -sub SUBCORTICAL %s/FLASH_WM_opt'%(reg_dir,reg_dir))
-            os.system('fslmaths %s/FLASH/FLASH_CSF -sub SUBCORTICAL %s/FLASH_CSF_opt'%(reg_dir,reg_dir))
+            os.system('fslmaths FLASH_GM -add %s/SUBCORTICAL_Thal -add %s/Amyg -add %s/Hipp  -add %s/DN ../FLASH_GM_opt' % (seg_dir, firstdir,firstdir,seg_dir))
+            os.system('fslmaths FLASH_WM -sub %s/SUBCORTICAL_Thal -add %s/Amyg -add %s/Hipp  -add %s/DN ../FLASH_WM_opt' % (seg_dir, firstdir,firstdir,seg_dir))
+            os.system('fslmaths FLASH_CSF -sub %s/SUBCORTICAL_Thal -add %s/Amyg -add %s/Hipp -add %s/DN ../FLASH_CSF_opt' % (seg_dir, firstdir,firstdir,seg_dir))
 
 
 
-# transform_atlas_roi(['WSKT'], workspace_iron)
+# transform_atlas_roi(['SULP'], workspace_iron)
 transform_atlas_roi(controls_a, workspace_iron)
 transform_atlas_roi(patients_a, workspace_iron)
 transform_atlas_roi(lemon_population, workspace_iron)
