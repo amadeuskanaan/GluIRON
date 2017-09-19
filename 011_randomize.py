@@ -54,40 +54,40 @@ def randomize_two_sample(df, kind):
     print '.........creating design matrix'
     print ''
 
-    if not os.path.isfile('design_twosample_%s.mat'%kind):
+    #if not os.path.isfile('design_twosample_%s.mat'%kind):
 
-        NumWaves = len(['Controls', 'Patients', 'Age', 'Gender', 'EFC_MAG', 'QI1_MAG'])
-        con = open('design_twosample_%s.con'%kind, 'w')
-        con.write('/ContrastName1\tCP\n')
-        con.write('/ContrastName2\tPC\n')
-        con.write('/ContrastName3\tC_Mean\n')
-        con.write('/ContrastName4\tP_Mean\n')
-        con.write('/NumWaves\t%s\n' % NumWaves)
-        con.write('/NumContrasts\t4\n')
-        con.write('\n')
-        con.write('/Matrix\n')
-        con.write('1 -1 0 0 0 0\n')
-        con.write('-1 1 0 0 0 0\n')
-        con.write('1 0 0 0 0 0\n')
-        con.write('0 1 0 0 0 0\n')
-        con.close()
+    NumWaves = len(['Controls', 'Patients', 'Age', 'Gender', 'EFC_MAG', 'QI1_MAG'])
+    con = open('design_twosample_%s.con'%kind, 'w')
+    con.write('/ContrastName1\tCP\n')
+    con.write('/ContrastName2\tPC\n')
+    # con.write('/ContrastName3\tC_Mean\n')
+    # con.write('/ContrastName4\tP_Mean\n')
+    con.write('/NumWaves\t%s\n' % NumWaves)
+    con.write('/NumContrasts\t2\n')
+    con.write('\n')
+    con.write('/Matrix\n')
+    con.write('1 -1 0 0 0 0\n')
+    con.write('-1 1 0 0 0 0\n')
+    # con.write('1 0 0 0 0 0\n')
+    # con.write('0 1 0 0 0 0\n')
+    con.close()
 
-        # Create a Design Matrix  ... same as Glm_gui
-        mat = open('design_twosample_%s.mat'%kind, 'w')
-        mat.write('/NumWaves\t%s\n' % NumWaves)
-        mat.write('/NumPoints\t%s\n' % len(df.index))
-        mat.write('/Matrix\n')
-        for subject in df.index:
-            control =  df.loc[subject]['Controls']
-            patient = df.loc[subject]['Patients']
-            age = df.loc[subject]['Age']
-            sex = df.loc[subject]['Gender']
-            efc = df.loc[subject]['EFC_MAG']
-            qi1 = df.loc[subject]['QI1_MAG']
-            print subject, control, patient, age, sex, efc, qi1
-            mat.write('%s\t%s\t%s\t%s\t%s\t%s\n'
-                      % (control, patient, age, sex, efc, qi1))
-        mat.close()
+    # Create a Design Matrix  ... same as Glm_gui
+    mat = open('design_twosample_%s.mat'%kind, 'w')
+    mat.write('/NumWaves\t%s\n' % NumWaves)
+    mat.write('/NumPoints\t%s\n' % len(df.index))
+    mat.write('/Matrix\n')
+    for subject in df.index:
+        control =  df.loc[subject]['Controls']
+        patient = df.loc[subject]['Patients']
+        age = df.loc[subject]['Age']
+        sex = df.loc[subject]['Gender']
+        efc = df.loc[subject]['EFC_MAG']
+        qi1 = df.loc[subject]['QI1_MAG']
+        print subject, control, patient, age, sex, efc, qi1
+        mat.write('%s\t%s\t%s\t%s\t%s\t%s\n'
+                  % (control, patient, age, sex, efc, qi1))
+    mat.close()
 
     # Run Randomize
     rois = [
