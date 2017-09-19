@@ -93,7 +93,8 @@ def randomize_two_sample(df, kind):
     rois = [
            #'L_Caud', 'L_Puta', 'L_Pall',
            #'R_Caud', 'R_Puta', 'R_Pall',
-           #'STR3_MOTOR', 'STR3_EXEC',
+           'STR3_MOTOR',
+           # 'STR3_EXEC',
            # 'STR3_LIMBIC'
            # 'Caud',
            # 'Puta',
@@ -195,7 +196,7 @@ df_lemonx1 = pd.concat( [df_lemonx[0:5] ,  df_lemonx[10:15], df_lemonx[20:25],
                          df_lemonx[60:65], df_lemonx[70:75]
                          ])
 df_lemonx2 = pd.concat( [df_lemonx[5:10],  df_lemonx[15:25], df_lemonx[25:30],
-                         df_lemonx[35:40], df_lemonx[45:50], df_lemonx[55:60]
+                         df_lemonx[35:40], df_lemonx[45:50], df_lemonx[55:60],
                          df_lemonx[65:70], df_lemonx[75:]
                          ])
 
