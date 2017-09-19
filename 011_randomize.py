@@ -206,4 +206,4 @@ df_lemonx2['Controls'] = 0
 df_lemonx2['Patients'] = 1
 df_LL = pd.concat([df_lemonx1, df_lemonx2], axis=0)
 
-randomize_one_sample(df_lemon)
+randomize_two_sample(df_LL, 'LL')
