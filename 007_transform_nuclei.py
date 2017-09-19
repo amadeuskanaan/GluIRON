@@ -27,6 +27,9 @@ rois = [ 'GM', 'SUBCORTICAL', 'SUBCORTICAL_Thal',
          'L_STR', 'R_STR', 'STR'
         ]
 
+qc_outliers_c  = []
+qc_outliers_p  = ['NL2P', 'HSPP', 'STDP', 'DF2P', 'LA9P']
+
 def transform_nuclei(population, workspace):
 
     for subject in population:
@@ -59,7 +62,7 @@ def transform_nuclei(population, workspace):
                               '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
                     os.system('fslmaths %s2MNI -thr 0.5 -bin -mul %s QSMnorm_MNI1mm_%s' % (roi, qsm, roi))
                     os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
-                if not os.path.isfile('QSMnorm_MNI1mm_%s_05.nii.gz' % roi):
+                if not os.path.isfile('QSMnorm_MNI1mm_%s_0.5.nii.gz' % roi):
                     nuc = os.path.join(subject_dir, 'REGISTRATION/FLASH_GM_opt')
                     os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
                     os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
