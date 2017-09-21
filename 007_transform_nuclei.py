@@ -12,19 +12,20 @@ first_rois = ['L_Caud_Puta', 'R_Caud_Puta', 'Caud_Puta',
               'L_Pall', 'R_Pall', 'Pall',
               'L_STR','R_STR', 'STR',
               'L_BG', 'R_BG', 'BG']
-atlas_rois = ['L_BS', 'R_BS', 'BS',
+atlas_rois = ['L_BS', 'R_BS', 'BS', 'RN', 'SN','STN',
               'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
               'STR7_MOTOR_C', 'STR7_MOTOR_R', 'STR7_LIMBIC', 'STR7_EXECUTIVE',
               'STR7_PARIETAL', 'STR7_OCCIPITAL', 'STR7_TEMPORAL',
               'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL']
+
+brainstem = ['RN', 'SN','STN']
 rois = first_rois + atlas_rois
 
-rois = [ 'GM', 'SUBCORTICAL', 'SUBCORTICAL_Thal',
-         'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
-         'L_Caud', 'L_Puta', 'R_Caud',
-         'R_Puta', 'L_Pall', 'R_Pall',
-         'Caud', 'Puta', 'Pall',
-         'L_STR', 'R_STR', 'STR'
+rois = [ 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
+         'L_STR', 'R_STR', 'STR',
+         'GM', 'SUBCORTICAL', 'SUBCORTICAL_Thal',
+         'Caud', 'Puta', 'Pall', 'L_Caud', 'L_Puta', 'R_Caud',  'R_Puta', 'L_Pall', 'R_Pall',
+         'BS', 'DN', 'RN','STN'
         ]
 
 qc_outliers_c  = []
