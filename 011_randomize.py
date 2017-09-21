@@ -91,17 +91,14 @@ def randomize_two_sample(df, kind):
 
     # Run Randomize
     rois = [
-           #'L_Caud', 'L_Puta', 'L_Pall',
-           #'R_Caud', 'R_Puta', 'R_Pall',
            # 'STR3_MOTOR',
-           # 'STR3_EXEC',
-           # 'STR3_LIMBIC'
+           'STR3_EXEC',
+           'STR3_LIMBIC'
            # 'Caud',
            # 'Puta',
            # 'Pall',
            # 'STR',
-           # 'L_STR', 'R_STR',
-           # 'GM_0.4'
+           # 'GM_0.0'
            ]
     for roi in rois:
         if not os.path.isfile('randomise_%s_%s_tstat1.nii.gz'%(kind, roi)):
@@ -197,7 +194,6 @@ df_lemonx1['Patients'] = 0
 df_lemonx2['Controls'] = 0
 df_lemonx2['Patients'] = 1
 df_LL = pd.concat([df_lemonx1, df_lemonx2], axis=0)
-
 
 ##### Run randomise to T-stat maps
 randomize_two_sample(df_cp, 'CP')
