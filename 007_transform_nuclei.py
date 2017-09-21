@@ -23,7 +23,7 @@ rois = first_rois + atlas_rois
 
 rois = [ 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
          'L_STR', 'R_STR', 'STR',
-         'GM', 'SUBCORTICAL', 'SUBCORTICAL_Thal',
+         'SUBCORTICAL', 'SUBCORTICAL_Thal',
          'Caud', 'Puta', 'Pall', 'L_Caud', 'L_Puta', 'R_Caud',  'R_Puta', 'L_Pall', 'R_Pall',
          'BS', 'DN', 'RN','STN'
         ]
@@ -63,14 +63,16 @@ def transform_nuclei(population, workspace):
                               '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
                     os.system('fslmaths %s2MNI -thr 0.5 -bin -mul %s QSMnorm_MNI1mm_%s' % (roi, qsm, roi))
                     os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
-                if not os.path.isfile('QSMnorm_MNI1mm_%s_0.5.nii.gz' % roi):
-                    nuc = os.path.join(subject_dir, 'REGISTRATION/FLASH_GM_opt')
-                    os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
-                    os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
-                              '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
-                    for thr in [0.4, 0.5 ]:
-                        os.system('fslmaths %s2MNI -thr %s -bin -mul %s QSMnorm_MNI1mm_%s_%s' % (roi, thr, qsm, roi, thr))
-                    os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
+
+        for roi in ['GM']:
+            if not os.path.isfile('QSMnorm_MNI1mm_%s_0.5.nii.gz' % roi):
+                nuc = os.path.join(subject_dir, 'REGISTRATION/FLASH_GM_opt')
+                os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
+                os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
+                          '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
+                for thr in [0.4, 0.5 ]:
+                    os.system('fslmaths %s2MNI -thr %s -bin -mul %s QSMnorm_MNI1mm_%s_%s' % (roi, thr, qsm, roi, thr))
+                os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
 
 def make_nuclei_group_average(population,workspace, popname):
     average_dir = mkdir_path(os.path.join(ahba_dir, 'MEAN_IMGS'))
@@ -107,7 +109,6 @@ def make_nuclei_group_average(population,workspace, popname):
 
 pop = controls_a + patients_a + lemon_population
 transform_nuclei(pop, workspace_iron)
-transform_nuclei(['GSNT'], workspace_iron)
 
 patients = [i for i in patients_a if i not in qc_outliers_p]
 
