@@ -72,7 +72,7 @@ def transform_nuclei(population, workspace):
                     os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
 
 def make_nuclei_group_average(population,workspace, popname):
-    average_dir = mkdir_path(os.path.join(ahba_dir, 'QSM_MEAN'))
+    average_dir = mkdir_path(os.path.join(ahba_dir, 'MEAN_IMGS'))
     os.chdir(average_dir)
     print '#############################'
     print 'Creating average images for ', popname
@@ -91,6 +91,18 @@ def make_nuclei_group_average(population,workspace, popname):
             os.system('fslmerge -t concat_%s %s' % (roi, ' '.join(qsm_list)))
             os.system('fslmaths concat_%s -Tmean QSM_MEAN_%s_%s.nii.gz' % (roi, popname, roi))
             os.system('rm -rf concat*')
+
+
+# AVERAGE GM_ALL img mask was created as follow
+# fslmaths QSM_MEAN_ALL_GM.nii.gz -abs -thr 0.012 -bin GM_MASK
+
+# fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-Pall_first_uthr.nii.gz masked/QSM_MEAN_LEMON_PALL.nii.gz
+# fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-STR_first_uthr.nii.gz masked/QSM_MEAN_LEMON_STR.nii.gz
+# fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-Caud_first_uthr.nii.gz masked/QSM_MEAN_LEMON_CAUD.nii.gz
+# fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-Puta_first_uthr.nii.gz masked/QSM_MEAN_LEMON_PUTA.nii.gz
+# fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_MOTOR.nii.gz masked/QSM_MEAN_LEMON_STR3_MOTOR.nii.gz
+# fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_EXEC.nii.gz masked/QSM_MEAN_LEMON_STR3_EXEC.nii.gz
+# fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_LIMBIC.nii.gz masked/QSM_MEAN_LEMON_STR3_LIMBIC.nii.gz
 
 pop = controls_a + patients_a + lemon_population
 # transform_nuclei(pop, workspace_iron)

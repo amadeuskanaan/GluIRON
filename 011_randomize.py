@@ -42,7 +42,7 @@ def get_dfs():
 
 def randomize_two_sample(df, kind):
 
-    permutation = '10k_SEPT10'
+    permutation = '10k_SEPT20'
     stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
     os.chdir(stats_dir)
     population = df.index
@@ -93,15 +93,15 @@ def randomize_two_sample(df, kind):
     rois = [
            #'L_Caud', 'L_Puta', 'L_Pall',
            #'R_Caud', 'R_Puta', 'R_Pall',
-           'STR3_MOTOR',
+           # 'STR3_MOTOR',
            # 'STR3_EXEC',
            # 'STR3_LIMBIC'
            # 'Caud',
            # 'Puta',
            # 'Pall',
-           #'STR',
+           # 'STR',
            # 'L_STR', 'R_STR',
-           'GM_0.4'
+           # 'GM_0.4'
            ]
     for roi in rois:
         if not os.path.isfile('randomise_%s_%s_tstat1.nii.gz'%(kind, roi)):
@@ -111,11 +111,11 @@ def randomize_two_sample(df, kind):
             #print qsm_list
             stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
             os.chdir(stats_dir)
-            os.system('fslmerge -t concat_CP_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
-            os.system('randomise -i concat_CP_%s -o randomise_CP_%s -d design_twosample_%s.mat -t design_twosample_%s.con -R --uncorrp '
+            os.system('fslmerge -t concat_%s_%s.nii.gz %s' % (kind, roi, ' '.join(qsm_list)))
+            os.system('randomise -i concat_%s_%s -o randomise_%s_%s -d design_twosample_%s.mat -t design_twosample_%s.con -R --uncorrp '
                       '-T -n 10000 -x'
-                      % (roi, roi, kind, kind))
-            os.system('rm -rf *concat*')
+                      % (kind,roi, kind, roi, kind, kind))
+            # os.system('rm -rf *concat*')
         print '#########################################################################################################'
         print '#########################################################################################################'
         print '#########################################################################################################'
@@ -175,40 +175,30 @@ def randomize_one_sample(df):
             os.chdir(stats_dir)
             os.system('fslmerge -t concat_LE_%s.nii.gz %s' % (roi, ' '.join(qsm_list)))
             os.system('randomise -i concat_LE_%s -o randomise_LE_%s -d design_onesample.mat -t design_onesample.con -R --uncorrp '
-                      #'-T -n 20000 -x'
+                      '-T -n 20000 -x'
                       % (roi, roi))
             os.system('rm -rf *concat*')
 
 ######################################################
 ##### Grab  QC dataframes
-# df_controls, df_patients, df_cp = get_dfs()
-##### Run randomise to T-stat maps
-# randomize_two_sample(df_cp, 'CP')
+df_controls, df_patients, df_cp = get_dfs()
 
 
 ######################################################
 df_lemon = pd.read_csv(os.path.join(phenotypic_dir, 'df_raw_lemon.csv'), index_col = 0).drop(qc_outliers_c, axis = 0)
 drop_age = [i for i in df_lemon.index if df_lemon.loc[i]['Age'] > 40]
-
 df_lemonx = df_lemon.drop(drop_age).sort_values('Age')
-df_lemonx1 = pd.concat( [df_lemonx[0:5] ,  df_lemonx[10:15], #df_lemonx[20:25],
-                         df_lemonx[30:35], df_lemonx[40:45], df_lemonx[50:55],
-                         df_lemonx[60:65], df_lemonx[70:75]
-                         ])
-df_lemonx2 = pd.concat( [df_lemonx[5:10],  df_lemonx[15:25], df_lemonx[25:30],
-                         df_lemonx[35:40], df_lemonx[45:50], df_lemonx[55:60],
-                         df_lemonx[65:70], df_lemonx[75:]
-                         ])
-
-print df_lemonx1.index
-print '---------------------------------------'
-print df_lemonx2.index
-
-
+df_lemonx1 = pd.concat( [df_lemonx[0:5] ,  df_lemonx[10:15],df_lemonx[30:35], df_lemonx[40:45], df_lemonx[50:55],  #df_lemonx[20:25],
+                         df_lemonx[60:65], df_lemonx[70:75]])
+df_lemonx2 = pd.concat( [df_lemonx[5:10],  df_lemonx[15:25], df_lemonx[25:30], df_lemonx[35:40], df_lemonx[45:50], df_lemonx[55:60],
+                         df_lemonx[65:70], df_lemonx[75:]])
 df_lemonx1['Controls'] = 1
 df_lemonx1['Patients'] = 0
 df_lemonx2['Controls'] = 0
 df_lemonx2['Patients'] = 1
 df_LL = pd.concat([df_lemonx1, df_lemonx2], axis=0)
 
-randomize_two_sample(df_LL, 'LL')
+
+##### Run randomise to T-stat maps
+randomize_two_sample(df_cp, 'CP')
+# randomize_two_sample(df_LL, 'LL')
