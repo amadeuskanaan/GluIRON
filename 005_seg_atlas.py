@@ -75,10 +75,10 @@ def transform_atlas_roi(population, workspace_dir):
             os.system('fslmaths L_RN -add L_SN -add L_STN L_BS')
             os.system('fslmaths R_BS -add L_BS BS')
 
-        if not os.path.isfile('SN'):
-            os.system('fslmaths R_RN -add R_RN -add RN')
-            os.system('fslmaths R_SN -add R_SN -add SN')
-            os.system('fslmaths R_STN -add R_STN -add STN')
+        if not os.path.isfile('SN.nii.gz'):
+            os.system('fslmaths R_RN -add R_RN  RN')
+            os.system('fslmaths R_SN -add R_SN  SN')
+            os.system('fslmaths R_STN -add R_STN  STN')
 
         ######################################################
         # Combine Brainstem and BasalGanglia Masks
