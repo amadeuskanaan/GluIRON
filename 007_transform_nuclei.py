@@ -71,7 +71,7 @@ def transform_nuclei(population, workspace):
                 os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
                           '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
                 for thr in [0.0, 0.01, 0.025,0.05 ]:
-                    os.system('fslmaths %s2MNI -thr 0.4 -bin -mul %s -thr %s QSMnorm_MNI1mm_%s_%s' % (roi, thr, qsm, roi, thr))
+                    os.system('fslmaths %s2MNI -thr 0.4 -bin -mul %s -thr %s QSMnorm_MNI1mm_%s_%s' % (roi, qsm, thr, roi, thr))
                 os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
 
 def make_nuclei_group_average(population,workspace, popname):
