@@ -16,7 +16,7 @@ atlas_rois = ['L_BS', 'R_BS', 'BS', 'RN', 'SN','STN',
               'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
               'STR7_MOTOR_C', 'STR7_MOTOR_R', 'STR7_LIMBIC', 'STR7_EXECUTIVE',
               'STR7_PARIETAL', 'STR7_OCCIPITAL', 'STR7_TEMPORAL',
-              'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL']
+              'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL', 'SUBCORTICAL_Thal']
 
 brainstem = ['RN', 'SN','STN']
 rois = first_rois + atlas_rois
