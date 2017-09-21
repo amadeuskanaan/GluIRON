@@ -106,12 +106,12 @@ def make_nuclei_group_average(population,workspace, popname):
 # fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_LIMBIC.nii.gz masked/QSM_MEAN_LEMON_STR3_LIMBIC.nii.gz
 
 pop = controls_a + patients_a + lemon_population
-# transform_nuclei(pop, workspace_iron)
-# transform_nuclei(['GSNT'], workspace_iron)
+transform_nuclei(pop, workspace_iron)
+transform_nuclei(['GSNT'], workspace_iron)
 
 patients = [i for i in patients_a if i not in qc_outliers_p]
 
-make_nuclei_group_average(controls_a, workspace_iron, 'CONTROLS')
-make_nuclei_group_average(patients, workspace_iron, 'PATIENTS')
-make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
-make_nuclei_group_average(controls_a+patients+lemon_population, workspace_iron, 'ALL')
+# make_nuclei_group_average(controls_a, workspace_iron, 'CONTROLS')
+# make_nuclei_group_average(patients, workspace_iron, 'PATIENTS')
+# make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
+# make_nuclei_group_average(controls_a+patients+lemon_population, workspace_iron, 'ALL')
