@@ -65,6 +65,7 @@ def transform_nuclei(population, workspace):
                     os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
 
         for roi in ['GM']:
+            print '...Transforming %s for subject %s' % (roi, subject)
             if not os.path.isfile('QSMnorm_MNI1mm_%s_0.05.nii.gz' % roi):
                 nuc = os.path.join(subject_dir, 'REGISTRATION/FLASH_GM_opt')
                 os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
