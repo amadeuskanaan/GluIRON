@@ -52,7 +52,7 @@ def return_probe_expression(gene_probes_dict, geneset_name):
     dfs = []
     genes = gene_probes_dict.keys()
 
-    if not os.path.isfile(os.path.join(ahba_dir, 'AHBA_%s.csv' % geneset_name)):
+    if not os.path.isfile(os.path.join(ahba_dir, 'AHBA/AHBA_%s.csv' % geneset_name)):
 
         print 'Fetching normalized gene expression values for:', genes
         print ''
@@ -84,7 +84,7 @@ def return_probe_expression(gene_probes_dict, geneset_name):
 
         # concat all probe expression dataframes
         df = pd.concat(dfs, axis=1).T.groupby(level=0).first().T
-        df.to_csv(os.path.join(ahba_dir, 'PROBES_%s.csv' % geneset_name))
+        df.to_csv(os.path.join(ahba_dir, 'PROBES/PROBES_%s.csv' % geneset_name))
 
         # decompose probe expression values
         all_probes = ['%s_'%gene + str(i) for gene in gene_probes_dict.keys() for i in gene_probes_dict[gene].values()]
@@ -132,7 +132,7 @@ def return_probe_expression(gene_probes_dict, geneset_name):
         df_concat = pd.concat([df, mni], axis=1).to_csv(os.path.join(ahba_dir, 'AHBA_%s.csv' % geneset_name))
 
         return df_concat
-    return pd.read_csv(os.path.join(ahba_dir, 'AHBA_%s.csv' % geneset_name), index_col=0)
+    return pd.read_csv(os.path.join(ahba_dir, 'AHBA/AHBA_%s.csv' % geneset_name), index_col=0)
 
 def get_expression_df(genes, geneset_name):
     gene_probes = {}
