@@ -41,7 +41,7 @@ def extract_nifti_gene_expreesion(rois):
 
     for radius in [2]:
         for roi in [#'Caud', 'Pall', 'Puta', 'STR',
-                    'STR3_MOTOR', 'STR3_MOTOR_Pall',#'STR3_LIMBIC', 'STR3_EXEC',
+                    'STR3_MOTOR', #'STR3_MOTOR_Pall',#'STR3_LIMBIC', 'STR3_EXEC',
                     #'GM_0.0',
                     #'SUBCORTICAL'
                     # 'STR3_MOTOR_Pall'
@@ -72,20 +72,20 @@ def extract_nifti_gene_expreesion(rois):
                     #     df_roi = pd.read_csv(df_roi_saved, index_col = 0)
                     #     df_all.append(df_roi)
 
-    for population in [#'CONTROLS' ,
-                       #'PATIENTS',
-                       #'LEMON',
-                       'ALL'
-                      ]: #
-        for roi in ['STR','CAUD', 'PUTA', 'PALL', 'STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC', 'STR3_MOTOR_Pall']:
-            for radius in [1, 2, 3]:
-                df_roi_saved = os.path.join(ahba_dir, 'NIFTI_VALUES','df_MEAN_%s_%s_%smm.csv' % (roi, population, radius))
-                # if not os.path.isfile(df_roi_saved):
-                mean_img = os.path.join(ahba_dir, 'MEAN_IMGS', 'QSM_MEAN_%s_%s.nii.gz' % (population, roi))
-                print '###################################'
-                print 'Extracting nifti vals for %s Mean img %s at radius %smm' % (population, roi, radius)
-                df['MEAN_%s_%s_%s' % (roi, population, radius)] = get_values_at_locations(nifti_file=mean_img,locations=df.mni_coords, radius=radius,verbose=True)
-                # df_all.append(df)
+    # for population in [#'CONTROLS' ,
+    #                    #'PATIENTS',
+    #                    #'LEMON',
+    #                    'ALL'
+    #                   ]: #
+    #     for roi in ['STR','CAUD', 'PUTA', 'PALL', 'STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC', 'STR3_MOTOR_Pall']:
+    #         for radius in [1, 2, 3]:
+    #             df_roi_saved = os.path.join(ahba_dir, 'NIFTI_VALUES','df_MEAN_%s_%s_%smm.csv' % (roi, population, radius))
+    #             # if not os.path.isfile(df_roi_saved):
+    #             mean_img = os.path.join(ahba_dir, 'MEAN_IMGS', 'QSM_MEAN_%s_%s.nii.gz' % (population, roi))
+    #             print '###################################'
+    #             print 'Extracting nifti vals for %s Mean img %s at radius %smm' % (population, roi, radius)
+    #             df['MEAN_%s_%s_%s' % (roi, population, radius)] = get_values_at_locations(nifti_file=mean_img,locations=df.mni_coords, radius=radius,verbose=True)
+    #             # df_all.append(df)
                 # df.to_csv(df_roi_saved)
                 # else:
                 #     print 'Already extracted for %s %s with sphere of radius %smm' % (roi, population, radius)
