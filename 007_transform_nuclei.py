@@ -49,21 +49,21 @@ def transform_nuclei(population, workspace):
 
         for roi in rois:
             print '...Transforming %s for subject %s' % (roi, subject)
-            if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz'%roi):
-                if roi in first_rois:
-                    nuc = os.path.join(subject_dir, 'SEGMENTATION/FIRST/%s.nii.gz'%roi)
-                    os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
-                    os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
-                              '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
-                    os.system('fslmaths %s2MNI -thr 0.5 -bin -mul %s QSMnorm_MNI1mm_%s' % (roi, qsm, roi))
-                    os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
-                elif roi in atlas_rois:
-                    nuc = os.path.join(subject_dir, 'SEGMENTATION/ATLAS/%s.nii.gz'%roi)
-                    os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
-                    os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
-                              '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
-                    os.system('fslmaths %s2MNI -thr 0.4 -bin -mul %s QSMnorm_MNI1mm_%s' % (roi, qsm, roi))
-                    os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
+            #if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz'%roi):
+            if roi in first_rois:
+                nuc = os.path.join(subject_dir, 'SEGMENTATION/FIRST/%s.nii.gz'%roi)
+                os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
+                os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
+                          '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
+                os.system('fslmaths %s2MNI -thr 0.2 -bin -mul %s QSMnorm_MNI1mm_%s' % (roi, qsm, roi))
+                os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
+            elif roi in atlas_rois:
+                nuc = os.path.join(subject_dir, 'SEGMENTATION/ATLAS/%s.nii.gz'%roi)
+                os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
+                os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
+                          '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
+                os.system('fslmaths %s2MNI -thr 0.2 -bin -mul %s QSMnorm_MNI1mm_%s' % (roi, qsm, roi))
+                os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
 
         for roi in ['GM']:
             print '...Transforming %s for subject %s' % (roi, subject)
@@ -124,7 +124,7 @@ transform_nuclei(pop, workspace_iron)
 
 patients = [i for i in patients_a if i not in qc_outliers_p]
 
-make_nuclei_group_average(controls_a, workspace_iron, 'CONTROLS')
-make_nuclei_group_average(patients, workspace_iron, 'PATIENTS')
-make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
-make_nuclei_group_average(controls_a+patients+lemon_population, workspace_iron, 'ALL')
+# make_nuclei_group_average(controls_a, workspace_iron, 'CONTROLS')
+# make_nuclei_group_average(patients, workspace_iron, 'PATIENTS')
+# make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
+# make_nuclei_group_average(controls_a+patients+lemon_population, workspace_iron, 'ALL')
