@@ -31,7 +31,11 @@ df['mni_coords'] = list(zip(df.corrected_mni_x,df.corrected_mni_y,df.corrected_m
 
 def extract_nifti_gene_expreesion(df, rois):
 
-    rois = ['STR3_MOTOR',
+    rois = ['STR3_MOTOR', 'STR3_EXEC', 'STR_LIMBIC', 'STR',
+            'Caud', 'Puta', 'Pall',
+            'SN','STN', 'RN',
+            'SUBCORTICAL', 'SUBCORTICAL_Thal',
+            
             'GM_0.4',
             ]
 
@@ -57,7 +61,7 @@ def extract_nifti_gene_expreesion(df, rois):
                         mask_img = os.path.join(FIRST_mask_dir, 'FIRST-%s_first_uthr'%roi)
 
                     os.system('fslmaths %s -mul %s %s_masked ' % (tstat, mask_img, tstat))
-                    df['%s_%s_%smm' % (roi, stat_type, radius)] = get_values_at_locations(nifti_file='%s_masked.nii.gz' % tstat, locations=df.mni_coords, radius=radius, verbose=True)
+                    df['%s_%s_%s_%smm' % (roi,  stat_population, stat_type, radius)] = get_values_at_locations(nifti_file='%s_masked.nii.gz' % tstat, locations=df.mni_coords, radius=radius, verbose=True)
 
 
     for population in ['CONTROLS' , 'PATIENTS', 'LEMON', 'ALL' ]: #
@@ -73,7 +77,6 @@ def extract_nifti_gene_expreesion(df, rois):
 
                 print 'Extracting nifti vals for %s Mean img %s at radius %smm' % (population, roi, radius)
                 df['MEAN_%s_%s_%s' % (population, roi, radius)] = get_values_at_locations(nifti_file=mean_img, locations=df.mni_coords, radius=radius, verbose=True)
-
 
     # dfx = df.drop(['mni_coords'],axis=1)
     df.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_permute_10K_SEPT20.csv'))
