@@ -42,7 +42,7 @@ def get_dfs():
 
 def randomize_two_sample(df, kind):
 
-    permutation = '10k_SEPT20'
+    permutation = '10k_SEPT22'
     stats_dir = mkdir_path(os.path.join(ahba_dir, 'RANDOMISE_%s'%permutation))
     os.chdir(stats_dir)
     population = df.index
@@ -60,16 +60,16 @@ def randomize_two_sample(df, kind):
     con = open('design_twosample_%s.con'%kind, 'w')
     con.write('/ContrastName1\tCP\n')
     con.write('/ContrastName2\tPC\n')
-    # con.write('/ContrastName3\tC_Mean\n')
-    # con.write('/ContrastName4\tP_Mean\n')
+    con.write('/ContrastName3\tC_Mean\n')
+    con.write('/ContrastName4\tP_Mean\n')
     con.write('/NumWaves\t%s\n' % NumWaves)
     con.write('/NumContrasts\t2\n')
     con.write('\n')
     con.write('/Matrix\n')
     con.write('1 -1 0 0 0 0\n')
     con.write('-1 1 0 0 0 0\n')
-    # con.write('1 0 0 0 0 0\n')
-    # con.write('0 1 0 0 0 0\n')
+    con.write('1 0 0 0 0 0\n')
+    con.write('0 1 0 0 0 0\n')
     con.close()
 
     # Create a Design Matrix  ... same as Glm_gui
@@ -91,14 +91,17 @@ def randomize_two_sample(df, kind):
 
     # Run Randomize
     rois = [
-           # 'STR3_MOTOcR',
+           'STR3_MOTOR',
+           'STR3_MOTOR_Pall'
            # 'STR3_EXEC',
            # 'STR3_LIMBIC'
-           'Caud',
-           'Puta',
-           'Pall',
-           'STR',
-           'GM_0.0'
+           # 'Caud',
+           # 'Puta',
+           # 'Pall',
+           # 'STR',
+           # 'GM_0.0'
+           # 'GM'
+           # 'SUBCORTICAL'
            ]
     for roi in rois:
         if not os.path.isfile('randomise_%s_%s_tstat1.nii.gz'%(kind, roi)):
@@ -112,7 +115,7 @@ def randomize_two_sample(df, kind):
             os.system('randomise -i concat_%s_%s -o randomise_%s_%s -d design_twosample_%s.mat -t design_twosample_%s.con -R --uncorrp '
                       '-T -n 10000 -x'
                       % (kind,roi, kind, roi, kind, kind))
-            # os.system('rm -rf *concat*')
+            os.system('rm -rf *concat*')
         print '#########################################################################################################'
         print '#########################################################################################################'
         print '#########################################################################################################'
@@ -196,5 +199,5 @@ df_lemonx2['Patients'] = 1
 df_LL = pd.concat([df_lemonx1, df_lemonx2], axis=0)
 
 ##### Run randomise to T-stat maps
-randomize_two_sample(df_cp, 'CP')
+# randomize_two_sample(df_cp, 'CP')
 randomize_two_sample(df_LL, 'LL')

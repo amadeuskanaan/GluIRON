@@ -94,6 +94,10 @@ def transform_atlas_roi(population, workspace_dir):
         if not os.path.isfile('DR.nii.gz'):
             os.system('fslmaths L_DN -add R_DN DN')
 
+        # combine str3motor and pallidum
+        if not os.path.isfile('STR3_MOTOR_Pall.nii.gz'):
+            os.system('fslmaths STR3_MOTOR -add ../FIRST/Pall STR3_MOTOR_Pall')
+
         ###############################################################################################################
         #  Transforming Tissue classess and optimize with FIRST masks to FLASH space
 

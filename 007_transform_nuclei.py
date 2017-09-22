@@ -16,16 +16,17 @@ atlas_rois = ['L_BS', 'R_BS', 'BS', 'RN', 'SN','STN',
               'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
               'STR7_MOTOR_C', 'STR7_MOTOR_R', 'STR7_LIMBIC', 'STR7_EXECUTIVE',
               'STR7_PARIETAL', 'STR7_OCCIPITAL', 'STR7_TEMPORAL',
-              'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL', 'SUBCORTICAL_Thal']
+              'L_SUBCORTICAL', 'R_SUBCORTICAL', 'SUBCORTICAL', 'SUBCORTICAL_Thal', 'STR3_MOTOR_Pall']
 
 brainstem = ['RN', 'SN','STN']
 rois = first_rois + atlas_rois
 
 rois = [ 'STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC',
-         'L_STR', 'R_STR', 'STR',
-         'SUBCORTICAL', 'SUBCORTICAL_Thal',
-         'Caud', 'Puta', 'Pall', 'L_Caud', 'L_Puta', 'R_Caud',  'R_Puta', 'L_Pall', 'R_Pall',
-         'BS', 'DN', 'RN','STN', 'SN'
+         'STR3_MOTOR_Pall',
+         # 'L_STR', 'R_STR', 'STR',
+         # 'SUBCORTICAL', 'SUBCORTICAL_Thal',
+         # 'Caud', 'Puta', 'Pall', 'L_Caud', 'L_Puta', 'R_Caud',  'R_Puta', 'L_Pall', 'R_Pall',
+         # 'BS', 'DN', 'RN','STN', 'SN', 'BG'
         ]
 
 qc_outliers_c  = []
@@ -74,6 +75,13 @@ def transform_nuclei(population, workspace):
                 for thr in [0.0, 0.01, 0.025,0.05 ]:
                     os.system('fslmaths %s2MNI -thr 0.4 -bin -mul %s -thr %s QSMnorm_MNI1mm_%s_%s' % (roi, qsm, thr, roi, thr))
                 os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
+            if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz' % roi):
+                nuc = os.path.join(subject_dir, 'REGISTRATION/FLASH_GM_opt')
+                os.system('flirt -in %s -ref %s -applyxfm -init %s -out %s2MP2RAGE' % (nuc, uni, qsm2uni, roi))
+                os.system('antsApplyTransforms -d 3 -i %s2MP2RAGE.nii.gz -o %s2MNI.nii.gz -r %s -n Linear '
+                          '-t %s %s' % (roi, roi, mni_brain_1mm, uni2mni_w, uni2mni_a))
+                os.system('fslmaths %s2MNI -thr 0.4 -bin -mul %s QSMnorm_MNI1mm_%s' % (roi, qsm, roi))
+                os.system('rm -rf %s2MP2RAGE* %s2MNI*' % (roi, roi))
 
 def make_nuclei_group_average(population,workspace, popname):
     average_dir = mkdir_path(os.path.join(ahba_dir, 'MEAN_IMGS'))
@@ -105,6 +113,7 @@ def make_nuclei_group_average(population,workspace, popname):
 # fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-Caud_first_uthr.nii.gz masked/QSM_MEAN_LEMON_CAUD.nii.gz
 # fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/FIRST/FIRST-Puta_first_uthr.nii.gz masked/QSM_MEAN_LEMON_PUTA.nii.gz
 # fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_MOTOR.nii.gz masked/QSM_MEAN_LEMON_STR3_MOTOR.nii.gz
+# fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_MOTOR_Pall.nii.gz masked/QSM_MEAN_LEMON_STR3_MOTOR_Pall.nii.gz
 # fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_EXEC.nii.gz masked/QSM_MEAN_LEMON_STR3_EXEC.nii.gz
 # fslmaths QSM_MEAN_LEMON.nii.gz -mul /scr/malta1/Github/GluIRON/atlases/STR/STR3_LIMBIC.nii.gz masked/QSM_MEAN_LEMON_STR3_LIMBIC.nii.gz
 
@@ -115,7 +124,7 @@ transform_nuclei(pop, workspace_iron)
 
 patients = [i for i in patients_a if i not in qc_outliers_p]
 
-# make_nuclei_group_average(controls_a, workspace_iron, 'CONTROLS')
-# make_nuclei_group_average(patients, workspace_iron, 'PATIENTS')
-# make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
-# make_nuclei_group_average(controls_a+patients+lemon_population, workspace_iron, 'ALL')
+make_nuclei_group_average(controls_a, workspace_iron, 'CONTROLS')
+make_nuclei_group_average(patients, workspace_iron, 'PATIENTS')
+make_nuclei_group_average(lemon_population, workspace_iron, 'LEMON')
+make_nuclei_group_average(controls_a+patients+lemon_population, workspace_iron, 'ALL')
