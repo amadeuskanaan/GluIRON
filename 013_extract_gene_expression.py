@@ -33,7 +33,7 @@ def extract_nifti_gene_expreesion(rois):
 
     # rois = ['STR3_MOTOR', 'STR3_EXEC', 'STR_LIMBIC', 'STR', 'Caud', 'Puta', 'Pall',  'SUBCORTICAL', 'SUBCORTICAL_Thal', 'GM_0.0',]
 
-    permutation = '10k_SEPT20'
+    permutation = '10k_SEPT22'
     randomise_dir = os.path.join(ahba_dir, 'RANDOMISE_%s' % permutation)
     os.chdir(randomise_dir)
 
