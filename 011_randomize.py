@@ -93,15 +93,15 @@ def randomize_two_sample(df, kind):
     rois = [
            'STR3_MOTOR',
            'STR3_MOTOR_Pall'
-           'STR3_EXEC',
-           'STR3_LIMBIC'
+           # 'STR3_EXEC',
+           # 'STR3_LIMBIC'
            # 'Caud',
            # 'Puta',
            # 'Pall',
-           'STR',
-           'GM_0.0'
+           # 'STR',
+           # 'GM_0.0'
            # 'GM'
-           'SUBCORTICAL'
+           # 'SUBCORTICAL'
            ]
     for roi in rois:
         if not os.path.isfile('randomise_%s_%s_tstat1.nii.gz'%(kind, roi)):
