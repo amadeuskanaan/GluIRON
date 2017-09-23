@@ -199,5 +199,5 @@ df_lemonx2['Patients'] = 1
 df_LL = pd.concat([df_lemonx1, df_lemonx2], axis=0)
 
 ##### Run randomise to T-stat maps
-# randomize_two_sample(df_cp, 'CP')
-randomize_two_sample(df_LL, 'LL')
+randomize_two_sample(df_cp, 'CP')
+# randomize_two_sample(df_LL, 'LL')
