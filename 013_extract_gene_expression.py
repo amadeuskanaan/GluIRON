@@ -38,7 +38,9 @@ def extract_nifti_gene_expreesion(rois):
     os.chdir(randomise_dir)
 
 
-    for radius in [1,2,3,4]:
+    for radius in [1
+                  #,2,3,4
+                   ]:
         for roi in ['Caud', 'Pall', 'Puta', 'STR',
                     'STR3_MOTOR', 'STR3_MOTOR_Pall', 'STR3_LIMBIC', 'STR3_EXEC',
                     'GM_0.0',
@@ -46,7 +48,9 @@ def extract_nifti_gene_expreesion(rois):
                      'STR3_MOTOR_Pall'
                     ]:
             for stat_population in ['CP', 'LL']:
-                for stat_type in ["tstat", "tfce_corrp_tstat",  "vox_p_tstat",  "vox_corrp_tstat", "tfce_tstat","tfce_p_tstat" ]:
+                for stat_type in ["tstat",
+                                  #"tfce_corrp_tstat",  "vox_p_tstat",  "vox_corrp_tstat", "tfce_tstat","tfce_p_tstat"
+                                  ]:
                     tstat = os.path.join(randomise_dir, 'randomise_%s_%s_%s1' % (stat_population, roi, stat_type))
                     if os.path.isfile('%s.nii.gz'%tstat):
                         print '###################################'
@@ -55,20 +59,23 @@ def extract_nifti_gene_expreesion(rois):
 
                         if roi in ['STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC', 'STR3_MOTOR_Pall', 'STR', 'Caud', 'Pall', 'Puta', 'SUBCORTICAL']:
                             mask_img = '%s/%s' %(mask_dir, roi)
-                            os.system('fslmaths %s -mul %s %s_masked ' % (tstat, mask_img, tstat))
-                            img = '%s_masked.nii.gz' % tstat
 
-                            print 'okay'
-                            # df['%s_%s_%s_%smm' % (roi,  stat_type, stat_population, radius)] = get_values_at_locations(nifti_file=img, locations=df.mni_coords, radius=radius, verbose=True)
-                    else:
-                        print 'T-stat for population=%s roi=%s doesnt exist yet---- run randomize' %(stat_population, roi )
+                            if not os.path.isfile(mask_img):
+                                print 'ERRORRRRRRRRR'
+                            # os.system('fslmaths %s -mul %s %s_masked ' % (tstat, mask_img, tstat))
+                            # img = '%s_masked.nii.gz' % tstat
+                            #df['%s_%s_%s_%smm' % (roi, stat_type, stat_population, radius)] = get_values_at_locations(
+                            #    nifti_file=img, locations=df.mni_coords, radius=radius, verbose=True)
+                        # else:
+                        #     print ''
+                            #df['%s_%s_%s_%smm' % (roi, stat_type, stat_population, radius)] = get_values_at_locations(
+                            #    nifti_file=img, locations=df.mni_coords, radius=radius, verbose=True)
 
-    for population in ['CONTROLS' ,
-                       'PATIENTS',
-                       'LEMON',
-                       'ALL']:
+    for population in ['CONTROLS' ,'PATIENTS','LEMON', 'ALL']:
         for roi in ['STR','CAUD', 'PUTA', 'PALL', 'STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC', 'STR3_MOTOR_Pall']:
-            for radius in [1, 2, 3,4]:
+            for radius in [1,
+                           #2, 3,4
+                           ]:
                 mean_img = os.path.join(ahba_dir, 'MEAN_IMGS', 'QSM_MEAN_%s_%s.nii.gz' % (population, roi))
                 print '###################################'
                 print 'Extracting nifti vals for %s Mean img %s at radius %smm' % (population, roi, radius)
