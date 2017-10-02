@@ -58,7 +58,7 @@ def extract_nifti_gene_expreesion(rois):
                         print 'Statistical img = ',tstat
 
                         if roi in ['STR3_MOTOR', 'STR3_EXEC', 'STR3_LIMBIC', 'STR3_MOTOR_Pall', 'STR', 'Caud', 'Pall', 'Puta', 'SUBCORTICAL']:
-                            mask_img = '%s/%s' %(mask_dir, roi)
+                            mask_img = '%s/%s.nii.gz' %(mask_dir, roi)
 
                             if not os.path.isfile(mask_img):
                                 print 'ERRORRRRRRRRR'
