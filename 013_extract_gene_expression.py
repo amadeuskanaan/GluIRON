@@ -37,14 +37,13 @@ def extract_nifti_gene_expreesion(rois):
     randomise_dir = os.path.join(ahba_dir, 'RANDOMISE_%s' % permutation)
     os.chdir(randomise_dir)
 
-    # df_all = []
 
-    for radius in [2]:
-        for roi in [#'Caud', 'Pall', 'Puta', 'STR',
-                    'STR3_MOTOR', 'STR3_MOTOR_Pall',#'STR3_LIMBIC', 'STR3_EXEC',
-                    #'GM_0.0',
-                    #'SUBCORTICAL'
-                    # 'STR3_MOTOR_Pall'
+    for radius in [1,2,3,4]:
+        for roi in ['Caud', 'Pall', 'Puta', 'STR',
+                    'STR3_MOTOR', 'STR3_MOTOR_Pall', 'STR3_LIMBIC', 'STR3_EXEC',
+                    'GM_0.0',
+                    'SUBCORTICAL'
+                     'STR3_MOTOR_Pall'
                     ]:
             for stat_population in ['CP', 'LL']:
                 for stat_type in ["tstat", "tfce_corrp_tstat",  "vox_p_tstat",  "vox_corrp_tstat", "tfce_tstat","tfce_p_tstat" ]:
@@ -59,13 +58,19 @@ def extract_nifti_gene_expreesion(rois):
                             os.system('fslmaths %s -mul %s %s_masked ' % (tstat, mask_img, tstat))
                             img = '%s_masked.nii.gz' % tstat
 
+<<<<<<< HEAD
                             df['%s_%s_%s_%smm' % (roi,  stat_type, stat_population, radius)] = get_values_at_locations(nifti_file=img, locations=df.mni_coords, radius=radius, verbose=True)
+=======
+                            print 'okay'
+                            # df['%s_%s_%s_%smm' % (roi,  stat_type, stat_population, radius)] = get_values_at_locations(nifti_file=img, locations=df.mni_coords, radius=radius, verbose=True)
+>>>>>>> cefbe699f8b2f4f0e3eb2fc8e2d6fa1726d97d5b
                     else:
                         print 'T-stat for population=%s roi=%s doesnt exist yet---- run randomize' %(stat_population, roi )
 
     for population in ['CONTROLS' ,
                        'PATIENTS',
                        'LEMON',
+<<<<<<< HEAD
                        'ALL'
                       ]:
         for roi in ['STR','CAUD', 'PUTA', 'PALL', 'STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC', 'STR3_MOTOR_Pall']:
@@ -77,10 +82,25 @@ def extract_nifti_gene_expreesion(rois):
                     df['MEAN_%s_%s_%s' % (roi, population, radius)] = get_values_at_locations(nifti_file=mean_img,locations=df.mni_coords, radius=radius,verbose=True)
                 else:
                     print 'Image %s for populatuion %s missing' % (roi, population)
+=======
+                       'ALL']:
+        for roi in ['STR','CAUD', 'PUTA', 'PALL', 'STR3_MOTOR', 'STR3_LIMBIC', 'STR3_EXEC', 'STR3_MOTOR_Pall']:
+            for radius in [1, 2, 3,4]:
+                mean_img = os.path.join(ahba_dir, 'MEAN_IMGS', 'QSM_MEAN_%s_%s.nii.gz' % (population, roi))
+                print '###################################'
+                print 'Extracting nifti vals for %s Mean img %s at radius %smm' % (population, roi, radius)
+                print 'okay'
+                # df['MEAN_%s_%s_%smm' % (roi, population, radius)] = get_values_at_locations(nifti_file=mean_img,locations=df.mni_coords, radius=radius,verbose=True)
+
+        for roi in ['GM_0.0', 'GM' ]:
+            mean_img = os.path.join(ahba_dir, 'MEAN_IMGS',  'QSM_MEAN_%s_%s.nii.gz' %(population, roi))
+            for radius in [1,2,4,6, 8,10]:
+                print 'Extracting nifti vals for %s Mean img %s at radius %smm' % (population, roi, radius)
+                # df['MEAN_%s_%s_%s' % (population, roi, radius)] = get_values_at_locations(nifti_file=mean_img, locations=df.mni_coords, radius=radius, verbose=True)
+                print 'okay'
+>>>>>>> cefbe699f8b2f4f0e3eb2fc8e2d6fa1726d97d5b
 
     # dfx = df.drop(['mni_coords'],axis=1)
-    # df_concat = pd.concat(df_all,  axis=1)
-    # df_concat = df_concat.loc[:,~df_concat.columns.duplicated()] # remove duplicaed columns
     df.to_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_permute_10K_SEPT22.csv'))
 
 extract_nifti_gene_expreesion(rois)
