@@ -79,7 +79,7 @@ def extract_nifti_gene_expreesion(rois):
                 print 'okay'
                 df['MEAN_%s_%s_%smm' % (roi, population, radius)] = get_values_at_locations(nifti_file=mean_img,locations=df.mni_coords, radius=radius,verbose=True)
 
-        for roi in ['GM_0.0', 'GM' ]:
+        for roi in ['GM_thr0.00', 'GM' ]:
             mean_img = os.path.join(ahba_dir, 'MEAN_IMGS',  'QSM_MEAN_%s_%s.nii.gz' %(population, roi))
             for radius in [1,2,4,6, 8,10]:
                 print 'Extracting nifti vals for %s Mean img %s at radius %smm' % (population, roi, radius)
