@@ -19,6 +19,7 @@ DA_allen = { #http://human.brain-map.org/microarray/search/show?exact_match=fals
             'SLC6A3': 'solute carrier family 6 (neurotransmitter transporter, dopamine), member 3'
 }
 
+DAT1 = ['SLC6A3']
 DRD_ALL = ['DRD1', 'DRD2', 'DRD3', 'DRD4']
 
 DA_metabolism = {
@@ -250,4 +251,3 @@ TH   = ['TH']
 MAOA = ['MAOA']
 MAOB = ['MAOB']
 DAT1 = ['SLC6A3']
-
