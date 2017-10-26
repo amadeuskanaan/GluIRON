@@ -203,15 +203,18 @@ DA_allen = { #http://human.brain-map.org/microarray/search/show?exact_match=fals
             'SLC6A3': 'solute carrier family 6 (neurotransmitter transporter, dopamine), member 3'
 }
 
-get_expression_df(DA_allen.keys(), 'DA_allen')
-get_expression_df(DAT1, 'DAT1')
-get_expression_df(DRD_ALL, 'DRD_ALL')
-get_expression_df(['DRD1'], 'DRD1')
-get_expression_df(['DRD2'], 'DRD2')
-get_expression_df(['DRD3'], 'DRD3')
-get_expression_df(['DRD4'], 'DRD4')
+# get_expression_df(DA_allen.keys(), 'DA_allen')
+# get_expression_df(DAT1, 'DAT1')
+# get_expression_df(DRD_ALL, 'DRD_ALL')
+# get_expression_df(['DRD1'], 'DRD1')
+# get_expression_df(['DRD2'], 'DRD2')
+# get_expression_df(['DRD3'], 'DRD3')
+# get_expression_df(['DRD4'], 'DRD4')
 
 # print len(AHBA_GENELIST_FRENCH)
 # get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
 # get_expression_df(HOUSEKEEPING          , 'HOUSEKEEPING')
 
+get_expression_df(['TH'], 'TH')
+get_expression_df(['MAOA'], 'MAOA')
+get_expression_df(['MAOB'], 'MAOB')
