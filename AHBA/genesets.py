@@ -251,3 +251,24 @@ TH   = ['TH']
 MAOA = ['MAOA']
 MAOB = ['MAOB']
 DAT1 = ['SLC6A3']
+
+# glutamte decarboxylase
+GAD1 = ['GAD1']
+GAD2 = ['GAD2']
+GAD = GAD1+GAD2
+
+# glutamte dhydrogenaase
+GLUD1 = ['GLUD1']
+GLUD2 = ['GLUD2']
+GLUD = GLUD1+GLUD2
+
+# isocitrate dehydrogenase
+IDH1  = ['IDH1']
+IDH2  = ['IDH2']
+IDH3A = ['IDH3A']
+IDH3B = ['IDH3B']
+IDH3G = ['IDH3G']
+IDH3  = IDH3A+IDH3B+IDH3G
+IDH   = IDH1+IDH2+IDH3
+
+
