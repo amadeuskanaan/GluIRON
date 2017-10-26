@@ -19,7 +19,6 @@ DA_allen = { #http://human.brain-map.org/microarray/search/show?exact_match=fals
             'SLC6A3': 'solute carrier family 6 (neurotransmitter transporter, dopamine), member 3'
 }
 
-DAT1 = ['SLC6A3']
 DRD_ALL = ['DRD1', 'DRD2', 'DRD3', 'DRD4']
 
 DA_metabolism = {
@@ -245,3 +244,10 @@ AHBA_GENELIST = list(rich.gene_symbol)
 
 french = pd.read_table(os.path.join('/scr/malta1/Github/GluIRON/AHBA/AHBA_French2015.tsv'),index_col = 0)
 AHBA_GENELIST_FRENCH = [gene for gene in list(french.index)]
+
+
+TH   = ['TH']
+MAOA = ['MAOA']
+MAOB = ['MAOB']
+DAT1 = ['SLC6A3']
+
