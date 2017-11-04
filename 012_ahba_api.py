@@ -214,7 +214,7 @@ DA_allen = { #http://human.brain-map.org/microarray/search/show?exact_match=fals
 # print len(AHBA_GENELIST_FRENCH)
 # get_expression_df(AHBA_GENELIST_FRENCH    , 'GENELIST_FRENCH')
 # get_expression_df(HOUSEKEEPING          , 'HOUSEKEEPING')
-
+#
 # get_expression_df(['TH'], 'TH')
 # get_expression_df(['MAOA'], 'MAOA')
 # get_expression_df(['MAOB'], 'MAOB')
@@ -230,8 +230,6 @@ DA_allen = { #http://human.brain-map.org/microarray/search/show?exact_match=fals
 # get_expression_df(['IDH3G'], 'IDH3G')
 # get_expression_df(['IDH3'], 'IDH3')
 # get_expression_df(['IDH'], 'IDH')
-#
-
 
 get_expression_df(['NT_transport'], 'NT_transport')
 get_expression_df(['NT_receptor'], 'NT_receptor')

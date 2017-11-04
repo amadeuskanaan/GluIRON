@@ -1,23 +1,28 @@
 import os
 import pandas as pd
 import numpy as np
-from variables.variables import ahba_dir, mni_brain_1mm, mni_brain_05mm
+from variables.variables import ahba_dir, mni_brain_1mm
 from utils.utils import mkdir_path
+
+
+mni_05 = '/usr/local/fsl/data/standard/MNI152_T1_0.5mm.nii.gz'
+
+mask_path = '/scr/malta1/Github/GluIRON/atlases/STR'
+mask_path = '/Users/kanaan/SCR/Github/GluIRON/atlases/STR'
 
 
 def make_coord_spheres(roi):
 
-    for radius  in ['2mm_motor_mask']: # ,'2mm' , '3mm'
-        mask_path =  '/scr/malta1/Github/GluIRON/atlases/STR'
+    for radius in ['2mm_motor_mask']: # ,'2mm' , '3mm'
 
         df_nifti = pd.read_csv(os.path.join(ahba_dir, 'MNI_NIFTI_VALUES_%s.csv'%radius), index_col=0)
         spheres_path = mkdir_path(os.path.join(mask_path, 'AHBA_SPHERES_%s_radius'%radius))
         os.chdir(spheres_path)
 
         df = pd.DataFrame(index = df_nifti.index)
-        df['corrected_mni_x']  = df_nifti['corrected_mni_x'] + 90 #* 2
-        df['corrected_mni_y']  = df_nifti['corrected_mni_y'] + 126 # * 2
-        df['corrected_mni_z']  = df_nifti['corrected_mni_z'] + 72  #* 2
+        df['corrected_mni_x']  = df_nifti['corrected_mni_x'] + 90 * 2
+        df['corrected_mni_y']  = df_nifti['corrected_mni_y'] + 126  * 2
+        df['corrected_mni_z']  = df_nifti['corrected_mni_z'] + 72  * 2
         df[roi]    = df_nifti[roi]
         df = df.dropna()
         df.to_csv('%s.csv'%roi)
