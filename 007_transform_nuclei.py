@@ -48,7 +48,7 @@ def transform_nuclei(population, workspace):
         os.chdir(qsm_dir)
 
         for roi in rois:
-            print '...Transforming %s for subject %s' % (roi, subject)
+            #print '...Transforming %s for subject %s' % (roi, subject)
             if not os.path.isfile('QSMnorm_MNI1mm_%s.nii.gz'%roi):
                 if roi in first_rois:
                     nuc = os.path.join(subject_dir, 'SEGMENTATION/FIRST/%s.nii.gz'%roi)
