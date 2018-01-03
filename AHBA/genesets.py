@@ -341,7 +341,7 @@ NT_uptake = ['ATP1A2', 'DRD1', 'DRD2', 'DRD3', 'DRD4', 'GDNF', 'GFAP', 'GPM6B', 
 
 #Gene Set: GO_REGULATION_OF_SYNAPTIC_TRANSMISSION_DOPAMINERGIC
 #http://software.broadinstitute.org/gsea/msigdb/geneset_page.jsp?geneSetName=GO_REGULATION_OF_SYNAPTIC_TRANSMISSION_DOPAMINERGIC&keywords=neurotransmitter
-#Any process that modulates the frequency, rate or extent of dopaminergic synaptic transmission, the process of communication from a neuron to another neuron across a synapse using the neurotransmitter dopamine.
+# Any process that modulates the frequency, rate or extent of dopaminergic synaptic transmission, the process of communication from a neuron to another neuron across a synapse using the neurotransmitter dopamine.
 NT_REG_DA = ['ARRB2', 'CHRNB2', 'CNTNAP4', 'DRD1', 'DRD2', 'DRD3', 'DRD4', 'FLOT1',
              'GDNF', 'KCNQ4', 'PINK1', 'PNKD', 'PTGS2', 'RAB3B', 'SLC6A4', 'SNCA', 'TOR1A']
 
