@@ -9,26 +9,26 @@ from variables.variables import *
 dcmhdr  = pd.read_csv('/scr/malta3/workspace/project_iron/phenotypic/dicomhdr_leipzig.csv',index_col=0)
 dcmhdr['tourettome_id'] = dcmhdr.index
 dcmhdr  = dcmhdr.set_index('Name')
-fsdir   = '/data/pt_nmr093_gts/freesurfer'
+fsdir   = '/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a'
 
 
 def surf_iron(population, workspace_dir,freesurfer_dir ):
 
     for subject in population:
 
-        tourettome_id = dcmhdr.loc[subject]['tourettome_id']
+        # tourettome_id = dcmhdr.loc[subject]['tourettome_id']
 
         #input
         subject_dir       = os.path.join(workspace_dir, subject)
-        print 'xxxxxxxxxx', subject, tourettome_id, 'xxxxxxxxxx'
-        tourettome_fsdir  = os.path.join(freesurfer_dir, tourettome_id)
+        # print 'xxxxxxxxxx', subject, tourettome_id, 'xxxxxxxxxx'
+        # tourettome_fsdir  = os.path.join(freesurfer_dir, tourettome_id)
 
         #output
         surf_dir = mkdir_path(os.path.join(subject_dir, 'SURF'))
         os.chdir(surf_dir)
 
         print '#################################################'
-        print 'Mapping QSM data to surface for subject %s-%s' %(subject, tourettome_id)
+        print 'Mapping QSM data to surface for subject %s-%s' %(subject)
         print ''
 
         # Map normalized QSM data to surface
@@ -36,7 +36,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
 
             # Grab T1 from Tourettome freesurfer dir
 
-            os.system('mri_convert %s T1.nii.gz' %(os.path.join(tourettome_fsdir, 'mri/T1.mgz')))
+            os.system('mri_convert %s T1.nii.gz' %(os.path.join(subject, 'mri/T1.mgz')))
             os.system('fslswapdim T1 RL PA IS T1_RPI')
 
             # register native_anat to freesurfer anat
@@ -97,25 +97,25 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
                       'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
 
         # vol2surf iterate of five laminar layers
-        if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_20fwhmQSM.mgh' % tourettome_id)):
+        if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_20fwhmQSM.mgh' % subject)):
             for hemi in ['lh', 'rh']:
                 for depth in proj_fracs.keys():
 
-                    for fwhm in [3,10,20]:
+                    for fwhm in [10]:
                         print hemi, proj_fracs
 
                         os.system(
                             'mri_vol2surf --mov QSMnorm2FS.mgz --regheader %s --projfrac-avg %s --interp nearest --hemi %s '
                             '--out %s_%s_%s_QSM.mgh '
-                            % (tourettome_id, proj_fracs[depth], hemi,
-                               tourettome_id, depth, hemi,
+                            % (subject, proj_fracs[depth], hemi,
+                               subject, depth, hemi,
                                ))
 
                         os.system('mri_surf2surf --s %s --sval  %s_%s_%s_QSM.mgh --trgsubject fsaverage5 '
                                   '--tval %s_%s_%s_fs5_%sfwhmQSM.mgh --hemi %s --noreshape --cortex --fwhm %s '
-                                  % (tourettome_id,
-                                     tourettome_id, depth, hemi,
-                                     tourettome_id, depth, hemi,
+                                  % (subject,
+                                     subject, depth, hemi,
+                                     subject, depth, hemi,
                                      fwhm,
                                      hemi,
                                      fwhm,
@@ -124,12 +124,12 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
 
 controls_a = [ 'GSNT', 'TJ5T', 'PAHT', 'RMNT', 'MJBT', 'SDCT', 'TR4T', 'TV1T', 'RJJT',
                'HM1X', 'STQT', 'SS1X', 'LL5T', 'PU2T', 'SMVX', 'GSAT', 'EC9T', 'RA7T',
-               'KO4T', 'HM2X',  'SC1T', 'WSKT'] #'BH5T', 'LMIT', 'GHAT','FA2T',
+               'KO4T', 'HM2X',  'SC1T', 'WSKT', 'BH5T', 'LMIT', 'GHAT','FA2T'] #
 
 
 patients_a = ['STDP', 'HHQP', 'HJEP', 'LA9P', 'LT5P', 'KDDP', 'EB2P', 'CM5P', 'SULP', 'SM6U',
               'BE9P', 'DF2P', 'PC5P', 'HSPP', 'SA5U', 'NT6P', 'CF1P', 'NL2P', 'BATP', 'RL7P',
               'SBQP', 'CB4P', 'RMJP', 'SGKP', 'YU1P', 'TT3P', 'RA9P', 'THCP'] #'AA8P',
 
-surf_iron(patients_a, workspace_iron,fsdir)
-surf_iron(controls_a, workspace_iron,fsdir)
+surf_iron(['BATP'], workspace_iron,fsdir)
+# surf_iron(controls_a, workspace_iron,fsdir)
