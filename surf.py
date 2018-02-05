@@ -1,27 +1,17 @@
 __author__ = 'kanaan'
 
 import os
-import numpy
 import pandas as pd
 from utils.utils import mkdir_path
 from variables.variables import *
 
-dcmhdr  = pd.read_csv('/scr/malta3/workspace/project_iron/phenotypic/dicomhdr_leipzig.csv',index_col=0)
-dcmhdr['tourettome_id'] = dcmhdr.index
-dcmhdr  = dcmhdr.set_index('Name')
-fsdir   = '/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a'
-
-
-def surf_iron(population, workspace_dir,freesurfer_dir ):
+def surf_iron(population, workspace_dir,fsdir ):
 
     for subject in population:
 
-        # tourettome_id = dcmhdr.loc[subject]['tourettome_id']
-
         #input
         subject_dir       = os.path.join(workspace_dir, subject)
-        # print 'xxxxxxxxxx', subject, tourettome_id, 'xxxxxxxxxx'
-        freesurfer_dir  = os.path.join(freesurfer_dir, subject)
+        freesurfer_dir   = os.path.join(fsdir, subject)
 
         #output
         surf_dir = mkdir_path(os.path.join(subject_dir, 'SURF'))
@@ -36,7 +26,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
 
             # Grab T1 from Tourettome freesurfer dir
 
-            os.system('mri_convert %s T1.nii.gz' %(os.path.join(subject, 'mri/T1.mgz')))
+            os.system('mri_convert %s T1.nii.gz' %(os.path.join(freesurfer_dir, subject, 'mri/T1.mgz')))
             os.system('fslswapdim T1 RL PA IS T1_RPI')
 
             # register native_anat to freesurfer anat
@@ -131,5 +121,8 @@ patients_a = ['STDP', 'HHQP', 'HJEP', 'LA9P', 'LT5P', 'KDDP', 'EB2P', 'CM5P', 'S
               'BE9P', 'DF2P', 'PC5P', 'HSPP', 'SA5U', 'NT6P', 'CF1P', 'NL2P', 'BATP', 'RL7P',
               'SBQP', 'CB4P', 'RMJP', 'SGKP', 'YU1P', 'TT3P', 'RA9P', 'THCP'] #'AA8P',
 
-surf_iron(['BATP'], workspace_iron,fsdir)
+
+fsdir   = '/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a'
+
+surf_iron(['LL5T'], workspace_iron,fsdir)
 # surf_iron(controls_a, workspace_iron,fsdir)
