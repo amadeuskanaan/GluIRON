@@ -39,9 +39,10 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
             os.system('mri_convert %s T1.nii.gz' %(os.path.join(tourettome_fsdir, 'mri/T1.mgz')))
             os.system('fslswapdim T1 RL PA IS T1_RPI')
 
-            # invert xfm
-            os.system('convert_xfm -omat NATIVE2FS.mat -inverse %s'
-                      %(os.path.join(subject_dir,'SEGMENTATION/FREESURFER/FS2NATIVE.mat')))
+            # register native_anat to freesurfer anat
+            anat = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC.nii.gz')
+            os.system('flirt -in T1_RPI.nii.gz -ref %s -omat FS2NATIVE.mat -dof 6 -out T12NATIVE -cost mutualinfo' % anat)
+            os.system('convert_xfm -omat NATIVE2FS.mat -inverse FS2NATIVE.mat')
 
             # concat xfms
             os.system('convert_xfm -omat QSM2FS.mat -concat NATIVE2FS.mat %s'
