@@ -21,7 +21,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
         #input
         subject_dir       = os.path.join(workspace_dir, subject)
         # print 'xxxxxxxxxx', subject, tourettome_id, 'xxxxxxxxxx'
-        # tourettome_fsdir  = os.path.join(freesurfer_dir, tourettome_id)
+        freesurfer_dir  = os.path.join(freesurfer_dir, subject)
 
         #output
         surf_dir = mkdir_path(os.path.join(subject_dir, 'SURF'))
