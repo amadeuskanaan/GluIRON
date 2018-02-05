@@ -124,7 +124,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
 
 controls_a = [ 'GSNT', 'TJ5T', 'PAHT', 'RMNT', 'MJBT', 'SDCT', 'TR4T', 'TV1T', 'RJJT',
                'HM1X', 'STQT', 'SS1X', 'LL5T', 'PU2T', 'SMVX', 'GSAT', 'EC9T', 'RA7T',
-               'KO4T', 'HM2X', 'GHAT', 'FA2T',  'SC1T', 'WSKT'] #'BH5T', 'LMIT',
+               'KO4T', 'HM2X', 'FA2T',  'SC1T', 'WSKT'] #'BH5T', 'LMIT', 'GHAT',
 
 
 patients_a = ['STDP', 'HHQP', 'HJEP', 'LA9P', 'LT5P', 'KDDP', 'EB2P', 'CM5P', 'SULP', 'SM6U',
