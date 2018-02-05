@@ -26,7 +26,7 @@ def surf_iron(population, workspace_dir,fsdir ):
 
             # Grab T1 from Tourettome freesurfer dir
 
-            os.system('mri_convert %s T1.nii.gz' %(os.path.join(freesurfer_dir, subject, 'mri/T1.mgz')))
+            os.system('mri_convert %s T1.nii.gz' %(os.path.join(freesurfer_dir, 'mri/T1.mgz')))
             os.system('fslswapdim T1 RL PA IS T1_RPI')
 
             # register native_anat to freesurfer anat
