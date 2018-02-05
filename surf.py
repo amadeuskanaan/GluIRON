@@ -97,7 +97,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
                       'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
 
         # vol2surf iterate of five laminar layers
-        if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_20fwhmQSM.mgh' % subject)):
+        if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_20fwhmQSM.mgh' % tourettome_id)):
             for hemi in ['lh', 'rh']:
                 for depth in proj_fracs.keys():
 
