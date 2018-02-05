@@ -96,5 +96,5 @@ patients_a = ['STDP', 'HHQP', 'HJEP', 'LA9P', 'LT5P', 'KDDP', 'EB2P', 'CM5P', 'S
 fsdir   = '/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a'
 os.system('export SUBJECTS_DIR=/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a')
 
-surf_iron(['LL5T'], workspace_iron,fsdir)
+surf_iron(patients_a, workspace_iron,fsdir)
 # surf_iron(controls_a, workspace_iron,fsdir)
