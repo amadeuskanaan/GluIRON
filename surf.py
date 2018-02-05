@@ -54,33 +54,33 @@ def surf_iron(population, workspace_dir,fsdir ):
             os.system('rm -rf QSMnorm2FS_.nii.gz QSMnorm2FS_rsp.nii.gz')
 
 
-        # proj_fracs = {'depth1': '0.0 0.2 0.1', 'depth2': '0.2 0.4 0.1', 'depth3': '0.4 0.6 0.1',
-        #               'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
-        #
-        # # vol2surf iterate of five laminar layers
-        # if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_20fwhmQSM.mgh' % subject)):
-        #     for hemi in ['lh', 'rh']:
-        #         for depth in proj_fracs.keys():
-        #
-        #             for fwhm in [10]:
-        #                 print hemi, proj_fracs
-        #
-        #                 os.system(
-        #                     'mri_vol2surf --mov QSMnorm2FS.mgz --regheader %s --projfrac-avg %s --interp nearest --hemi %s '
-        #                     '--out %s_%s_%s_QSM.mgh '
-        #                     % (subject, proj_fracs[depth], hemi,
-        #                        subject, depth, hemi,
-        #                        ))
-        #
-        #                 os.system('mri_surf2surf --s %s --sval  %s_%s_%s_QSM.mgh --trgsubject fsaverage5 '
-        #                           '--tval %s_%s_%s_fs5_%sfwhmQSM.mgh --hemi %s --noreshape --cortex --fwhm %s '
-        #                           % (subject,
-        #                              subject, depth, hemi,
-        #                              subject, depth, hemi,
-        #                              fwhm,
-        #                              hemi,
-        #                              fwhm,
-        #                              ))
+        proj_fracs = {'depth0': '0.2 0.8 0.1', 'depth1': '0.0 0.2 0.1', 'depth2': '0.2 0.4 0.1',
+                      'depth3': '0.4 0.6 0.1', 'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
+
+        # vol2surf iterate of five laminar layers
+        if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_20fwhmQSM.mgh' % subject)):
+            for hemi in ['lh', 'rh']:
+                for depth in proj_fracs.keys():
+
+                    for fwhm in [10]:
+                        print hemi, proj_fracs
+
+                        os.system(
+                            'mri_vol2surf --mov QSMnorm2FS.mgz --regheader %s --projfrac-avg %s --interp nearest --hemi %s '
+                            '--out %s_%s_%s_QSM.mgh '
+                            % (subject, proj_fracs[depth], hemi,
+                               subject, depth, hemi,
+                               ))
+
+                        os.system('mri_surf2surf --s %s --sval  %s_%s_%s_QSM.mgh --trgsubject fsaverage5 '
+                                  '--tval %s_%s_%s_fs5_%sfwhmQSM.mgh --hemi %s --noreshape --cortex --fwhm %s '
+                                  % (subject,
+                                     subject, depth, hemi,
+                                     subject, depth, hemi,
+                                     fwhm,
+                                     hemi,
+                                     fwhm,
+                                     ))
 
 
 controls_a = [ 'GSNT', 'TJ5T', 'PAHT', 'RMNT', 'MJBT', 'SDCT', 'TR4T', 'TV1T', 'RJJT',
@@ -94,7 +94,7 @@ patients_a = ['STDP', 'HHQP', 'HJEP', 'LA9P', 'LT5P', 'KDDP', 'EB2P', 'CM5P', 'S
 
 
 fsdir   = '/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a'
+os.system('export SUBJECTS_DIR=/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a')
 
-os.system('export SUBJECTS_DIR=%s'%fsdir)
 surf_iron(['LL5T'], workspace_iron,fsdir)
 # surf_iron(controls_a, workspace_iron,fsdir)
