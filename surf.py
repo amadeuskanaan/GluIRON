@@ -40,7 +40,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
             os.system('fslswapdim T1 RL PA IS T1_RPI')
 
             # register native_anat to freesurfer anat
-            anat = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_PPROC.nii.gz')
+            anat = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_BRAIN.nii.gz')
             os.system('flirt -in T1_RPI.nii.gz -ref %s -omat FS2NATIVE.mat -dof 6 -out T12NATIVE -cost mutualinfo' % anat)
             os.system('convert_xfm -omat NATIVE2FS.mat -inverse FS2NATIVE.mat')
 
