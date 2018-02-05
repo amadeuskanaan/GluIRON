@@ -28,7 +28,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
         os.chdir(surf_dir)
 
         print '#################################################'
-        print 'Mapping QSM data to surface for subject %s-%s' %(subject)
+        print 'Mapping QSM data to surface for subject %s' %(subject)
         print ''
 
         # Map normalized QSM data to surface
