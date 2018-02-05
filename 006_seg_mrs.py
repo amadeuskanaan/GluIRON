@@ -29,6 +29,7 @@ def get_mrs_masks(population, afs, workspace_dir):
         #########################################################################################
         # Create mp2rage in SPM space (for spm flipping issues)
 
+        '''
         if not os.path.isfile('mp2rage_spm.nii'):
             print '.......... creating mp2rage in spm space'
             scans    = open(find('Scans.txt', os.path.join(afs_dir))).readlines()
@@ -43,6 +44,7 @@ def get_mrs_masks(population, afs, workspace_dir):
             spm.run()
             os.system('mv ./converted_dicom/* ./mp2rage_spm.nii')
             os.system('rm -rf pyscript* converted_dicom')
+        '''
 
         # #########################################################################################
         # Create SVS Mask in SPM space
@@ -92,5 +94,5 @@ def get_mrs_masks(population, afs, workspace_dir):
 
 
 get_mrs_masks(['WSKT'], afs_controls, workspace_iron) # WSKT
-# get_mrs_masks(controls_a, afs_controls, workspace_iron)
+get_mrs_masks(controls_a, afs_controls, workspace_iron)
 # get_mrs_masks(patients_a, afs_patients, workspace_iron)
