@@ -95,29 +95,31 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
 
         proj_fracs = {'depth1': '0.0 0.2 0.1', 'depth2': '0.2 0.4 0.1', 'depth3': '0.4 0.6 0.1',
                       'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
-        fwhm = 3
 
         # vol2surf iterate of five laminar layers
         if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_QSM.mgh' % subject)):
             for hemi in ['lh', 'rh']:
                 for depth in proj_fracs.keys():
-                    print hemi, proj_fracs
 
-                    os.system(
-                        'mri_vol2surf --mov QSMnorm2FS.mgz --regheader %s --projfrac-avg %s --interp nearest --hemi %s '
-                        '--out %s_%s_%s_QSM.mgh '
-                        % (tourettome_id, proj_fracs[depth], hemi,
-                           tourettome_id, depth, hemi,
-                           ))
+                    for fwhm in [3,10,20]:
+                        print hemi, proj_fracs
 
-                    os.system('mri_surf2surf --s %s --sval  %s_%s_%s_QSM.mgh --trgsubject fsaverage5 '
-                              '--tval %s_%s_%s_fs5_QSM.mgh --hemi %s --noreshape --cortex --fwhm %s '
-                              % (tourettome_id,
-                                 tourettome_id, depth, hemi,
-                                 tourettome_id, depth, hemi,
-                                 hemi,
-                                 fwhm,
-                                 ))
+                        os.system(
+                            'mri_vol2surf --mov QSMnorm2FS.mgz --regheader %s --projfrac-avg %s --interp nearest --hemi %s '
+                            '--out %s_%s_%s_QSM.mgh '
+                            % (tourettome_id, proj_fracs[depth], hemi,
+                               tourettome_id, depth, hemi,
+                               ))
+
+                        os.system('mri_surf2surf --s %s --sval  %s_%s_%s_QSM.mgh --trgsubject fsaverage5 '
+                                  '--tval %s_%s_%s_fs5_%sfwhmQSM.mgh --hemi %s --noreshape --cortex --fwhm %s '
+                                  % (tourettome_id,
+                                     tourettome_id, depth, hemi,
+                                     tourettome_id, depth, hemi,
+                                     fwhm,
+                                     hemi,
+                                     fwhm,
+                                     ))
 
 
 surf_iron(patients_a, workspace_iron,fsdir)
