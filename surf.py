@@ -120,4 +120,5 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
                                  ))
 
 
-surf_iron(['BATP'], workspace_iron,fsdir)
+surf_iron(patients_a, workspace_iron,fsdir)
+surf_iron(controls_a, workspace_iron,fsdir)
