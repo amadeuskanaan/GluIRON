@@ -5,8 +5,8 @@ import pickle
 import scipy.io
 import os
 import matplotlib.pyplot as plt
-import nibabel as nb
 from PIL import Image
+import nibabel as nb
 import networkx as nx
 import pandas as pd
 
@@ -42,10 +42,16 @@ rhsurf = nb.freesurfer.read_geometry(rhsurfName)
 package_directory = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
 package_directory = '/Users/kanaan/SCR/Github/alleninf/alleninf'
 mni = pd.read_csv(os.path.join(package_directory, "data", "corrected_mni_coordinates.csv"), header=0, index_col=0)
-mni_sub = pd.read_csv('/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/AUG5/AHBA/AHBA_subcortical.csv',header=0, index_col=0)
-mni_sub = pd.read_csv('/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/AUG5/AHBA/AHBA_str.csv',header=0, index_col=0)
-drop_structs = [i for i in mni.index if i not in mni_sub.index]
-mni =mni[~mni.index.isin(drop_structs)]
+#mni_sub = pd.read_csv('/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/AUG5/AHBA/AHBA_subcortical.csv',header=0, index_col=0)
+#mni_sub = pd.read_csv('/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/AUG5/AHBA/AHBA_str.csv',header=0, index_col=0)
+#mni_sub = pd.read_csv('/Users/kanaan/Desktop/iron_h.csv',header=0, index_col=0)
+#drop_structs = [i for i in mni.index if i not in mni_sub.index]
+#mni =mni[~mni.index.isin(drop_structs)]
+
+ahba_dir  = '/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/SEPT10'
+df_motor  =  pd.read_csv(os.path.join(ahba_dir, 'wells_motor.csv'), index_col = 0)
+df_limbic =  pd.read_csv(os.path.join(ahba_dir, 'wells_limbic.csv'), index_col = 0)
+df_exec   =  pd.read_csv(os.path.join(ahba_dir, 'wells_exec.csv'), index_col = 0)
 
 coords = np.array(mni)
 #print 'mni', coords
@@ -74,7 +80,21 @@ ptsPos.mlab_source.dataset.lines = np.array(G.edges())
 tubePos = mlab.pipeline.tube(ptsPos, tube_radius=0.5)
 mlab.pipeline.surface(tubePos, color=(1,0,0))
 
+import json
 
+import numpy as np
+import json
+
+data = json.load(open('/Users/kanaan/Google Drive/TS-EUROTRAIN/RESULTS_QSMv3/OLD_RESULTS_QSM/FIRST_NUCLEI/json.json'))
+data.keys()
+ind = np.asanyarray(data['connectivity'][0]['indices'])
+ver = np.asanyarray(data['vertices'][0]['values']).astype(np.float)
+vtk = [ver,  ind]
+
+
+
+#print lhsurf
+#constructSurf(vtk)
 constructSurf(lhsurf)
 constructSurf(rhsurf)
 mlab.view(azimuth=-180, elevation=90)

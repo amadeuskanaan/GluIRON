@@ -204,7 +204,7 @@ DA_allen = { #http://human.brain-map.org/microarray/search/show?exact_match=fals
 }
 
 # get_expression_df(DA_allen.keys(), 'DA_allen')
-get_expression_df(DAT1, 'DAT1')
+# get_expression_df(DAT1, 'DAT1')
 # get_expression_df(DRD_ALL, 'DRD_ALL')
 # get_expression_df(['DRD1'], 'DRD1')
 # get_expression_df(['DRD2'], 'DRD2')
