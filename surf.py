@@ -61,7 +61,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
             # convert to mgz
             os.system('mri_convert QSMnorm2FS_rsp.nii.gz QSMnorm2FS_rsp.mgz')
 
-            os.system('rm -rf QSMnorm2FS_rsp_.nii.gz QSMnorm2FS.nii.gz')
+            # os.system('rm -rf QSMnorm2FS_rsp_.nii.gz QSMnorm2FS.nii.gz')
         #
         #
         # # if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
