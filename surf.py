@@ -122,5 +122,14 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
                                      ))
 
 
+controls_a = [ 'GSNT', 'TJ5T', 'PAHT', 'RMNT', 'MJBT', 'SDCT', 'TR4T', 'TV1T', 'RJJT',
+               'HM1X', 'STQT', 'SS1X', 'LL5T', 'PU2T', 'SMVX', 'GSAT', 'EC9T', 'RA7T',
+               'KO4T', 'HM2X', 'GHAT', 'FA2T',  'SC1T', 'WSKT'] #'BH5T', 'LMIT',
+
+
+patients_a = ['STDP', 'HHQP', 'HJEP', 'LA9P', 'LT5P', 'KDDP', 'EB2P', 'CM5P', 'SULP', 'SM6U',
+              'BE9P', 'DF2P', 'PC5P', 'HSPP', 'SA5U', 'NT6P', 'CF1P', 'NL2P', 'BATP', 'RL7P',
+              'SBQP', 'CB4P', 'RMJP', 'SGKP', 'YU1P', 'TT3P', 'RA9P', 'THCP'] #'AA8P',
+
 surf_iron(patients_a, workspace_iron,fsdir)
 surf_iron(controls_a, workspace_iron,fsdir)
