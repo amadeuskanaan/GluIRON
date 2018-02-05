@@ -95,7 +95,7 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
 
         proj_fracs = {'depth1': '0.0 0.2 0.1', 'depth2': '0.2 0.4 0.1', 'depth3': '0.4 0.6 0.1',
                       'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
-        fwhm = 10
+        fwhm = 3
 
         # vol2surf iterate of five laminar layers
         if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_QSM.mgh' % subject)):
