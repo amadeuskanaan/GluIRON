@@ -34,34 +34,34 @@ def surf_iron(population, workspace_dir,freesurfer_dir ):
         # Map normalized QSM data to surface
         if not os.path.isfile('QSMnorm2FS_rspx.mgz'):
 
-            # Grab T1 from Tourettome freesurfer dir
-
-            os.system('mri_convert %s T1.nii.gz' %(os.path.join(tourettome_fsdir, 'mri/T1.mgz')))
-            os.system('fslswapdim T1 RL PA IS T1_RPI')
-
-            # register native_anat to freesurfer anat
-            anat = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_BRAIN.nii.gz')
-            os.system('flirt -in T1_RPI.nii.gz -ref %s -omat FS2NATIVE.mat -dof 6 -cost mutualinfo' % anat)
-            os.system('convert_xfm -omat NATIVE2FS.mat -inverse FS2NATIVE.mat')
-
-            # # concat xfms
-            # os.system('convert_xfm -omat QSM2FS.mat -concat NATIVE2FS.mat %s'
-            #           %(os.path.join(subject_dir, 'REGISTRATION', 'FLASH', 'FLASH2MP2RAGE.mat')))
+            # # Grab T1 from Tourettome freesurfer dir
             #
-            # # trasnform qsm to mp2rage space
-            # os.system('flirt -in %s -ref T1_RPI -applyxfm -init QSM2FS.mat -out QSMnorm2FS.nii.gz'
-            #           % (os.path.join(subject_dir, 'QSM', 'QSM_norm.nii.gz')))
-            #           # % ('/scr/malta2/tmp/TIKHONOV_QSM/X.nii.gz'))
+            # os.system('mri_convert %s T1.nii.gz' %(os.path.join(tourettome_fsdir, 'mri/T1.mgz')))
+            # os.system('fslswapdim T1 RL PA IS T1_RPI')
             #
-            # # swapdim
-            # os.system('fslswapdim QSMnorm2FS RL SI PA QSMnorm2FS_rsp_')
-            #
-            # os.system('fslmaths QSMnorm2FS_rsp_ -mul 1000 QSMnorm2FS_rsp')
-            #
-            # # convert to mgz
-            # os.system('mri_convert QSMnorm2FS_rsp.nii.gz QSMnorm2FS_rsp.mgz')
+            # # register native_anat to freesurfer anat
+            # anat = os.path.join(workspace_dir, subject, 'ANATOMICAL', 'MP2RAGE_UNI_BRAIN.nii.gz')
+            # os.system('flirt -in T1_RPI.nii.gz -ref %s -omat FS2NATIVE.mat -dof 6 -cost mutualinfo' % anat)
+            # os.system('convert_xfm -omat NATIVE2FS.mat -inverse FS2NATIVE.mat')
 
-            # os.system('rm -rf QSMnorm2FS_rsp_.nii.gz QSMnorm2FS.nii.gz')
+            # concat xfms
+            os.system('convert_xfm -omat QSM2FS.mat -concat NATIVE2FS.mat %s'
+                      %(os.path.join(subject_dir, 'REGISTRATION', 'FLASH', 'FLASH2MP2RAGE.mat')))
+
+            # trasnform qsm to mp2rage space
+            os.system('flirt -in %s -ref T1_RPI -applyxfm -init QSM2FS.mat -out QSMnorm2FS_.nii.gz'
+                      % (os.path.join(subject_dir, 'QSM', 'QSMnorm.nii.gz')))
+                      # % ('/scr/malta2/tmp/TIKHONOV_QSM/X.nii.gz'))
+
+            # swapdim
+            os.system('fslswapdim QSMnorm2FS_ RL SI PA QSMnorm2FS_rsp')
+
+            os.system('fslmaths QSMnorm2FS_rsp -mul 1000 QSMnorm2FS')
+
+            # convert to mgz
+            os.system('mri_convert QSMnorm2FS.nii.gz QSMnorm2FS.mgz')
+            #
+            os.system('rm -rf QSMnorm2FS_.nii.gz QSMnorm2FS_rsp.nii.gz')
         #
         #
         # # if not os.path.isfile(os.path.join(surf_dir, '%s_%s_lh_qsm_fsaverage5_20.mgh'%(subject, tourettome_id))):
