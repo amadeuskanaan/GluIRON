@@ -101,4 +101,6 @@ os.system('export SUBJECTS_DIR=/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a')
 
 for i in patients_a+controls_a:
     if not os.path.isfile(os.path.join(fsdir, i,'mri/T1.mgz')):
-        print i
+        print i, 'missing'
+    else:
+        print i,'good'
