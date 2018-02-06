@@ -82,6 +82,43 @@ def surf_iron(population, workspace_dir,fsdir ):
                                      fwhm,
                                      ))
 
+        # vol2surf iterate of five laminar layers
+        if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_10fwhmQSM_max.mgh' % subject)):
+            for hemi in ['lh', 'rh']:
+                for depth in proj_fracs.keys():
+
+                    for fwhm in [10]:
+                        print hemi, proj_fracs
+
+                        os.system(
+                            'mri_vol2surf --mov QSMnorm2FS.mgz --regheader %s --projfrac-max %s --interp nearest --hemi %s '
+                            '--out %s_%s_%s_QSM_max.mgh '
+                            % (subject, proj_fracs[depth], hemi,
+                               subject, depth, hemi,
+                               ))
+
+                        os.system('mri_surf2surf --s %s --sval  %s_%s_%s_QSM.mgh --trgsubject fsaverage5 '
+                                  '--tval %s_%s_%s_fs5_%sfwhmQSM_max.mgh --hemi %s --noreshape --cortex --fwhm %s '
+                                  % (subject,
+                                     subject, depth, hemi,
+                                     subject, depth, hemi,
+                                     fwhm,
+                                     hemi,
+                                     fwhm,
+                                     ))
+
+
+#
+# def make_jacobian(population, workspace_dir, phenotypic_dir):
+#     import numpy as np
+#     df = pd.DataFrame(index=population, columns=['jacobian'])
+#     for subject in population:
+#         anat_dir = os.path.join(workspace_dir, subject, )
+#         # Get jacobian deteminant from anat2mni.mat
+#         jacobian_det = np.linalg.det(np.genfromtxt(os.path.join(anat_dir, 'seg_first', 'anat2mni.mat')))
+#         print jacobian_det
+#         df.loc['%s'%subject, 'jac'] = jacobian_det
+#     df.to_csv(os.path.join(phenotypic_dir, 'jacobian.csv'))
 
 controls_a = [ 'GSNT', 'TJ5T', 'PAHT', 'RMNT', 'MJBT', 'SDCT', 'TR4T', 'TV1T', 'RJJT',
                'HM1X', 'STQT', 'SS1X', 'LL5T', 'PU2T', 'SMVX', 'GSAT', 'EC9T', 'RA7T',
