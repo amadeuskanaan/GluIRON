@@ -58,7 +58,7 @@ def surf_iron(population, workspace_dir,fsdir ):
                       'depth3': '0.4 0.6 0.1', 'depth4': '0.6 0.8 0.1', 'depth5': '0.8 1.0 0.1'}
 
         # vol2surf iterate of five laminar layers
-        if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_20fwhmQSM.mgh' % subject)):
+        if not os.path.isfile(os.path.join(surf_dir, '%s_depth5_rh_fs5_10fwhmQSM.mgh' % subject)):
             for hemi in ['lh', 'rh']:
                 for depth in proj_fracs.keys():
 
@@ -97,10 +97,4 @@ fsdir   = '/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a'
 os.system('export SUBJECTS_DIR=/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a')
 
 # surf_iron(patients_a, workspace_iron,fsdir)
-# surf_iron(controls_a, workspace_iron,fsdir)
-
-for i in patients_a+controls_a:
-    if not os.path.isfile(os.path.join(fsdir, i,'mri/T1.mgz')):
-        print i, 'missing'
-    else:
-        print i,'good'
+surf_iron(controls_a, workspace_iron,fsdir)
