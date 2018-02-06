@@ -134,4 +134,4 @@ fsdir   = '/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a'
 os.system('export SUBJECTS_DIR=/scr/malta2/TS_EUROTRAIN/FSUBJECTS/nmr093a')
 
 # surf_iron(patients_a, workspace_iron,fsdir)
-surf_iron(controls_a[0], workspace_iron,fsdir)
+surf_iron(['STDP'], workspace_iron,fsdir)
