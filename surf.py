@@ -120,6 +120,7 @@ def surf_iron(population, workspace_dir,fsdir ):
 #         df.loc['%s'%subject, 'jac'] = jacobian_det
 #     df.to_csv(os.path.join(phenotypic_dir, 'jacobian.csv'))
 
+
 controls_a = [ 'GSNT', 'TJ5T', 'PAHT', 'RMNT', 'MJBT', 'SDCT', 'TR4T', 'TV1T', 'RJJT',
                'HM1X', 'STQT', 'SS1X', 'LL5T', 'PU2T', 'SMVX', 'GSAT', 'EC9T', 'RA7T',
                'KO4T', 'HM2X',  'SC1T', 'WSKT', 'BH5T', 'LMIT', 'GHAT','FA2T'] #
