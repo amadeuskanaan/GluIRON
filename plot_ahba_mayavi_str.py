@@ -55,8 +55,6 @@ if plot_coords:
 
 #### LOAD STR VTK
 
-import numpy as np
-import itertools
 
 #pd.read_csv('/Users/kanaan/SCR/Github/GluIRON/atlases/FIRST/STR_points.csv')
 #
