@@ -9,6 +9,7 @@ from PIL import Image
 import nibabel as nb
 import networkx as nx
 import pandas as pd
+import itertools
 
 #load data
 package_directory = '/scr/malta1/Software/anaconda/envs/awesome/lib/python2.7/site-packages/alleninf'
@@ -57,16 +58,16 @@ if plot_coords:
 import numpy as np
 import itertools
 
-# pd.read_csv('/Users/kanaan/SCR/Github/GluIRON/atlases/FIRST/STR_points.csv')
-
-vtk_fname = '/Users/kanaan/SCR/Github/GluIRON/atlases/FIRST/STR_combined_pview.vtk'
+#pd.read_csv('/Users/kanaan/SCR/Github/GluIRON/atlases/FIRST/STR_points.csv')
+#
+vtk_fname = '/Users/kanaan/SCR/Github/GluIRON/atlases/FIRST/STR.vtk'
 f = open(vtk_fname, 'r')
 
 #points_list = [5, 3860]
 #polygons_list = [3866, 26977]
-
+#
 points_list   = [5, 1541]
-polygons_list = [1548,10735]
+polygons_list = [1548,10734]
 
 points = []
 polygons = []
@@ -85,7 +86,7 @@ z = points[2::3]
 polygons = pd.DataFrame(polygons)
 f = np.array(polygons.drop([0], axis=1).convert_objects(convert_numeric=True))
 
-mesh = mlab.pipeline.triangular_mesh_source(x, y, z, f)
+mesh = mlab.pipeline.triangular_mesh_source(x, y, z, f[:-1])
 surf = mlab.pipeline.surface(mesh, opacity=.05,color=(.5,.5,.5))
 
 mlab.view(azimuth=-180, elevation=90)
