@@ -1,4 +1,4 @@
-%matplotlib inline
+#%matplotlib inline
 import networkx as nx
 import numpy as np
 from mayavi import mlab
