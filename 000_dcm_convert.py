@@ -95,7 +95,6 @@ def make_nifti(population, afs_dir, workspace_dir, pop_name):
             reorient('all_partitions_phase_.nii.gz', orientation, 'all_partitions_phase.nii.gz')
 
 
-make_nifti(['RJJT'], afs_controls, workspace_iron, 'GTS')
 # make_nifti(controls_a, afs_controls, workspace_iron, 'GTS')
 # make_nifti(patients_a, afs_patients, workspace_iron, 'GTS')
 # make_nifti(lemon_population_key[:50], afs_lemon, workspace_iron, 'LEMON')

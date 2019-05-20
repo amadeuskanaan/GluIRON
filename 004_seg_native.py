@@ -112,4 +112,3 @@ def run_first(population, workspace):
 
 pop = controls_a + patients_a + lemon_population
 run_first(pop, workspace_iron)
-# run_first(['SULP'], workspace_iron)

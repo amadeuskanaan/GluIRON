@@ -41,7 +41,6 @@ def preprocess_anatomical(population, workspace_dir):
             os.system('fslmaths BRAIN_MASK -mul MP2RAGE_UNI MP2RAGE_UNI_BRAIN')
 
 
-preprocess_anatomical(['RJJT'], workspace_iron)
 # preprocess_anatomical(controls_a, workspace_iron)
 # preprocess_anatomical(patients_a, workspace_iron)
 # preprocess_anatomical(lemon_population, workspace_iron)
